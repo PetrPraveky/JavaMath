@@ -15,4 +15,4 @@ This is program for some math function created by me. They are not exactly effic
 
 ## What function you can plot?
 - **Möbius function** - You can plot values of Möbius function *μ(n)* from 1 to 50. With some editting you can add more values, but it will become really messy. <br />
-![plot](./img/mobius_function_plt.PNG)
+![plot](./img/mobius_function_plot.PNG)
