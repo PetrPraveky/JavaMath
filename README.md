@@ -14,5 +14,5 @@ This is program for some math function created by me. They are not exactly effic
 - **Möbius function** ("*src/lib/math/functions/mobius_function.java*") - Return *0*, *-1* or *+1* depending if number is prime, number has squared prime factor or even number of prime factors. You can read more on wikipedia: *https://en.wikipedia.org/wiki/Möbius_function*.
 
 ## What function you can plot?
-- **Möbius function** - You can plot values of Möbius function *μ(n)* from 1 to 50. With some editting you can add more values, but it will become really messy.
+- **Möbius function** - You can plot values of Möbius function *μ(n)* from 1 to 50. With some editting you can add more values, but it will become really messy. <br />
 ![plot](./img/mobius_function_plt.PNG)
