@@ -1,11 +1,15 @@
-// import lib.java.math.functions.kronecker_delta;
-// import lib.java.math.functions.liouville_function;
-import lib.java.math.functions.prime_omega_function;
+import lib.java.math.functions.mobius_function;
+import lib.java.math.plotter.plotter;
 
 public class App {
     public static void main(String[] args) throws Exception {
-        prime_omega_function omega = new prime_omega_function();
-        System.out.println(omega.prime_up_omega_function(48));
-        System.out.println(omega.prime_low_omega_function(48));
+        // // Mobius function
+        // mobius_function mobius = new mobius_function();
+        // for (int i = 1; i <= 50; i++) {
+        //     System.out.println(String.valueOf(i)+"\t"+String.valueOf(mobius._mobius_function(i)));
+        // }
+
+        // Mobius function plotter
+        new plotter();
     }
 }
