@@ -29,7 +29,7 @@ public class mobius_plotter extends JPanel {
         graph.drawString("1", margin/2, (int)(height/2-scale*1+6)); // 1 on Y-axis
         graph.drawString("-1", margin/2, (int)(height/2-scale*(-1)+6)); // -1 on Y-axis
         graph.drawString("Plottend numbers from: 1 to "+String.valueOf(n), margin+20, height-margin-6); // Right corner legend
-        graph.drawString("Möbius function"+String.valueOf(n), margin+20, margin); // Right corner legend
+        graph.drawString("Möbius function", margin+20, margin); // Right corner legend
         // Set color of points
         graph.setPaint(Color.BLUE);
         // Draw points
