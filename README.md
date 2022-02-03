@@ -20,6 +20,6 @@ This is program for some math function created by me. They are not exactly effic
 
 ## What function you can plot?
 - **Möbius function** - You can plot values of Möbius function *μ(n)* from *1* to *50*. With some editing you can add more values, but it will become really messy. <br />
-![plot](./img/mobius_function_plot.png)
+<!-- ![plot](./img/mobius_function_plot.png) -->
 - **Gamma function** - You can plot values of Gamma function *Γ(z)* from *-5* to *5*. WIth some editing you can expand to more values, but it will again become really messy. <br />
 ![plot](./img/gamma_function_plot.png)
