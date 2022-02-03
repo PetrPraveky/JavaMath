@@ -1,6 +1,8 @@
 package lib.java.math.plotter;
 
 import javax.swing.JFrame;
+
+import lib.java.math.plotter.function_plotter.gamma_plotter;
 import lib.java.math.plotter.function_plotter.mobius_plotter;
 
 public class plotter {
@@ -10,7 +12,9 @@ public class plotter {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         if (function == "mobius") {
             frame.add(new mobius_plotter());
-        } else {}
+        } else if (function == "gamma") {
+            frame.add(new gamma_plotter());
+        }
         frame.setSize(400, 400);
         frame.setLocation(400, 200);
         frame.setVisible(true);

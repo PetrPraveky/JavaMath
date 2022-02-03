@@ -14,12 +14,14 @@ public class App {
         // // Mobius function plotter
         // new plotter("mobius");
 
-        // Riemann zeta function
-        riemann_zeta_function zeta = new riemann_zeta_function();
-        System.out.println(zeta._riemann_zeta_function(1.1));
+        // // Riemann zeta function
+        // riemann_zeta_function zeta = new riemann_zeta_function();
+        // System.out.println(zeta._riemann_zeta_function(1.1));
 
         // // Gamma function
         // gamma_function gamma = new gamma_function();
         // System.out.println(gamma._gamma_function(0));
+        // Gamma function plotter
+        new plotter("gamma");
     }
 }
