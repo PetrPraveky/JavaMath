@@ -10,7 +10,6 @@ public class App {
         // for (int i = 1; i <= 50; i++) {
         //     System.out.println(String.valueOf(i)+"\t"+String.valueOf(mobius._mobius_function(i)));
         // }
-
         // // Mobius function plotter
         // new plotter("mobius");
 
@@ -21,7 +20,7 @@ public class App {
         // // Gamma function
         // gamma_function gamma = new gamma_function();
         // System.out.println(gamma._gamma_function(0));
-        // Gamma function plotter
-        new plotter("gamma");
+        // // Gamma function plotter
+        // new plotter("gamma");
     }
 }
