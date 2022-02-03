@@ -23,3 +23,5 @@ This is program for some math function created by me. They are not exactly effic
 ![plot](./img/mobius_function_plot.png)
 - **Gamma function** - You can plot values of Gamma function *Γ(z)* from *-5* to *5*. WIth some editing you can expand to more values, but it will again become really messy. <br />
 ![plot](./img/gamma_function_plot.png)
+- **Riemann zeta function** - You can plot values of Riemann zeta function from *-1* to *5*. You can ho higher than *5* but lower that *-1* it wont work. <br />
+![plot](./img/zeta_function_plot.png)
