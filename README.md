@@ -8,6 +8,8 @@ This is program for some math function created by me. They are not exactly effic
 - "***src/lib/java/math/functions***" - place where all my math function are located.
 - "***src/lib/java/math/plotter***" - place where all my plots are located.
 - "***src/lib/java/constants***" - place where some constants, declared by my self or created by functions, are located.
+- "***src/lib/math/complex***" - place where all files and folder of complex mathematics are located.
+- "***img/***" - place where all additional images are located.
 # **Functions which are based on real numbers**
 ## **What function are now working?**
 
