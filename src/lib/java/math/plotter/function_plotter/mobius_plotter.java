@@ -20,7 +20,7 @@ public class mobius_plotter extends JPanel {
         graph.setFont(new Font("Arial", Font.PLAIN, 15));
         // Draw graph
         graph.draw(new Line2D.Double(margin, margin-20, margin, height-margin+20));
-        graph.draw(new Line2D.Double(margin, height/2, width-margin, height/2));
+        graph.draw(new Line2D.Double(margin, height/2, width-margin+20, height/2));
         // Find x values
         double x = (double)(width-2*margin)/(coords.size()-1);
         double scale = (double)((height-2*margin)/getMax())*10;

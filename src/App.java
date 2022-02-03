@@ -1,5 +1,7 @@
 import lib.java.math.functions.mobius_function;
 import lib.java.math.plotter.plotter;
+import lib.java.math.functions.riemann_zeta_function;
+import lib.java.math.functions.gamma_function;
 
 public class App {
     public static void main(String[] args) throws Exception {
@@ -9,7 +11,15 @@ public class App {
         //     System.out.println(String.valueOf(i)+"\t"+String.valueOf(mobius._mobius_function(i)));
         // }
 
-        // Mobius function plotter
-        new plotter();
+        // // Mobius function plotter
+        // new plotter("mobius");
+
+        // Riemann zeta function
+        riemann_zeta_function zeta = new riemann_zeta_function();
+        System.out.println(zeta._riemann_zeta_function(1.1));
+
+        // // Gamma function
+        // gamma_function gamma = new gamma_function();
+        // System.out.println(gamma._gamma_function(0));
     }
 }
