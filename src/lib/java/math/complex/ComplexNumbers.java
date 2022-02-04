@@ -18,9 +18,9 @@ public class ComplexNumbers {
     public void display() {
         String plusMinus = "+";
         if (img < 0) {
-            plusMinus = "";
+            plusMinus = "-";
         }
-        System.out.println(String.valueOf(real)+plusMinus+String.valueOf(img)+"i");
+        System.out.println(String.valueOf(real)+plusMinus+String.valueOf(Math.abs(img))+"i");
     }
     // To string function
     public String toString() {
@@ -128,6 +128,17 @@ public class ComplexNumbers {
         ans.img = -Math.sin(real)*Math.sinh(img);
         return ans;
     }
+    // Atan function
+    public ComplexNumbers atan() {
+        ComplexNumbers z = new ComplexNumbers(real, img);
+        ComplexNumbers ans = new ComplexNumbers();
+        ans = (
+            (new ComplexNumbers(1, 0)).div(new ComplexNumbers(0, 2)).mul(
+                (((new ComplexNumbers(0, 1)).sub(z)).div((new ComplexNumbers(0, 1)).add(z))).ln()
+            )
+        );
+        return ans;
+    }
     // Exponentiation
     public ComplexNumbers pow(ComplexNumbers b) {
         ComplexNumbers ans = new ComplexNumbers();
@@ -146,6 +157,14 @@ public class ComplexNumbers {
         part2 = (b.mul(new ComplexNumbers(sigma, 0)).cos()).add(((b.mul(new ComplexNumbers(sigma, 0))).sin()).mul(new ComplexNumbers(0, 1)));
         ans = part1.mul(part2);
         return ans;
+    }
+    // Mod
+    public double mod() {
+        if (real != 0.0 || img != 0.0) {
+            return Math.sqrt(real*real+img*img);
+        } else {
+            return 0;
+        }
     }
 }
 // Supporting function for Complex numbers

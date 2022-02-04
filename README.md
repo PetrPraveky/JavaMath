@@ -39,8 +39,11 @@ This is program for some math function created by me. They are not exactly effic
   - **Exponential function**
   - **Natural logarithm**
   - **Sin & cosin**
+  - **Arctan**
   - **Exponentiation**
+  - **Mod**
 
 ## **What complex functions are now working?**
 
 - **Gamma function** ("*src/java/math/complex/functions/complex_gamma_function.java*") - Extension of gamma function to all complex numbers. Again you can read more on wikipedia: *https://en.wikipedia.org/wiki/Gamma_function*. I used the same approximation, just modified for complex numbers, as for gamma function for real numbers: *https://en.wikipedia.org/wiki/Lanczos_approximation*.
+- **Riemann zeta function** ("*src/java/math/complex/function/complex_zeta_function.java*") - Extension of zeta function ti all complex numbers except *1*. This is done thanks to Abel-Plana formula: *https://en.wikipedia.org/wiki/Abel–Plana_formula*, and integral is solved with Composite Simpson's Rule *https://en.wikipedia.org/wiki/Adaptive_quadrature*. You can read more again on wikipedia: *https://en.wikipedia.org/wiki/Riemann_zeta_function*.

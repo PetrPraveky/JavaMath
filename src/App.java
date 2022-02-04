@@ -4,6 +4,7 @@ import lib.java.math.functions.riemann_zeta_function;
 import lib.java.math.functions.gamma_function;
 import lib.java.math.complex.ComplexNumbers;
 import lib.java.math.complex.functions.complex_gamma_function;
+import lib.java.math.complex.functions.complex_zeta_function;
 
 public class App {
     public static void main(String[] args) throws Exception {
@@ -52,11 +53,17 @@ public class App {
         c12 = c1.cos(); c12.display();
         ComplexNumbers c13 = new ComplexNumbers(); // Exponentiation
         c13 = c1.pow(c2); c13.display();
+        ComplexNumbers c14 = new ComplexNumbers(); // Arctan
+        c14 = c1.atan(); c14.display();
+        System.out.println(c1.mod()); // Mod
         // Complex functions
         System.out.println("");
-        ComplexNumbers i1 = new ComplexNumbers(-5, 2);
+        ComplexNumbers i1 = new ComplexNumbers(0, 0);
         complex_gamma_function gamma = new complex_gamma_function();
-        ComplexNumbers c14 = new ComplexNumbers();
-        c14 = gamma._gamma_function(i1); c14.display();
+        ComplexNumbers o1 = new ComplexNumbers();
+        o1 = gamma._gamma_function(i1); o1.display();
+        complex_zeta_function zeta = new complex_zeta_function();
+        ComplexNumbers o2 = new ComplexNumbers();
+        o2 = zeta._riemann_zeta_function(i1); o2.display();
     }
 }
