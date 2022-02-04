@@ -5,10 +5,10 @@ This is program for some math function created by me. They are not exactly effic
 ## **Structure of files**
 
 - "***src/App.java***" - function are called from this file. There are some examples, which you can un-comment to acces. All math functions are located in "*src/lib/java/math*". 
-- "***src/lib/java/math/functions***" - place where all my math function are located.
-- "***src/lib/java/math/plotter***" - place where all my plots are located.
-- "***src/lib/java/constants***" - place where some constants, declared by my self or created by functions, are located.
-- "***src/lib/math/complex***" - place where all files and folder of complex mathematics are located.
+- "***src/lib/java/math/functions/***" - place where all my math function are located.
+- "***src/lib/java/math/plotter/***" - place where all my plots are located.
+- "***src/lib/java/constants/***" - place where some constants, declared by my self or created by functions, are located.
+- "***src/lib/math/complex/***" - place where all files and folder of complex mathematics are located.
 - "***img/***" - place where all additional images are located.
 # **Functions which are based on real numbers**
 ## **What function are now working?**
@@ -22,11 +22,11 @@ This is program for some math function created by me. They are not exactly effic
 - **Riemann zeta function** ("*src/lib/java/math/functions/riemann_zeta_function*") - Algoritm for well-known Euler-Riemann zeta function. Input works only for real numbers higher than *1*. You can read more on wikipedia: *https://en.wikipedia.org/wiki/Riemann_zeta_function*.
 
 ## **What function you can plot?**
-- **Möbius function** - You can plot values of Möbius function *μ(n)* from *1* to *50*. With some editing you can add more values, but it will become really messy. <br />
+- **Möbius function** ("*src/lib/java/math/plotter/function_plotter/mobius_plotter.java*") - You can plot values of Möbius function *μ(n)* from *1* to *50*. With some editing you can add more values, but it will become really messy. <br />
 ![plot](./img/mobius_function_plot.png)
-- **Gamma function** - You can plot values of Gamma function *Γ(z)* from *-5* to *5*. WIth some editing you can expand to more values, but it will again become really messy. <br />
+- **Gamma function** ("*src/lib/java/math/plotter/function_plotter/gamma_plotter.java*") - You can plot values of Gamma function *Γ(z)* from *-5* to *5*. WIth some editing you can expand to more values, but it will again become really messy. <br />
 ![plot](./img/gamma_function_plot.png)
-- **Riemann zeta function** - You can plot values of Riemann zeta function from *-1* to *5*. You can ho higher than *5* but lower that *-1* it wont work. Also, my algorithm is very slow, so it outputs some inaccurate answers to become more faster. <br />
+- **Riemann zeta function** ("*src/lib/java/math/plotter/function_plotter/zeta_plotter.java*") - You can plot values of Riemann zeta function from *-1* to *5*. You can ho higher than *5* but lower that *-1* it wont work. Also, my algorithm is very slow, so it outputs some inaccurate answers to become more faster. <br />
 <!-- ![plot](./img/zeta_function_plot.png) -->
 # **Complex numbers and functions**
 ## **What complex operations it can perform?**
@@ -45,5 +45,10 @@ This is program for some math function created by me. They are not exactly effic
 
 ## **What complex functions are now working?**
 
-- **Gamma function** ("*src/java/math/complex/functions/complex_gamma_function.java*") - Extension of gamma function to all complex numbers. Again you can read more on wikipedia: *https://en.wikipedia.org/wiki/Gamma_function*. I used the same approximation, just modified for complex numbers, as for gamma function for real numbers: *https://en.wikipedia.org/wiki/Lanczos_approximation*.
-- **Riemann zeta function** ("*src/java/math/complex/function/complex_zeta_function.java*") - Extension of zeta function ti all complex numbers except *1*. This is done thanks to Abel-Plana formula: *https://en.wikipedia.org/wiki/Abel–Plana_formula*, and integral is solved with Composite Simpson's Rule *https://en.wikipedia.org/wiki/Adaptive_quadrature*. You can read more again on wikipedia: *https://en.wikipedia.org/wiki/Riemann_zeta_function*.
+- **Gamma function** ("*src/lib/java/math/complex/functions/complex_gamma_function.java*") - Extension of gamma function to all complex numbers. Again you can read more on wikipedia: *https://en.wikipedia.org/wiki/Gamma_function*. I used the same approximation, just modified for complex numbers, as for gamma function for real numbers: *https://en.wikipedia.org/wiki/Lanczos_approximation*.
+- **Riemann zeta function** ("*src/lib/java/math/complex/function/complex_zeta_function.java*") - Extension of zeta function ti all complex numbers except *1*. This is done thanks to Abel-Plana formula: *https://en.wikipedia.org/wiki/Abel–Plana_formula*, and integral is solved with Composite Simpson's Rule *https://en.wikipedia.org/wiki/Adaptive_quadrature*. You can read more again on wikipedia: *https://en.wikipedia.org/wiki/Riemann_zeta_function*.
+
+## **What complex function can it plot?**
+
+- **Gamma function** ("*src/lib/java/math/plotter/complex_function_plotter/complex_gamma_plotter.java*") - Plotted thanks to domain coloring: *https://en.wikipedia.org/wiki/Domain_coloring*. Color is assained to product of real and imaginary output from gamma function. Its not exactly precise, but it do it's job. You can choose between printing 20k, 90k or 360k points, this picture is printed with 360k points<br />
+![plot](./img/complex_gamma_function_plot.png)
