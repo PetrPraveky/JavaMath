@@ -55,7 +55,7 @@ public class complex_zeta_plotter extends JPanel {
         graph.draw(new Line2D.Double(margin-20, height/2, width-margin+20, height/2));
         // Draw values on graph
         graph.drawString("Plottend numbers from: "+String.valueOf(min)+" to "+String.valueOf(max), margin+20, height-margin-6); // Right corner legend
-        graph.drawString("Gamma function", margin+20, margin+12); // Right corner legend
+        graph.drawString("Riemann zeta function", margin+20, margin+12); // Right corner legend
     }
     private Color col(double h) {
         int rgb = Color.HSBtoRGB((float)h, 1f, 1f);
