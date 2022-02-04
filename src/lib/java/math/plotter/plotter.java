@@ -3,6 +3,7 @@ package lib.java.math.plotter;
 import javax.swing.JFrame;
 
 import lib.java.math.plotter.complex_function_plotter.complex_gamma_plotter;
+import lib.java.math.plotter.complex_function_plotter.complex_zeta_plotter;
 import lib.java.math.plotter.function_plotter.gamma_plotter;
 import lib.java.math.plotter.function_plotter.mobius_plotter;
 import lib.java.math.plotter.function_plotter.zeta_plotter;
@@ -20,6 +21,8 @@ public class plotter {
             frame.add(new zeta_plotter());
         } else if (function == "complex_gamma") {
             frame.add(new complex_gamma_plotter());
+        } else if (function == "complex_zeta") {
+            frame.add(new complex_zeta_plotter());
         }
         frame.setSize(400, 400);
         frame.setLocation(400, 200);

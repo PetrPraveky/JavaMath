@@ -66,6 +66,7 @@ public class App {
         // ComplexNumbers o2 = new ComplexNumbers();
         // o2 = zeta._riemann_zeta_function(i1); o2.display();
         // Complex plotter
-        new plotter("complex_gamma");
+        // new plotter("complex_gamma");
+        new plotter("complex_zeta");
     }
 }

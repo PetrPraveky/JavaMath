@@ -2,23 +2,25 @@ package lib.java.math.plotter.complex_function_plotter;
 
 import java.awt.*;  
 import javax.swing.*;
+
+import lib.java.math.complex.functions.complex_zeta_function;
+import lib.java.math.complex.ComplexNumbers;
+
 import java.awt.geom.*;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Collections;
 
-import lib.java.math.complex.ComplexNumbers;
-import lib.java.math.complex.functions.complex_gamma_function;
-
-public class complex_gamma_plotter extends JPanel {
+public class complex_zeta_plotter extends JPanel {
     ArrayList<ArrayList<Double>> coords;
     int margin = 30;
     int min = -5;
     int max = 5;
+    // double mul = 7; // Mul for 5.5k points
     // double mul = 15;  // Mul for 22k points
-    double mul = 30; // Mul for 90k points
-    // double mul = 60; // Mul for 360k points
+    // double mul = 30; // Mul for 90k points
+    double mul = 60; // Mul for 360k points
     double amountOfParts = 1/mul;
     // HSB values
     ArrayList<Double> H;
@@ -34,9 +36,10 @@ public class complex_gamma_plotter extends JPanel {
         graph.setFont(new Font("Arial", Font.PLAIN, 15));
         // Find x values
         double xSize = (double)(width-2*margin)/(coords.size()-1);
+        // double multiplier = 60*mul; // Multiplier for
         // double multiplier = 120*mul; // Multiplier for 22k points
-        double multiplier = 240*mul; // Multiplier for 90k points
-        // double multiplier = 480*mul; // Multiplier for 360k points
+        // double multiplier = 240*mul; // Multiplier for 90k points
+        double multiplier = 480*mul; // Multiplier for 360k points
         hsb_scale();
         double H_value;
         for (int i = 0; i < coords.size(); i++) {
@@ -76,18 +79,18 @@ public class complex_gamma_plotter extends JPanel {
         }
         Collections.sort(sortedReal);
     }
-    public complex_gamma_plotter() {
-        complex_gamma_function gamma = new complex_gamma_function();
+    public complex_zeta_plotter() {
+        complex_zeta_function zeta = new complex_zeta_function();
         coords = new ArrayList<ArrayList<Double>>();
         // X Coord
         for (double i = min; i <= max; i += amountOfParts) {
             for (double j = min; j <= max; j += amountOfParts) {
                 ArrayList<Double> coord = new ArrayList<>();
-                if (Math.floor(i) == i && i <= 0 && j == 0) {
+                if (i == 1 && j == 0) {
                 } else {
                     coord.add(i); // Real part
                     coord.add(j); // Imaginary part
-                    ComplexNumbers result = gamma._gamma_function(new ComplexNumbers(i, j));
+                    ComplexNumbers result = zeta._riemann_zeta_function(new ComplexNumbers(i, j));
                     coord.add(result.real); // Real result
                     coord.add(result.img); // Imaginary result
                     coords.add(coord);
