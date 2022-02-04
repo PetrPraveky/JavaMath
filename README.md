@@ -51,6 +51,5 @@ This is program for some math function created by me. They are not exactly effic
 ## **What complex function can it plot?**
 
 - **Gamma function** ("*src/lib/java/math/plotter/complex_function_plotter/complex_gamma_plotter.java*") - Plotted thanks to domain coloring: *https://en.wikipedia.org/wiki/Domain_coloring*. Color is assained to product of real and imaginary output from gamma function. Its not exactly precise, but it do it's job. You can choose between printing 22k, 90k or 360k points, this picture is printed with 360k points<br />
-![plot](./img/complex_gamma_function_plot.png)
+![plot](./img/complex_gamma_function_plot.png) ![plot](img/complex_zeta_function_plot.png)
 - **Zeta function** ("*src/lib/java/math/plotter/complex_function_plotter/complex_gamma_plotter.java*") - Plotter again thanks to domain coloring. All properities stay the same as for *Gamma function*. Its not presize with big numbers, its just approximation for smaller numbers. You can choose to plot 5.5k, 20k, 90k, 360k points, which takes something about 10 minuts to print. This picture is prited with 360k points.<br />
-![plot](img/complex_zeta_function_plot.png)
