@@ -40,3 +40,7 @@ This is program for some math function created by me. They are not exactly effic
   - **Natural logarithm**
   - **Sin & cosin**
   - **Exponentiation**
+
+## **What complex functions are now working?**
+
+- **Gamma function** ("*src/java/math/complex/functions/complex_gamma_function.java*") - Extension of gamma function to all complex numbers. Again you can read more on wikipedia: *https://en.wikipedia.org/wiki/Gamma_function*. I used the same approximation, just modified for complex numbers, as for gamma function for real numbers: *https://en.wikipedia.org/wiki/Lanczos_approximation*.

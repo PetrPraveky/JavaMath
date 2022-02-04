@@ -3,6 +3,7 @@ import lib.java.math.plotter.plotter;
 import lib.java.math.functions.riemann_zeta_function;
 import lib.java.math.functions.gamma_function;
 import lib.java.math.complex.ComplexNumbers;
+import lib.java.math.complex.functions.complex_gamma_function;
 
 public class App {
     public static void main(String[] args) throws Exception {
@@ -51,5 +52,11 @@ public class App {
         c12 = c1.cos(); c12.display();
         ComplexNumbers c13 = new ComplexNumbers(); // Exponentiation
         c13 = c1.pow(c2); c13.display();
+        // Complex functions
+        System.out.println("");
+        ComplexNumbers i1 = new ComplexNumbers(-5, 2);
+        complex_gamma_function gamma = new complex_gamma_function();
+        ComplexNumbers c14 = new ComplexNumbers();
+        c14 = gamma._gamma_function(i1); c14.display();
     }
 }

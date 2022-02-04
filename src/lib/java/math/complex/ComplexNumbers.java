@@ -5,7 +5,7 @@ import lib.java.math.functions.sign_function;
 
 public class ComplexNumbers {
     // Real part & Imaginary part
-    double real; double img;
+    public double real; public double img;
     // Empty constructor
     public ComplexNumbers() {
         real = Double.NaN; img = Double.NaN;
