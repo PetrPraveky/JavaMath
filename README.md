@@ -23,9 +23,8 @@ This is program for some math function created by me. They are not exactly effic
 
 ## **What function you can plot?**
 - **Möbius function** ("*src/lib/java/math/plotter/function_plotter/mobius_plotter.java*") - You can plot values of Möbius function *μ(n)* from *1* to *50*. With some editing you can add more values, but it will become really messy. <br />
-![plot](./img/mobius_function_plot.png)
+![plot](./img/mobius_function_plot.png) ![plot](./img/gamma_function_plot.png)
 - **Gamma function** ("*src/lib/java/math/plotter/function_plotter/gamma_plotter.java*") - You can plot values of Gamma function *Γ(z)* from *-5* to *5*. WIth some editing you can expand to more values, but it will again become really messy. <br />
-![plot](./img/gamma_function_plot.png)
 - **Riemann zeta function** ("*src/lib/java/math/plotter/function_plotter/zeta_plotter.java*") - You can plot values of Riemann zeta function from *-1* to *5*. You can ho higher than *5* but lower that *-1* it wont work. Also, my algorithm is very slow, so it outputs some inaccurate answers to become more faster. <br />
 <!-- ![plot](./img/zeta_function_plot.png) -->
 # **Complex numbers and functions**
