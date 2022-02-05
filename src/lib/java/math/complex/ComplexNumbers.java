@@ -152,12 +152,34 @@ public class ComplexNumbers {
         ans.img = (Math.sin(real)*Math.sinh(img))/div;
         return ans;
     }
-    // Csc
+    // Csc function
     public ComplexNumbers csc() {
         ComplexNumbers ans = new ComplexNumbers();
         double div = Math.pow(Math.sin(real), 2)*Math.pow(Math.cosh(img), 2)+Math.pow(Math.cos(real), 2)*Math.pow(Math.sinh(img), 2);
         ans.real = (Math.sin(real)*Math.cosh(img))/div;
         ans.img = -(Math.cos(real)*Math.sinh(img))/div;
+        return ans;
+    }
+    // Sinh function
+    public ComplexNumbers sinh() {
+        ComplexNumbers ans = new ComplexNumbers();
+        ans.real = Math.sinh(real)*Math.cos(img);
+        ans.img = Math.cosh(real)*Math.sin(img);
+        return ans;
+    }
+    // Cosh function
+    public ComplexNumbers cosh() {
+        ComplexNumbers ans = new ComplexNumbers();
+        ans.real = Math.cosh(real)*Math.cos(img);
+        ans.img = Math.sinh(real)*Math.sin(img);
+        return ans;
+    }
+    // Tanh function
+    public ComplexNumbers tanh() {
+        ComplexNumbers ans = new ComplexNumbers();
+        double div = 1+Math.pow(Math.tanh(real), 2)*Math.pow(Math.tan(img), 2);
+        ans.real = (Math.tanh(real)+Math.tanh(real)*Math.pow(Math.tan(img), 2))/div;
+        ans.img = (Math.tan(img)-Math.pow(Math.tanh(real), 2)*Math.tan(img))/div;
         return ans;
     }
     // Atan function

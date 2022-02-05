@@ -4,6 +4,12 @@ import javax.swing.JFrame;
 
 import lib.java.math.plotter.complex_function_plotter.complex_gamma_plotter;
 import lib.java.math.plotter.complex_function_plotter.complex_zeta_plotter;
+import lib.java.math.plotter.complex_function_plotter.complex_hyperbolic.complex_cosh_plotter;
+import lib.java.math.plotter.complex_function_plotter.complex_hyperbolic.complex_coth_plotter;
+import lib.java.math.plotter.complex_function_plotter.complex_hyperbolic.complex_csch_plotter;
+import lib.java.math.plotter.complex_function_plotter.complex_hyperbolic.complex_sech_plotter;
+import lib.java.math.plotter.complex_function_plotter.complex_hyperbolic.complex_sinh_plotter;
+import lib.java.math.plotter.complex_function_plotter.complex_hyperbolic.complex_tanh_plotter;
 import lib.java.math.plotter.complex_function_plotter.complex_trigonometry.complex_cos_plotter;
 import lib.java.math.plotter.complex_function_plotter.complex_trigonometry.complex_cot_plotter;
 import lib.java.math.plotter.complex_function_plotter.complex_trigonometry.complex_csc_plotter;
@@ -44,6 +50,18 @@ public class plotter {
             frame.add(new complex_sec_plotter());
         } else if (function == "complex_csc") {
             frame.add(new complex_csc_plotter());
+        } else if (function == "complex_sinh") {
+            frame.add(new complex_sinh_plotter());
+        } else if (function == "complex_cosh") {
+            frame.add(new complex_cosh_plotter());
+        } else if (function == "complex_tanh") {
+            frame.add(new complex_tanh_plotter());
+        } else if (function == "complex_coth") {
+            frame.add(new complex_coth_plotter());
+        } else if (function == "complex_sech") {
+            frame.add(new complex_sech_plotter());
+        } else if (function == "complex_csch") {
+            frame.add(new complex_csch_plotter());
         }
         frame.setSize(400, 400);
         frame.setLocation(400, 200);
