@@ -41,6 +41,7 @@ This is program for some math function created by me. They are not exactly effic
   - **Natural logarithm**
   - **Sine & Cosine; Tangent & Cotangent; Secant & Cosecant**
   - **Arctan**
+  - **Sinh & Cosh; Tanh & Coth; Sech & Csch**
   - **Exponentiation**
   - **Mod**
 
