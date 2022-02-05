@@ -1,6 +1,8 @@
 import lib.java.math.functions.mobius_function;
 import lib.java.math.plotter.plotter;
 import lib.java.math.functions.riemann_zeta_function;
+import lib.java.math.functions.bernoulli_number;
+import lib.java.math.functions.divisor_function;
 import lib.java.math.functions.gamma_function;
 import lib.java.math.complex.ComplexNumbers;
 import lib.java.math.complex.functions.complex_beta_function;
@@ -19,19 +21,27 @@ public class App {
 
         // // Riemann zeta function
         // riemann_zeta_function zeta = new riemann_zeta_function();
-        // System.out.println(zeta._riemann_zeta_function(1.1));
+        // System.out.println(zeta._riemann_zeta_function(4));
         // // Riemann zeta function plotter
         // new plotter("zeta");
 
         // // Gamma function
         // gamma_function gamma = new gamma_function();
-        // System.out.println(gamma._gamma_function(0));
+        // System.out.println(gamma._gamma_function(-2));
         // // Gamma function plotter
         // new plotter("gamma");
 
+        // // Bernoulli number
+        // bernoulli_number number = new bernoulli_number();
+        // System.out.println(number._bernoulli_number(4));
+        
+        // Divisor function
+        divisor_function divisor = new divisor_function();
+        System.out.println(divisor._divisor_function(0, 12));
+
         // // Complex numbers
         ComplexNumbers c1 = new ComplexNumbers(12.5, -2.5);
-        // ComplexNumbers c2 = new ComplexNumbers(09.5, 0.5);
+        ComplexNumbers c2 = new ComplexNumbers(09.5, 0.5);
         // ComplexNumbers c3 = new ComplexNumbers(); // Addition
         // c3 = c1.add(c2); c3.display();
         // ComplexNumbers c4 = new ComplexNumbers(); // Substraction
@@ -79,7 +89,7 @@ public class App {
         // c24 = c1.csch(); c24.display();
         // // Complex functions
         // System.out.println("");
-        ComplexNumbers i1 = new ComplexNumbers(2, 3);
+        ComplexNumbers i1 = new ComplexNumbers(-1, 0);
         // complex_gamma_function gamma = new complex_gamma_function();
         // ComplexNumbers o1 = new ComplexNumbers();
         // o1 = gamma._gamma_function(i1); o1.display();
@@ -93,14 +103,14 @@ public class App {
         // // Complex plotter
         // new plotter("complex_gamma");
         // new plotter("complex_zeta");
-        // new plotter("complex_cos");
+        // new plotter("complex_sin");
         // new plotter("complex_tan");
         // new plotter("complex_cot");
         // new plotter("complex_sec");
         // new plotter("complex_csc");
-        // new plotter("complex_cosh");
+        // new plotter("complex_sinh");
         // new plotter("complex_csch");
-        new plotter("complex_beta");
+        // new plotter("complex_beta");
 
         // // Fourier series
         // new plotter("sawtooth_wave");

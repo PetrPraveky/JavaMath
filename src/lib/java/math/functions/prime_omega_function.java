@@ -22,7 +22,7 @@ public class prime_omega_function {
         return answer;
     }
     // Prime factorization function
-    private List<Integer> prime_factor(int n) {
+    public List<Integer> prime_factor(int n) {
         List<Integer> answer = new ArrayList<Integer>();
         while (n % 2 == 0) {
             answer.add(2);

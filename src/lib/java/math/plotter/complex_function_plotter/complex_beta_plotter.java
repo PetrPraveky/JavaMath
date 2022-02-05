@@ -16,9 +16,9 @@ public class complex_beta_plotter extends JPanel {
     int margin = 30;
     int min = -5;
     int max = 5;
-    // double mul = 15;  // Mul for 22k points
+    double mul = 15;  // Mul for 22k points
     // double mul = 30; // Mul for 90k points
-    double mul = 60; // Mul for 360k points
+    // double mul = 60; // Mul for 360k points
     double amountOfParts = 1/mul;
     // HSB values
     ArrayList<Double> H;
@@ -34,9 +34,9 @@ public class complex_beta_plotter extends JPanel {
         graph.setFont(new Font("Arial", Font.PLAIN, 15));
         // Find x values
         double xSize = (double)(width-2*margin)/(coords.size()-1);
-        // double multiplier = 120*mul; // Multiplier for 22k points
+        double multiplier = 120*mul; // Multiplier for 22k points
         // double multiplier = 240*mul; // Multiplier for 90k points
-        double multiplier = 480*mul; // Multiplier for 360k points
+        // double multiplier = 480*mul; // Multiplier for 360k points
         hsb_scale();
         double H_value;
         for (int i = 0; i < coords.size(); i++) {
@@ -52,7 +52,7 @@ public class complex_beta_plotter extends JPanel {
         graph.draw(new Line2D.Double(margin-20, height/2, width-margin+20, height/2));
         // Draw values on graph
         graph.drawString("Plottend numbers from: "+String.valueOf(min)+" to "+String.valueOf(max), margin+20, height-margin-6); // Right corner legend
-        graph.drawString("Where x = a+ai ; y = b+bi", margin+20, height-margin+6); // Right corner legend
+        graph.drawString("Where x = a+bi ; y = b+ai", margin+20, height-margin+6); // Right corner legend
         graph.drawString("beta function", margin+20, margin+12); // Right corner legend
     }
     private Color col(double h) {
@@ -88,7 +88,7 @@ public class complex_beta_plotter extends JPanel {
                 } else {
                     coord.add(i); // Real part
                     coord.add(j); // Imaginary part
-                    ComplexNumbers result = beta._complex_beta_function(new ComplexNumbers(i, i), new ComplexNumbers(j, j));
+                    ComplexNumbers result = beta._complex_beta_function(new ComplexNumbers(i, j), new ComplexNumbers(j, i));
                     coord.add(result.real); // Real result
                     coord.add(result.img); // Imaginary result
                     coords.add(coord);

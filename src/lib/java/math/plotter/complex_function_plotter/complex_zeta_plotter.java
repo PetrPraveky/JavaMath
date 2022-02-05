@@ -18,9 +18,9 @@ public class complex_zeta_plotter extends JPanel {
     int min = -5;
     int max = 5;
     // double mul = 7; // Mul for 5.5k points
-    // double mul = 15;  // Mul for 22k points
+    double mul = 15;  // Mul for 22k points
     // double mul = 30; // Mul for 90k points
-    double mul = 60; // Mul for 360k points
+    // double mul = 60; // Mul for 360k points
     double amountOfParts = 1/mul;
     // HSB values
     ArrayList<Double> H;
@@ -37,9 +37,9 @@ public class complex_zeta_plotter extends JPanel {
         // Find x values
         double xSize = (double)(width-2*margin)/(coords.size()-1);
         // double multiplier = 60*mul; // Multiplier for
-        // double multiplier = 120*mul; // Multiplier for 22k points
+        double multiplier = 120*mul; // Multiplier for 22k points
         // double multiplier = 240*mul; // Multiplier for 90k points
-        double multiplier = 480*mul; // Multiplier for 360k points
+        // double multiplier = 480*mul; // Multiplier for 360k points
         hsb_scale();
         double H_value;
         for (int i = 0; i < coords.size(); i++) {
