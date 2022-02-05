@@ -182,6 +182,30 @@ public class ComplexNumbers {
         ans.img = (Math.tan(img)-Math.pow(Math.tanh(real), 2)*Math.tan(img))/div;
         return ans;
     }
+    // Coth function
+    public ComplexNumbers coth() {
+        ComplexNumbers ans = new ComplexNumbers();
+        double div = Math.pow(1/Math.tanh(real), 2)+Math.pow(1/Math.tan(img), 2);
+        ans.real = (1/Math.tanh(real)+1/Math.tanh(real)*1/Math.pow(Math.tan(img), 2))/div;
+        ans.img = (1/Math.tan(img)-1/Math.pow(Math.tanh(real), 2)*1/Math.tan(img))/div;
+        return ans;
+    }
+    // Sech function
+    public ComplexNumbers sech() {
+        ComplexNumbers ans = new ComplexNumbers();
+        double div = Math.pow(Math.cosh(real), 2)*Math.pow(Math.cos(img), 2)+Math.pow(Math.sinh(real), 2)*Math.pow(Math.sin(img), 2);
+        ans.real = (Math.cosh(real)*Math.cos(img))/div;
+        ans.img = -(Math.sinh(real)*Math.sin(img))/div;
+        return ans;
+    }
+    // Csch function
+    public ComplexNumbers csch() {
+        ComplexNumbers ans = new ComplexNumbers();
+        double div = Math.pow(Math.sinh(real), 2)*Math.pow(Math.cos(img), 2)+Math.pow(Math.cosh(real), 2)*Math.pow(Math.sin(img), 2);
+        ans.real = (Math.sinh(real)*Math.cos(img))/div;
+        ans.img = -(Math.cosh(real)*Math.sin(img))/div;
+        return ans;
+    }
     // Atan function
     public ComplexNumbers atan() {
         ComplexNumbers z = new ComplexNumbers(real, img);

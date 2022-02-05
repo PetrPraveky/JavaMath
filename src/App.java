@@ -66,16 +66,16 @@ public class App {
         // c18 = c1.csc(); c18.display();
         // ComplexNumbers c19 = new ComplexNumbers(); // Sinh
         // c19 = c1.sinh(); c19.display();
-        ComplexNumbers c20 = new ComplexNumbers(); // Cosh
-        c20 = c1.cosh(); c20.display();
-        ComplexNumbers c21 = new ComplexNumbers(); // Tanh
-        c21 = c1.tanh(); c21.display();
-        ComplexNumbers c22 = new ComplexNumbers(); // Coth
-        c22 = c1.coth(); c22.display();
-        ComplexNumbers c23 = new ComplexNumbers();
-        c23 = c1.sech(); c23.display();
-        ComplexNumbers c24 = new ComplexNumbers();
-        c24 = c1.csch(); c24.display();
+        // ComplexNumbers c20 = new ComplexNumbers(); // Cosh
+        // c20 = c1.cosh(); c20.display();
+        // ComplexNumbers c21 = new ComplexNumbers(); // Tanh
+        // c21 = c1.tanh(); c21.display();
+        // ComplexNumbers c22 = new ComplexNumbers(); // Coth
+        // c22 = c1.coth(); c22.display();
+        // ComplexNumbers c23 = new ComplexNumbers(); // Sech
+        // c23 = c1.sech(); c23.display();
+        // ComplexNumbers c24 = new ComplexNumbers(); // Csch
+        // c24 = c1.csch(); c24.display();
         // // Complex functions
         // System.out.println("");
         // ComplexNumbers i1 = new ComplexNumbers(0, 0);
@@ -94,6 +94,7 @@ public class App {
         // new plotter("complex_sec");
         // new plotter("complex_csc");
         // new plotter("complex_cosh");
+        // new plotter("complex_csch");
 
         // // Fourier series
         // new plotter("sawtooth_wave");
