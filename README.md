@@ -24,9 +24,11 @@ This is program for some math function created by me. They are not exactly effic
 ## **What function you can plot?**
 - **Möbius function** ("*src/lib/java/math/plotter/function_plotter/mobius_plotter.java*") - You can plot values of Möbius function *μ(n)* from *1* to *50*. With some editing you can add more values, but it will become really messy. <br />
 ![plot](./img/mobius_function_plot.png) ![plot](./img/gamma_function_plot.png)
-- **Gamma function** ("*src/lib/java/math/plotter/function_plotter/gamma_plotter.java*") - You can plot values of Gamma function *Γ(z)* from *-5* to *5*. WIth some editing you can expand to more values, but it will again become really messy. <br />
+- **Gamma function** ("*src/lib/java/math/plotter/function_plotter/gamma_plotter.java*") - You can plot values of Gamma function *Γ(z)* from *-5* to *5*. With some editing you can expand to more values, but it will again become really messy. <br />
 - **Riemann zeta function** ("*src/lib/java/math/plotter/function_plotter/zeta_plotter.java*") - You can plot values of Riemann zeta function from *-1* to *5*. You can ho higher than *5* but lower that *-1* it wont work. Also, my algorithm is very slow, so it outputs some inaccurate answers to become more faster. <br />
 <!-- ![plot](./img/zeta_function_plot.png) -->
+- **Sawtooth wave** - You can plot approx of sawtooth wave from *-5* to *5*. You can read more on wikipedia: *https://en.wikipedia.org/wiki/Sawtooth_wave*. <br />
+![plot](.img/../img/sawtooth_wave_plot.png)
 # **Complex numbers and functions**
 ## **What complex operations it can perform?**
 
@@ -37,7 +39,7 @@ This is program for some math function created by me. They are not exactly effic
   - **Square & Square root**
   - **Exponential function**
   - **Natural logarithm**
-  - **Sin & cosin**
+  - **Sine & Cosine; Tangent & Cotangent; Secant & Cosecant**
   - **Arctan**
   - **Exponentiation**
   - **Mod**
@@ -50,5 +52,13 @@ This is program for some math function created by me. They are not exactly effic
 ## **What complex function can it plot?**
 
 - **Gamma function** ("*src/lib/java/math/plotter/complex_function_plotter/complex_gamma_plotter.java*") - Plotted thanks to domain coloring: *https://en.wikipedia.org/wiki/Domain_coloring*. Color is assained to product of real and imaginary output from gamma function. Its not exactly precise, but it do it's job. You can choose between printing 22k, 90k or 360k points, this picture is printed with 360k points<br />
-![plot](./img/complex_gamma_function_plot.png) ![plot](img/complex_zeta_function_plot.png)
+![plot](./img/complex/complex_gamma_function_plot.png) ![plot](img/complex/complex_zeta_function_plot.png)
 - **Zeta function** ("*src/lib/java/math/plotter/complex_function_plotter/complex_gamma_plotter.java*") - Plotter again thanks to domain coloring. All properities stay the same as for *Gamma function*. Its not presize with big numbers, its just approximation for smaller numbers. You can choose to plot 5.5k, 20k, 90k, 360k points, which takes something about 10 minuts to print. This picture is prited with 360k points.<br />
+### **Trigonometric functions**
+- **Sine function** ("*src/lib/java/math/plotter/complex_function_plotter/complex_trigonometry/complex_sin_plotter.java*") - Plot of sine function. Sine of complex numbers is done with equation from: *https://proofwiki.org/wiki/Sine_of_Complex_Number*.
+- **Cosine function** ("src/lib/java/math/plotter/complex_function_plotter/complex_trigonometry/complex_cos_plotter.java*") - Plot of cosine function. Cosine of complex numbers is done with equation from: *https://proofwiki.org/wiki/Cosine_of_Complex_Number*.
+- **Tangent function** ("*src/lib/java/math/plotter/complex_function_plotter/complex_trigonometry/complex_tan_plotter.java*") - Plot of tangent function. Tangent of complex numbers is done with 3rd formulation from: *https://proofwiki.org/wiki/Tangent_of_Complex_Number*.
+- **Cotagent function** ("*src/lib/java/math/plotter/complex_function_plotter/complex_trigonometry/complex_cot_plotter.java*") - Plot of cotangent function. Cotangent of complex numbers is done with 3rd formulation from: *https://proofwiki.org/wiki/Cotangent_of_Complex_Number*. <br />
+![plot](./img/complex/trigonometry/complex_sin_plot.png) ![plot](./img/complex/trigonometry/complex_cot_plot.png)
+- **Secant function** ("*src/lib/java/math/plotter/complex_function_plotter/complex_trigonometry/complex_sec_plotter.java*") - Plot of secant function. Secant of complex numbers is done with eqaution from: *https://proofwiki.org/wiki/Secant_of_Complex_Number*.
+- **Cosecant function** ("*src/lib/java/math/plotter/complex_function_plotter/complex_trigonometry/complex_csc_plotter.java*") - Plot of cosecant function. Cosecant of complex number is done with equation from: *https://proofwiki.org/wiki/Cosecant_of_Complex_Number*.

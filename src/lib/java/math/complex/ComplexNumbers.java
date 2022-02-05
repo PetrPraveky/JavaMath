@@ -128,6 +128,38 @@ public class ComplexNumbers {
         ans.img = -Math.sin(real)*Math.sinh(img);
         return ans;
     }
+    // Tan function
+    public ComplexNumbers tan() {
+        ComplexNumbers ans = new ComplexNumbers();
+        double div = Math.cos(2*real)+Math.cosh(2*img);
+        ans.real = (Math.sin(2*real))/div;
+        ans.img = (Math.sinh(2*img))/div;
+        return ans;
+    }
+    // Cot function
+    public ComplexNumbers cot() {
+        ComplexNumbers ans = new ComplexNumbers();
+        double div = 1/Math.pow(Math.tan(real), 2)+1/Math.pow(Math.tanh(img), 2);
+        ans.real = (1/Math.tan(real)*1/Math.pow(Math.tanh(img), 2)-1/Math.tan(real))/div;
+        ans.img = (-1/Math.pow(Math.tan(real), 2)*1/Math.tanh(img)-1/Math.tanh(img))/div;
+        return ans;
+    }
+    // Sec function
+    public ComplexNumbers sec() {
+        ComplexNumbers ans = new ComplexNumbers();
+        double div = Math.pow(Math.cos(real), 2)*Math.pow(Math.cosh(img), 2)+Math.pow(Math.sin(real), 2)*Math.pow(Math.sinh(img), 2);
+        ans.real = (Math.cos(real)*Math.cosh(img))/div;
+        ans.img = (Math.sin(real)*Math.sinh(img))/div;
+        return ans;
+    }
+    // Csc
+    public ComplexNumbers csc() {
+        ComplexNumbers ans = new ComplexNumbers();
+        double div = Math.pow(Math.sin(real), 2)*Math.pow(Math.cosh(img), 2)+Math.pow(Math.cos(real), 2)*Math.pow(Math.sinh(img), 2);
+        ans.real = (Math.sin(real)*Math.cosh(img))/div;
+        ans.img = -(Math.cos(real)*Math.sinh(img))/div;
+        return ans;
+    }
     // Atan function
     public ComplexNumbers atan() {
         ComplexNumbers z = new ComplexNumbers(real, img);
