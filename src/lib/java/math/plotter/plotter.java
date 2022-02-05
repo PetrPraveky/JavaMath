@@ -17,6 +17,7 @@ import lib.java.math.plotter.complex_function_plotter.complex_trigonometry.compl
 import lib.java.math.plotter.complex_function_plotter.complex_trigonometry.complex_sec_plotter;
 import lib.java.math.plotter.complex_function_plotter.complex_trigonometry.complex_sin_plotter;
 import lib.java.math.plotter.complex_function_plotter.complex_trigonometry.complex_tan_plotter;
+import lib.java.math.plotter.complex_function_plotter.fourier_series.eisenstein_plotter;
 import lib.java.math.plotter.function_plotter.gamma_plotter;
 import lib.java.math.plotter.function_plotter.mobius_plotter;
 import lib.java.math.plotter.function_plotter.zeta_plotter;
@@ -70,4 +71,16 @@ public class plotter {
         frame.setLocation(400, 200);
         frame.setVisible(true);
     }
+    public plotter(String function, int k) {
+        // Creating window
+        JFrame frame = new JFrame();
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        if (function == "eisenstein_s") {
+            frame.add(new eisenstein_plotter(k));
+        }
+        frame.setSize(400, 400);
+        frame.setLocation(400, 200);
+        frame.setVisible(true);
+    }
+
 }

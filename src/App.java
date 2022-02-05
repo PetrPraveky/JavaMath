@@ -8,6 +8,7 @@ import lib.java.math.complex.ComplexNumbers;
 import lib.java.math.complex.functions.complex_beta_function;
 import lib.java.math.complex.functions.complex_gamma_function;
 import lib.java.math.complex.functions.complex_zeta_function;
+import lib.java.math.complex.functions.fourier_series.eisenstein_series;
 
 public class App {
     public static void main(String[] args) throws Exception {
@@ -35,9 +36,9 @@ public class App {
         // bernoulli_number number = new bernoulli_number();
         // System.out.println(number._bernoulli_number(4));
         
-        // Divisor function
-        divisor_function divisor = new divisor_function();
-        System.out.println(divisor._divisor_function(0, 12));
+        // // Divisor function
+        // divisor_function divisor = new divisor_function();
+        // System.out.println(divisor._divisor_function(0, 12));
 
         // // Complex numbers
         ComplexNumbers c1 = new ComplexNumbers(12.5, -2.5);
@@ -89,7 +90,7 @@ public class App {
         // c24 = c1.csch(); c24.display();
         // // Complex functions
         // System.out.println("");
-        ComplexNumbers i1 = new ComplexNumbers(-1, 0);
+        ComplexNumbers i1 = new ComplexNumbers(-1, 0.5);
         // complex_gamma_function gamma = new complex_gamma_function();
         // ComplexNumbers o1 = new ComplexNumbers();
         // o1 = gamma._gamma_function(i1); o1.display();
@@ -100,6 +101,9 @@ public class App {
         // complex_beta_function beta = new complex_beta_function();
         // ComplexNumbers o3 = new ComplexNumbers();
         // o3 = beta._complex_beta_function(i1, i2); o3.display();
+        ComplexNumbers o4 = new ComplexNumbers();
+        eisenstein_series e = new eisenstein_series();
+        o4 = e.G(2, i1); o4.display();
         // // Complex plotter
         // new plotter("complex_gamma");
         // new plotter("complex_zeta");
@@ -114,5 +118,6 @@ public class App {
 
         // // Fourier series
         // new plotter("sawtooth_wave");
+        new plotter("eisenstein_s", 5);
     }
 }
