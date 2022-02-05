@@ -56,6 +56,14 @@ public class App {
         // ComplexNumbers c14 = new ComplexNumbers(); // Arctan
         // c14 = c1.atan(); c14.display();
         // System.out.println(c1.mod()); // Mod
+        // ComplexNumbers c15 = new ComplexNumbers(); // Tan
+        // c15 = c1.tan(); c15.display();
+        // ComplexNumbers c16 = new ComplexNumbers(); // Cot
+        // c16 = c1.cot(); c16.display();
+        // ComplexNumbers c17 = new ComplexNumbers(); // Sec
+        // c17 = c1.sec(); c17.display();
+        // ComplexNumbers c18 = new ComplexNumbers(); // Csc
+        // c18 = c1.csc(); c18.display();
         // // Complex functions
         // System.out.println("");
         // ComplexNumbers i1 = new ComplexNumbers(0, 0);
@@ -65,8 +73,16 @@ public class App {
         // complex_zeta_function zeta = new complex_zeta_function();
         // ComplexNumbers o2 = new ComplexNumbers();
         // o2 = zeta._riemann_zeta_function(i1); o2.display();
-        // Complex plotter
+        // // Complex plotter
         // new plotter("complex_gamma");
-        new plotter("complex_zeta");
+        // new plotter("complex_zeta");
+        // new plotter("complex_cos");
+        // new plotter("complex_tan");
+        // new plotter("complex_cot");
+        // new plotter("complex_sec");
+        // new plotter("complex_csc");
+
+        // // Fourier series
+        // new plotter("sawtooth_wave");
     }
 }

@@ -62,4 +62,3 @@ public class mobius_plotter extends JPanel {
         }
     }
 }
-

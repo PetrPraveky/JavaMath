@@ -4,9 +4,16 @@ import javax.swing.JFrame;
 
 import lib.java.math.plotter.complex_function_plotter.complex_gamma_plotter;
 import lib.java.math.plotter.complex_function_plotter.complex_zeta_plotter;
+import lib.java.math.plotter.complex_function_plotter.complex_trigonometry.complex_cos_plotter;
+import lib.java.math.plotter.complex_function_plotter.complex_trigonometry.complex_cot_plotter;
+import lib.java.math.plotter.complex_function_plotter.complex_trigonometry.complex_csc_plotter;
+import lib.java.math.plotter.complex_function_plotter.complex_trigonometry.complex_sec_plotter;
+import lib.java.math.plotter.complex_function_plotter.complex_trigonometry.complex_sin_plotter;
+import lib.java.math.plotter.complex_function_plotter.complex_trigonometry.complex_tan_plotter;
 import lib.java.math.plotter.function_plotter.gamma_plotter;
 import lib.java.math.plotter.function_plotter.mobius_plotter;
 import lib.java.math.plotter.function_plotter.zeta_plotter;
+import lib.java.math.plotter.function_plotter.fourier_series.sawtooth_wave_plotter;
 
 public class plotter {
     public plotter(String function) {
@@ -23,6 +30,20 @@ public class plotter {
             frame.add(new complex_gamma_plotter());
         } else if (function == "complex_zeta") {
             frame.add(new complex_zeta_plotter());
+        } else if (function == "sawtooth_wave") {
+            frame.add(new sawtooth_wave_plotter());
+        } else if (function == "complex_sin") {
+            frame.add(new complex_sin_plotter());
+        } else if (function == "complex_cos") {
+            frame.add(new complex_cos_plotter());
+        } else if (function == "complex_tan") {
+            frame.add(new complex_tan_plotter());
+        } else if (function == "complex_cot") {
+            frame.add(new complex_cot_plotter());
+        } else if (function == "complex_sec") {
+            frame.add(new complex_sec_plotter());
+        } else if (function == "complex_csc") {
+            frame.add(new complex_csc_plotter());
         }
         frame.setSize(400, 400);
         frame.setLocation(400, 200);
