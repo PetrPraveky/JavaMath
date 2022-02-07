@@ -3,13 +3,11 @@ package lib.java.math.plotter.complex_function_plotter.fourier_series;
 import java.awt.*;  
 import javax.swing.*;
 import java.awt.geom.*;
-import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.util.ArrayList;
-import java.util.Collections;
 
 import lib.java.math.complex.ComplexNumbers;
 import lib.java.math.complex.functions.fourier_series.eisenstein_series;
+import lib.java.math.complex.DomainColoring;
 
 public class eisenstein_plotter extends JPanel {
     int kk;
@@ -17,9 +15,9 @@ public class eisenstein_plotter extends JPanel {
     int margin = 30;
     int min = -2;
     int max = 2;
-    // double mul = 15;  // Mul for 3.7k points
+    double mul = 15;  // Mul for 3.7k points
     // double mul = 30;  // Mul for 14,4k points
-    double mul = 60; // Mul for 58k points
+    // double mul = 60; // Mul for 58k points
     // double mul = 120; 
     double amountOfParts = 1/mul;
     // HSB values
@@ -28,6 +26,7 @@ public class eisenstein_plotter extends JPanel {
     ArrayList<Double> sortedReal;
     // Drawing function
     protected void paintComponent(Graphics grf) {
+        DomainColoring color = new DomainColoring();
         // Create instance of Graphics
         super.paintComponent(grf);
         Graphics2D graph = (Graphics2D)grf;
@@ -36,16 +35,12 @@ public class eisenstein_plotter extends JPanel {
         graph.setFont(new Font("Arial", Font.PLAIN, 15));
         // Find x values
         double xSize = (double)(width-2*margin)/(coords.size()-1);
-        // double multiplier = 45*mul; // Multiploer for 3.7k points
+        double multiplier = 30*mul; // Multiploer for 3.7k points
         // double multiplier = 90*mul; // Multiplier for 14.4k points
-        double multiplier = 240*mul; // Multiplier for 58k points
+        // double multiplier = 240*mul; // Multiplier for 58k points
         // double multiplier = 480*mul; // Multiplier for 360k points
-        hsb_scale();
-        double H_value;
-        System.out.println(coords.size());
         for (int i = 0; i < coords.size(); i++) {
-            H_value = H.get(sortedReal.indexOf(coords.get(i).get(2)*coords.get(i).get(3)));
-            graph.setPaint(col(H_value));
+            graph.setPaint(color.HSL(coords.get(i).get(2), coords.get(i).get(3)));
             double x = width/2+(xSize*multiplier*coords.get(i).get(0));
             double y = height/2+(xSize*multiplier*(coords.get(i).get(1)));
             graph.fill(new Rectangle.Double(x-2, y-2, 2, 2));
@@ -57,28 +52,6 @@ public class eisenstein_plotter extends JPanel {
         // Draw values on graph
         graph.drawString("Plottend numbers from: "+String.valueOf(min)+" to "+String.valueOf(max), margin+20, height-margin-6); // Right corner legend
         graph.drawString("Fourier series of the Eisenstein series - "+"G"+String.valueOf(kk*2), margin+20, margin+12); // Right corner legend
-    }
-    private Color col(double h) {
-        int rgb = Color.HSBtoRGB((float)h, 1f, 1f);
-        int red = (rgb >> 16) & 0xFF;
-        int green = (rgb >> 8) & 0xFF;
-        int blue = rgb & 0xFF;
-        return new Color(red, green, blue);
-    }
-    private void hsb_scale() {
-        sortedReal = new ArrayList<Double>();
-        H = new ArrayList<Double>();
-        BigDecimal parts = new BigDecimal("1");
-        BigDecimal div = new BigDecimal(String.valueOf(coords.size()));
-        parts = parts.divide(div, 10, RoundingMode.HALF_UP);
-        double space = Double.valueOf(parts.toString());
-        double offset = space;
-        for (int i = 0; i<coords.size(); i++) {
-            sortedReal.add(coords.get(i).get(2)*coords.get(i).get(3));
-            H.add(offset);
-            offset += space;
-        }
-        Collections.sort(sortedReal);
     }
     public eisenstein_plotter(int k) {
         kk = k;

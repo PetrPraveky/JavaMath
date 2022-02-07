@@ -5,12 +5,10 @@ import javax.swing.*;
 
 import lib.java.math.complex.functions.complex_zeta_function;
 import lib.java.math.complex.ComplexNumbers;
+import lib.java.math.complex.DomainColoring;
 
 import java.awt.geom.*;
-import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.util.ArrayList;
-import java.util.Collections;
 
 public class complex_zeta_plotter extends JPanel {
     ArrayList<ArrayList<Double>> coords;
@@ -24,10 +22,15 @@ public class complex_zeta_plotter extends JPanel {
     double amountOfParts = 1/mul;
     // HSB values
     ArrayList<Double> H;
+    // Domain color values
+    ArrayList<Double> HUE;
+    ArrayList<Double> LIG;
     // Sorted coords
     ArrayList<Double> sortedReal;
+    ArrayList<Double> sortedImg;
     // Drawing function
     protected void paintComponent(Graphics grf) {
+        DomainColoring color = new DomainColoring();
         // Create instance of Graphics
         super.paintComponent(grf);
         Graphics2D graph = (Graphics2D)grf;
@@ -40,11 +43,8 @@ public class complex_zeta_plotter extends JPanel {
         double multiplier = 120*mul; // Multiplier for 22k points
         // double multiplier = 240*mul; // Multiplier for 90k points
         // double multiplier = 480*mul; // Multiplier for 360k points
-        hsb_scale();
-        double H_value;
         for (int i = 0; i < coords.size(); i++) {
-            H_value = H.get(sortedReal.indexOf(coords.get(i).get(2)*coords.get(i).get(3)));
-            graph.setPaint(col(H_value));
+            graph.setPaint(color.HSL(coords.get(i).get(2), coords.get(i).get(3)));
             double x = width/2+(xSize*multiplier*coords.get(i).get(0));
             double y = height/2+(xSize*multiplier*coords.get(i).get(1));
             graph.fill(new Rectangle.Double(x-2, y-2, 2, 2));
@@ -56,28 +56,6 @@ public class complex_zeta_plotter extends JPanel {
         // Draw values on graph
         graph.drawString("Plottend numbers from: "+String.valueOf(min)+" to "+String.valueOf(max), margin+20, height-margin-6); // Right corner legend
         graph.drawString("Riemann zeta function", margin+20, margin+12); // Right corner legend
-    }
-    private Color col(double h) {
-        int rgb = Color.HSBtoRGB((float)h, 1f, 1f);
-        int red = (rgb >> 16) & 0xFF;
-        int green = (rgb >> 8) & 0xFF;
-        int blue = rgb & 0xFF;
-        return new Color(red, green, blue);
-    }
-    private void hsb_scale() {
-        sortedReal = new ArrayList<Double>();
-        H = new ArrayList<Double>();
-        BigDecimal parts = new BigDecimal("1");
-        BigDecimal div = new BigDecimal(String.valueOf(coords.size()));
-        parts = parts.divide(div, 10, RoundingMode.HALF_UP);
-        double space = Double.valueOf(parts.toString());
-        double offset = space;
-        for (int i = 0; i<coords.size(); i++) {
-            sortedReal.add(coords.get(i).get(2)*coords.get(i).get(3));
-            H.add(offset);
-            offset += space;
-        }
-        Collections.sort(sortedReal);
     }
     public complex_zeta_plotter() {
         complex_zeta_function zeta = new complex_zeta_function();
