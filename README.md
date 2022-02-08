@@ -56,7 +56,7 @@ This is program for some math function created by me. They are not exactly effic
 - **Riemann zeta function** ("*src/lib/java/math/complex/function/complex_zeta_function.java*") - Extension of zeta function ti all complex numbers except *1*. This is done thanks to Abel-Plana formula: *https://en.wikipedia.org/wiki/Abel–Plana_formula*, and integral is solved with Composite Simpson's Rule *https://en.wikipedia.org/wiki/Adaptive_quadrature*. You can read more again on wikipedia: *https://en.wikipedia.org/wiki/Riemann_zeta_function*.
 - **Beta function** ("*src/lib/java/math/complex/function/complex_beta_function.java*") - Beta function *B(x, y)* has two input values, but only one output. It is symetric function and you can real more on wikipedia: *You can read about this function on wikipedia: *https://en.wikipedia.org/wiki/Beta_function*.*
 - **Eisenstein series** ("*src/lib/java/math/complex/function/fourier_series/eisenstein_series.java*") - Fourier series of Eisenstein series. You can read more on wikipedia: *https://en.wikipedia.org/wiki/Eisenstein_series*.
-- **Hurwitz zeta function** ("*src/lib/java/math/complex/function/hurwitz_zeta_function.java*") - One of zeta functions. Curretly works only for values lower than 0. You can read more on wikipedia: *https://en.wikipedia.org/wiki/Hurwitz_zeta_function*.
+<!-- - **Hurwitz zeta function** ("*src/lib/java/math/complex/function/hurwitz_zeta_function.java*") - One of zeta functions. Curretly works only for values lower than 0. You can read more on wikipedia: *https://en.wikipedia.org/wiki/Hurwitz_zeta_function*. -->
 
 ## **What complex function can it plot?**
 

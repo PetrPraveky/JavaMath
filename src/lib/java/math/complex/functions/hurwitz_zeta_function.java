@@ -5,7 +5,9 @@ import lib.java.math.complex.ComplexNumbers;
 public class hurwitz_zeta_function {
     int Infinity = 10000;
     ComplexNumbers TWO = new ComplexNumbers(2, 0); ComplexNumbers ONE = new ComplexNumbers(1, 0);
+    ComplexNumbers MINUSONE = new ComplexNumbers(-1, 0);
     ComplexNumbers PI = new ComplexNumbers(Math.PI, 0);
+    /*
     // hurwitz zeta function
     public ComplexNumbers _hurwitz_zeta_function(ComplexNumbers s, double a) {
         complex_gamma_function gamma = new complex_gamma_function();
@@ -27,11 +29,17 @@ public class hurwitz_zeta_function {
 
             // }
             ComplexNumbers partOne = (ONE.div(s.sub(ONE)));
+            ComplexNumbers partTwo = laurent_sum(s, new ComplexNumbers(a, 0));
             return ans;
         }
     }
     private ComplexNumbers laurent_sum(ComplexNumbers s, ComplexNumbers a) {
-        ComplexNumbers ans = new ComplexNumbers();
+        ComplexNumbers ans = new ComplexNumbers(0, 0);
+        complex_gamma_function gamma = new complex_gamma_function();
+        for (int n = 0; n < Infinity; n++) {
+            ComplexNumbers N = new ComplexNumbers(n, 0);
+            ans = ans.add((MINUSONE.pow(N)).div(gamma._gamma_function(new ComplexNumbers(n+1, 0))).mul((s.sub(ONE)).pow(N)).mul(new ComplexNumbers()));
+        }
         return ans;
     }
     // First sum in Hurwitz's formula
@@ -54,4 +62,19 @@ public class hurwitz_zeta_function {
         }
         return ans;
     }
+    */
+    /*
+    public ComplexNumbers _hurwitz_zeta_function(ComplexNumbers s, double a) {
+        ComplexNumbers ans = new ComplexNumbers();
+        complex_gamma_function gamma = new complex_gamma_function();
+        ComplexNumbers firstPart = ONE.sub(gamma._gamma_function(s));
+
+        return ans;
+    }
+    // Integral for integra representation
+    public ComplexNumbers integral() {
+        return new ComplexNumbers();
+    }
+    */
+    
 }
