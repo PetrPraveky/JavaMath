@@ -3,42 +3,53 @@ package lib.java.math.complex.functions;
 import lib.java.math.complex.ComplexNumbers;
 
 public class hurwitz_zeta_function {
-    int Infinity = 10000;
+    int Infinity = (int)1E3;
     ComplexNumbers TWO = new ComplexNumbers(2, 0); ComplexNumbers ONE = new ComplexNumbers(1, 0);
     ComplexNumbers MINUSONE = new ComplexNumbers(-1, 0);
     ComplexNumbers PI = new ComplexNumbers(Math.PI, 0);
-    /*
+
+    ComplexNumbers ANS_STORE = new ComplexNumbers();
     // hurwitz zeta function
-    public ComplexNumbers _hurwitz_zeta_function(ComplexNumbers s, double a) {
+    public ComplexNumbers _hurwitz_zeta_function(ComplexNumbers s, ComplexNumbers a) {
         complex_gamma_function gamma = new complex_gamma_function();
-        ComplexNumbers A = new ComplexNumbers(a, 0);
         ComplexNumbers ans = new ComplexNumbers();
         // Complex real numbers
-        if (a%2 == 0 && a<=0) {
+        if (a.real%2 == 0 && a.real<=0) {
             return ans;
         } else {
-            // if(s.real < 0) {
-            //     ComplexNumbers partOne = (TWO.mul(gamma._gamma_function(ONE.sub(s)))).div((PI.mul(TWO)).pow(ONE.sub(s)));
-            //     ComplexNumbers partTwo = ((PI.mul(s)).div(TWO)).sin();
-            //     ComplexNumbers sumOne = _sum_one(s, A, Infinity);
-            //     ComplexNumbers partThree = ((PI.mul(s)).div(TWO)).cos();
-            //     ComplexNumbers sumTwo = _sum_two(s, A, Infinity);
-            //     ans = partOne.mul((partTwo.mul(sumOne)).add(partThree.mul(sumTwo)));
-            //     return ans;
-            // } else if (s.real > 1) {
-
-            // }
-            ComplexNumbers partOne = (ONE.div(s.sub(ONE)));
-            ComplexNumbers partTwo = laurent_sum(s, new ComplexNumbers(a, 0));
-            return ans;
+            if(s.real < 0) {
+                ComplexNumbers partOne = (TWO.mul(gamma._gamma_function(ONE.sub(s)))).div((PI.mul(TWO)).pow(ONE.sub(s)));
+                ComplexNumbers partTwo = ((PI.mul(s)).div(TWO)).sin();
+                ComplexNumbers sumOne = _sum_one(s, a, Infinity);
+                ComplexNumbers partThree = ((PI.mul(s)).div(TWO)).cos();
+                ComplexNumbers sumTwo = _sum_two(s, a, Infinity);
+                ans = partOne.mul((partTwo.mul(sumOne)).add(partThree.mul(sumTwo)));
+                return ans;
+            } // else if (s.real > 1) {
+                // ComplexNumbers partOne = (ONE.div(s.sub(ONE)));
+                // ComplexNumbers partTwo = laurent_sum(s, a);
+                // System.out.println(partOne);
+                // System.out.println(partTwo);
+                // ans = partOne.add(partTwo);
+                // return ans;
+            /*}*/
+             else {
+                return ans;
+            }
         }
     }
     private ComplexNumbers laurent_sum(ComplexNumbers s, ComplexNumbers a) {
         ComplexNumbers ans = new ComplexNumbers(0, 0);
         complex_gamma_function gamma = new complex_gamma_function();
+        generalized_stieljes_constant stieljes = new generalized_stieljes_constant();
         for (int n = 0; n < Infinity; n++) {
             ComplexNumbers N = new ComplexNumbers(n, 0);
-            ans = ans.add((MINUSONE.pow(N)).div(gamma._gamma_function(new ComplexNumbers(n+1, 0))).mul((s.sub(ONE)).pow(N)).mul(new ComplexNumbers()));
+            ans = ans.add((MINUSONE.pow(N)).div(gamma._gamma_function(new ComplexNumbers(n+1, 0))).mul((s.sub(ONE)).pow(N)).mul(stieljes._stieljes_constant(n, a)));
+            if (Double.isNaN(ans.real)) {
+                ans = ANS_STORE;
+            } else {
+                ANS_STORE = ans;
+            }
         }
         return ans;
     }
@@ -62,7 +73,6 @@ public class hurwitz_zeta_function {
         }
         return ans;
     }
-    */
     /*
     public ComplexNumbers _hurwitz_zeta_function(ComplexNumbers s, double a) {
         ComplexNumbers ans = new ComplexNumbers();
@@ -76,5 +86,4 @@ public class hurwitz_zeta_function {
         return new ComplexNumbers();
     }
     */
-    
 }

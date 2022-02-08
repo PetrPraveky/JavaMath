@@ -16,14 +16,8 @@ public class generalized_stieljes_constant {
     public ComplexNumbers _stieljes_constant(int n, ComplexNumbers a) {
         ComplexNumbers ans = new ComplexNumbers(0, 0);
         ComplexNumbers N = new ComplexNumbers(n, 0);
-
-        // for (int k = 0; k<=Infinity; k++) {
-        //     ComplexNumbers K = new ComplexNumbers(k, 0);
-        //     ComplexNumbers firtsPart = (((K.add(a)).ln()).pow(N)).div(K.add(a));
-        //     ComplexNumbers secondPart = (((M.add(a)).ln()).pow(N.add(new ComplexNumbers(1, 0)))).div(N.add(new ComplexNumbers(1, 0)));
-        //     ans = ans.add((firtsPart).sub(secondPart));
-        // }
-        ComplexNumbers firstPart = ((ONE.div(TWO.mul(a))).sub((a.ln()).div(N.add(ONE))));
+        ComplexNumbers firstPart = ((ONE.div(TWO.mul(a))).sub((a.ln()).div(N.add(ONE)))).mul((a.ln().pow(new ComplexNumbers(n, 0))));
+        // ComplexNumbers secondPart = (I.mul(adaptiveQuad(0, 10, a, n)));
         ComplexNumbers secondPart = (I.mul(Integral(a, N)));
         ans = firstPart.sub(secondPart);
         return ans;
@@ -38,10 +32,6 @@ public class generalized_stieljes_constant {
         }
         ComplexNumbers sumThird = function(a, n, X(0.9999)).div(TWO);
         ans = firstPart.mul((sumFirst.add(sumSecond)).add(sumThird));
-        System.out.println(firstPart+"1");
-        System.out.println(sumFirst+"2");
-        System.out.println(sumSecond+"3");
-        System.out.println(sumThird+"4");
         return ans;
     }
     private double X(double x) {
@@ -53,38 +43,56 @@ public class generalized_stieljes_constant {
             x = 1E-6;
         }
         ComplexNumbers firstPart = ONE.div((new ComplexNumbers(Math.pow(Math.E, 2*Math.PI*x), 0)).sub(ONE));
-        // System.out.println((new ComplexNumbers(Math.pow(Math.E, (2*Math.PI*x)), 0)));
-        // System.out.println(x);
-        // System.out.println("\t"+Math.exp(Math.PI*2*x));
         if (firstPart.real == 0 || Double.isNaN(firstPart.real) || Double.isInfinite(firstPart.real)) {
             firstPart = firstPartStorage;
         } else {
             firstPartStorage = firstPart;
         }
-        System.out.println("\t"+firstPart);
         ComplexNumbers secondFirstPart = (((a.sub(IX)).ln()).pow(n)).div(a.sub(IX));
         if (Double.isNaN(secondFirstPart.real) || secondFirstPart.real == 0 || Double.isInfinite(secondFirstPart.real)) {
             secondFirstPart = secondFirstPartStorage;
         } else {
             secondFirstPartStorage = secondFirstPart;
         }
-        System.out.println("\t\t"+secondFirstPart);
         ComplexNumbers secondSecondPart = (((a.add(IX)).ln()).pow(n)).div(a.add(IX));
         if (Double.isNaN(secondSecondPart.real) || secondSecondPart.real == 0 || Double.isInfinite(secondSecondPart.real)) {
             secondSecondPart = secondSecondPartStorage;
         } else {
             secondSecondPartStorage = secondSecondPart;
         }
-        System.out.println("\t\t\t"+secondSecondPart);
         ans = firstPart.mul(secondFirstPart.sub(secondSecondPart));
-        // System.out.println("\t"+firstPart);
-        // System.out.println("\t"+secondFirstPart);
-        // System.out.println("\t"+secondSecondPart);
-        System.out.println("\t\t+"+secondFirstPart.sub(secondSecondPart));
-        System.out.println(ans+"+++");
         return ans;
     }
-    // private ComplexNumbers _first_stieljes_constant(int n, ComplexNumbers a) {
-
-    // }
+    /*
+    private ComplexNumbers adaptiveQuad(double a, double b, ComplexNumbers s, int n) {
+        double EPSILON = 1E-6;
+        double step = b-a;
+        double c = (a+b)/2;
+        double d = (a+c)/2;
+        double e = (b+c)/2;
+        ComplexNumbers S1 = (_inside_function(s, n, a).add(_inside_function(s, n, c).mul(new ComplexNumbers(4, 0))).add(
+            _inside_function(s, n, b))).mul(new ComplexNumbers(step/6, 0));
+        ComplexNumbers S2 = (_inside_function(s, n, a).add(_inside_function(s, n, d).mul(new ComplexNumbers(4, 0))).add(
+            _inside_function(s, n, c).mul(new ComplexNumbers(2, 0))).add(_inside_function(s, n, e).mul(new ComplexNumbers(4, 0))).add(
+            _inside_function(s, n, b))).mul(new ComplexNumbers(step/12, 0));
+        ComplexNumbers ans = (S2.sub(S1)).div(new ComplexNumbers(15, 0));
+        if (S2.sub(S1).mod() <= EPSILON) {
+            return S2.add(ans);
+        } else {
+            return adaptiveQuad(a, c, s, n).add(adaptiveQuad(c, b, s, n));
+        }
+    }
+    private ComplexNumbers _inside_function(ComplexNumbers a, int n, double t) {
+        ComplexNumbers ans = new ComplexNumbers();
+        ComplexNumbers IX = new ComplexNumbers(0, t);
+        ans = (
+            ((ONE).div(new ComplexNumbers(Math.pow(Math.E, 2*Math.PI*t), 0)).sub(ONE)).mul(
+                ((((a.sub(IX)).ln()).pow(new ComplexNumbers(n, 0))).div(a.sub(IX))).sub(
+                    (((a.add(IX)).ln()).pow(new ComplexNumbers(n, 0))).div(a.add(IX))
+                )
+            )
+        );
+        return ans;
+    }
+    */
 }

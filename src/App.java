@@ -100,7 +100,7 @@ public class App {
         // c24 = c1.csch(); c24.display();
         // // Complex functions
         // System.out.println("");
-        ComplexNumbers i1 = new ComplexNumbers(0, 0.5);
+        ComplexNumbers i1 = new ComplexNumbers(2.5, 0.5);
         // complex_gamma_function gamma = new complex_gamma_function();
         // ComplexNumbers o1 = new ComplexNumbers();
         // o1 = gamma._gamma_function(i1); o1.display();
@@ -114,12 +114,13 @@ public class App {
         // ComplexNumbers o4 = new ComplexNumbers();
         // eisenstein_series e = new eisenstein_series();
         // o4 = e.G(2, i1); o4.display();
-        // ComplexNumbers o5 = new ComplexNumbers();
-        // hurwitz_zeta_function zeta = new hurwitz_zeta_function();
-        // o5 = zeta._hurwitz_zeta_function(i1, 1); o5.display();
+        ComplexNumbers i3 = new ComplexNumbers(0.5, 0.5);
+        ComplexNumbers o5 = new ComplexNumbers();
+        hurwitz_zeta_function zeta = new hurwitz_zeta_function();
+        o5 = zeta._hurwitz_zeta_function(i1, i3); o5.display();
         // ComplexNumbers o6 = new ComplexNumbers();
         // generalized_stieljes_constant stieljes = new generalized_stieljes_constant();
-        // o6 = stieljes._stieljes_constant(1, i1); o6.display();
+        // o6 = stieljes._stieljes_constant(2, i1); o6.display();
         // // Complex plotter
         // new plotter("complex_gamma");
         // new plotter("complex_zeta");
