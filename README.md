@@ -11,6 +11,8 @@ This is program for some math function created by me. They are not exactly effic
 - "***src/lib/math/complex/***" - place where all files and folder of complex mathematics are located.
 - "***img/***" - place where all additional images are located.
 # **Functions which are based on real numbers**
+## **What constants there currently are?**
+- **Stieljes constants** - Stieltjes constants are taken from *https://gist.github.com/cab1729/1318030*. There are only from 0 to 78. You can read more about them on wikipedia: *https://en.wikipedia.org/wiki/Stieltjes_constants*.
 ## **What function are now working?**
 
 - **Sign function** ("*src/lib/java/math/function/sign_function.java*") - Simple function that returns *-1* is number *x* is lower than *0*, returns *0* if *x* is equal to *0* and returns *1* if *x* is larger than *0*. You can read more on wikipedia: *https://en.wikipedia.org/wiki/Sign_function*.
@@ -22,6 +24,7 @@ This is program for some math function created by me. They are not exactly effic
 - **Riemann zeta function** ("*src/lib/java/math/functions/riemann_zeta_function*") - Algoritm for well-known Euler-Riemann zeta function. Input works only for real numbers higher than *1*. You can read more on wikipedia: *https://en.wikipedia.org/wiki/Riemann_zeta_function*.
 - **Bernoulli numbers** ("*src/lib/java/math/function/bernoulli_number.java*") - Algoritm for creating bernoulli numbers. Currently works only with integers higher or eqaual to *1*. You can read more on wikipedia: *https://en.wikipedia.org/wiki/Bernoulli_number#Generating_function*.
 - **Divisor function** ("*src/lib/java/math/function/diviser_function.java*") - Function that counts number of divisors of an integer including *1* and itself. You can read more on wikipedia: *https://en.wikipedia.org/wiki/Divisor_function#Formulas_at_prime_powers*.
+- **Binomial coefficient** ("*src/lib/java/math/functions/binomial_coefficient.java*") - Used factorial formula for computing them, not working for bigger numbers thanks to *double* variables and their limits. You can read more on wikipedia: *https://en.wikipedia.org/wiki/Binomial_coefficient*.
 
 ## **What function you can plot?**
 - **Möbius function** ("*src/lib/java/math/plotter/function_plotter/mobius_plotter.java*") - You can plot values of Möbius function *μ(n)* from *1* to *50*. With some editing you can add more values, but it will become really messy. <br />
