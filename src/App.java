@@ -1,9 +1,12 @@
 import lib.java.math.functions.mobius_function;
 import lib.java.math.plotter.plotter;
 import lib.java.math.functions.riemann_zeta_function;
+import lib.java.math.functions.stieltjes_constant;
 import lib.java.math.functions.bernoulli_number;
+import lib.java.math.functions.binomial_coefficient;
 import lib.java.math.functions.divisor_function;
 import lib.java.math.functions.gamma_function;
+import lib.java.constants.constants;
 import lib.java.math.complex.ComplexNumbers;
 import lib.java.math.complex.functions.complex_beta_function;
 import lib.java.math.complex.functions.complex_gamma_function;
@@ -36,6 +39,15 @@ public class App {
         // // Bernoulli number
         // bernoulli_number number = new bernoulli_number();
         // System.out.println(number._bernoulli_number(4));
+
+        // // Binominal coefficient
+        // binomial_coefficient binominal = new binomial_coefficient();
+        // System.out.println(binominal._binomial_coefficient(4, 2));
+
+        // // Stieltjes constant
+        // stieltjes_constant stieltjes = new stieltjes_constant();
+        // System.out.println(stieltjes._stieltjes_constant(2));
+        System.out.println(constants.Y[2]);
         
         // // Divisor function
         // divisor_function divisor = new divisor_function();
