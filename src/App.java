@@ -164,5 +164,7 @@ public class App {
         o4 = c1.div(c2); o4.display();
         BigComplexNumbers o5 = new BigComplexNumbers();
         o5 = c1.ln(); o5.display();
+        BigComplexNumbers o6 = new BigComplexNumbers();
+        o6 = c1.pow(c2); o6.display();
     }
 }

@@ -84,7 +84,9 @@ public class BigComplexNumbers {
     }
     // Exponentional function
     public BigComplexNumbers exp() {
-        
+        BigComplexNumbers ans = new BigComplexNumbers();
+        // ans.real =
+        return ans; 
     }
     // Exponentionation
     public BigComplexNumbers pow(BigComplexNumbers b) {
@@ -101,7 +103,8 @@ public class BigComplexNumbers {
         }
         BigComplexNumbers part1 = new BigComplexNumbers();
         BigComplexNumbers part2 = new BigComplexNumbers();
-        part1 = (b.mul(new BigComplexNumbers(support.ln(r), BigDecimal.ZERO)));
+        // part1 = (b.mul(new BigComplexNumbers(support.ln(r), BigDecimal.ZERO)));
+        ans.real = support.exp(new BigDecimal(2));
         return ans;
     }
 }
@@ -137,5 +140,21 @@ class Support {
     }
     private BigDecimal ln_function(BigDecimal x) {
         return BigDecimal.ONE.divide(x, 50, RoundingMode.HALF_UP);
+    }
+    public BigDecimal exp(BigDecimal x) {
+        BigDecimal ans = new BigDecimal(0); BigDecimal n = new BigDecimal(1000000);
+        // BigDecimal mult = ()
+        return ans;
+    }
+    private BigDecimal big_factorial(int m) {
+        if (m == 0) {
+            return new BigDecimal("1");
+        } else {
+            BigDecimal answer = new BigDecimal(String.valueOf(m));
+            for (int i = 1; i < m; i++) {
+                answer = answer.multiply(new BigDecimal(String.valueOf(m-1)));
+            }
+            return answer;
+        }
     }
 }
