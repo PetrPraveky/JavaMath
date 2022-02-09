@@ -2,7 +2,7 @@ package lib.java.math.complex.functions;
 
 import lib.java.math.complex.ComplexNumbers;
 
-public class generalized_stieljes_constant {
+public class generalized_stieltjes_constant {
     int Infinity = (int)1E2;
     // ComplexNumbers ZERO = new ComplexNumbers(0, 0);
     ComplexNumbers ONE = new ComplexNumbers(1, 0);

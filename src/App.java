@@ -5,17 +5,22 @@ import lib.java.math.functions.bernoulli_number;
 import lib.java.math.functions.binomial_coefficient;
 import lib.java.math.functions.divisor_function;
 import lib.java.math.functions.gamma_function;
+
+import java.math.BigDecimal;
+
 import lib.java.constants.constants;
+import lib.java.math.complex.BigComplexNumbers;
 import lib.java.math.complex.ComplexNumbers;
 import lib.java.math.complex.functions.complex_beta_function;
 import lib.java.math.complex.functions.complex_gamma_function;
 import lib.java.math.complex.functions.complex_zeta_function;
-import lib.java.math.complex.functions.generalized_stieljes_constant;
+import lib.java.math.complex.functions.generalized_stieltjes_constant;
 import lib.java.math.complex.functions.hurwitz_zeta_function;
 import lib.java.math.complex.functions.fourier_series.eisenstein_series;
 
 public class App {
     public static void main(String[] args) throws Exception {
+        /*
         // new IntegrationTest();
         // // Mobius function
         // mobius_function mobius = new mobius_function();
@@ -49,8 +54,9 @@ public class App {
         // // Divisor function
         // divisor_function divisor = new divisor_function();
         // System.out.println(divisor._divisor_function(0, 12));
-
-        // // Complex numbers
+        */
+        // Complex numbers
+        /*
         ComplexNumbers c1 = new ComplexNumbers(12.5, -2.5);
         ComplexNumbers c2 = new ComplexNumbers(09.5, 0.5);
         // ComplexNumbers c3 = new ComplexNumbers(); // Addition
@@ -98,9 +104,11 @@ public class App {
         // c23 = c1.sech(); c23.display();
         // ComplexNumbers c24 = new ComplexNumbers(); // Csch
         // c24 = c1.csch(); c24.display();
-        // // Complex functions
+        */
+        // Complex functions
+        /*
         // System.out.println("");
-        ComplexNumbers i1 = new ComplexNumbers(2.5, 0.5);
+        ComplexNumbers i1 = new ComplexNumbers(-2.5, 0.5);
         // complex_gamma_function gamma = new complex_gamma_function();
         // ComplexNumbers o1 = new ComplexNumbers();
         // o1 = gamma._gamma_function(i1); o1.display();
@@ -114,14 +122,16 @@ public class App {
         // ComplexNumbers o4 = new ComplexNumbers();
         // eisenstein_series e = new eisenstein_series();
         // o4 = e.G(2, i1); o4.display();
-        ComplexNumbers i3 = new ComplexNumbers(0.5, 0.5);
-        ComplexNumbers o5 = new ComplexNumbers();
-        hurwitz_zeta_function zeta = new hurwitz_zeta_function();
-        o5 = zeta._hurwitz_zeta_function(i1, i3); o5.display();
+        // ComplexNumbers i3 = new ComplexNumbers(1.5, 0.5);
+        // ComplexNumbers o5 = new ComplexNumbers();
+        // hurwitz_zeta_function zeta = new hurwitz_zeta_function();
+        // o5 = zeta._hurwitz_zeta_function(i1, i3); o5.display();
         // ComplexNumbers o6 = new ComplexNumbers();
         // generalized_stieljes_constant stieljes = new generalized_stieljes_constant();
         // o6 = stieljes._stieljes_constant(2, i1); o6.display();
-        // // Complex plotter
+        */
+        // Complex plotter
+        /*
         // new plotter("complex_gamma");
         // new plotter("complex_zeta");
         // new plotter("complex_sin");
@@ -131,10 +141,28 @@ public class App {
         // new plotter("complex_csc");
         // new plotter("complex_sinh");
         // new plotter("complex_csch");
-        // new plotter("complex_beta");
-
-        // // Fourier series
+        new plotter("complex_beta");
+        */
+        // Fourier series
+        /*
         // new plotter("sawtooth_wave");
         // new plotter("eisenstein_s", 5);
+        */
+        // Big Complex numbers
+        BigComplexNumbers c1 = new BigComplexNumbers(new BigDecimal(1), new BigDecimal(-5));
+        c1.display();
+        BigComplexNumbers c2 = new BigComplexNumbers(new BigDecimal(-0.5), new BigDecimal(2));
+        c2.display();
+        System.out.println("");
+        BigComplexNumbers o1 = new BigComplexNumbers();
+        o1 = c1.add(c2); o1.display();
+        BigComplexNumbers o2 = new BigComplexNumbers();
+        o2 = c1.sub(c2); o2.display();
+        BigComplexNumbers o3 = new BigComplexNumbers();
+        o3 = c1.mul(c2); o3.display();
+        BigComplexNumbers o4 = new BigComplexNumbers();
+        o4 = c1.div(c2); o4.display();
+        BigComplexNumbers o5 = new BigComplexNumbers();
+        o5 = c1.ln(); o5.display();
     }
 }

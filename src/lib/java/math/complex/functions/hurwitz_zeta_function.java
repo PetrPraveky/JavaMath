@@ -25,23 +25,23 @@ public class hurwitz_zeta_function {
                 ComplexNumbers sumTwo = _sum_two(s, a, Infinity);
                 ans = partOne.mul((partTwo.mul(sumOne)).add(partThree.mul(sumTwo)));
                 return ans;
-            } // else if (s.real > 1) {
-                // ComplexNumbers partOne = (ONE.div(s.sub(ONE)));
-                // ComplexNumbers partTwo = laurent_sum(s, a);
-                // System.out.println(partOne);
-                // System.out.println(partTwo);
-                // ans = partOne.add(partTwo);
-                // return ans;
-            /*}*/
+            } else /*if (s.real > 1)*/ {
+                ComplexNumbers partOne = (ONE.div(s.sub(ONE)));
+                ComplexNumbers partTwo = laurent_sum(s, a);
+                System.out.println(partOne);
+                System.out.println(partTwo);
+                ans = partOne.add(partTwo);
+                return ans;
+            }/*
              else {
                 return ans;
-            }
+            }*/
         }
     }
     private ComplexNumbers laurent_sum(ComplexNumbers s, ComplexNumbers a) {
         ComplexNumbers ans = new ComplexNumbers(0, 0);
         complex_gamma_function gamma = new complex_gamma_function();
-        generalized_stieljes_constant stieljes = new generalized_stieljes_constant();
+        generalized_stieltjes_constant stieljes = new generalized_stieltjes_constant();
         for (int n = 0; n < Infinity; n++) {
             ComplexNumbers N = new ComplexNumbers(n, 0);
             ans = ans.add((MINUSONE.pow(N)).div(gamma._gamma_function(new ComplexNumbers(n+1, 0))).mul((s.sub(ONE)).pow(N)).mul(stieljes._stieljes_constant(n, a)));
