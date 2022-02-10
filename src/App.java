@@ -154,19 +154,23 @@ public class App {
         BigComplexNumbers c2 = new BigComplexNumbers(new BigDecimal(-0.5), new BigDecimal(2));
         c2.display();
         System.out.println("");
-        BigComplexNumbers o1 = new BigComplexNumbers();
+        BigComplexNumbers o1 = new BigComplexNumbers(); // Add
         o1 = c1.add(c2); o1.display(); 
-        BigComplexNumbers o2 = new BigComplexNumbers();
+        BigComplexNumbers o2 = new BigComplexNumbers(); // Sub
         o2 = c1.sub(c2); o2.display();
-        BigComplexNumbers o3 = new BigComplexNumbers();
+        BigComplexNumbers o3 = new BigComplexNumbers(); // Mul
         o3 = c1.mul(c2); o3.display();
-        BigComplexNumbers o4 = new BigComplexNumbers();
+        BigComplexNumbers o4 = new BigComplexNumbers(); // Div
         o4 = c1.div(c2); o4.display();
-        BigComplexNumbers o5 = new BigComplexNumbers();
+        BigComplexNumbers o5 = new BigComplexNumbers(); // Ln
         o5 = c1.ln(); o5.display();
-        // BigComplexNumbers o6 = new BigComplexNumbers();
-        // o6 = c1.pow(c2); o6.display();
-        BigComplexNumbers o7 = new BigComplexNumbers();
-        o7 = c1.exp(); o7.display();
+        BigComplexNumbers o6 = new BigComplexNumbers(); // Exp
+        o6 = c1.exp(); o6.display();
+        BigComplexNumbers o7 = new BigComplexNumbers(); // Sin
+        o7 = c1.sin(); o7.display();
+        BigComplexNumbers o8 = new BigComplexNumbers(); // Cos
+        o8 = c1.cos(); o8.display();
+        BigComplexNumbers o9 = new BigComplexNumbers(); // Pow
+        o9 = c1.pow(c2); o9.display();
     }
 }

@@ -3,9 +3,6 @@ package lib.java.math.complex;
 import java.math.BigDecimal;
 import java.math.MathContext;
 import java.math.RoundingMode;
-import java.util.ArrayList;
-
-import download.BigDecimalMath;
 
 public class BigComplexNumbers {
     public BigDecimal real;
@@ -89,10 +86,25 @@ public class BigComplexNumbers {
     public BigComplexNumbers exp() {
         BigComplexNumbers ans = new BigComplexNumbers();
         Support support = new Support();
-        // ans.real = support.exp(real).multiply(BigDecimal.ONE);
-        // ans.real = support.exp(new BigDecimal(2));
-        ans.real = support.sin(BigDecimal.ONE);
+        ans.real = support.exp(real).multiply(support.cos(img));
+        ans.img = support.exp(real).multiply(support.sin(img));
         return ans; 
+    }
+    // Sin function
+    public BigComplexNumbers sin() {
+        BigComplexNumbers ans = new BigComplexNumbers();
+        Support support = new Support();
+        ans.real = support.sin(real).multiply(support.cosh(img));
+        ans.img = support.cos(real).multiply(support.sinh(img));
+        return ans;
+    }   
+    // Cos function
+    public BigComplexNumbers cos() {
+        BigComplexNumbers ans = new BigComplexNumbers();
+        Support support = new Support();
+        ans.real = support.cos(real).multiply(support.cosh(img));
+        ans.img = (new BigDecimal(-1)).multiply(support.sin(real).multiply(support.sinh(img)));
+        return ans;
     }
     // Exponentionation
     public BigComplexNumbers pow(BigComplexNumbers b) {
@@ -109,6 +121,9 @@ public class BigComplexNumbers {
         }
         BigComplexNumbers part1 = new BigComplexNumbers();
         BigComplexNumbers part2 = new BigComplexNumbers();
+        part1 = (b.mul(new BigComplexNumbers(support.ln(r), BigDecimal.ZERO))).exp();
+        part2 = (b.mul(new BigComplexNumbers(sigma, BigDecimal.ZERO)).cos()).add(((b.mul(new BigComplexNumbers(sigma, BigDecimal.ZERO))).sin()).mul(new BigComplexNumbers(BigDecimal.ZERO, BigDecimal.ONE)));
+        ans = part1.mul(part2);
         return ans;
     }
 }
@@ -171,7 +186,40 @@ class Support {
         // Taylor approximation
         for (BigDecimal n = new BigDecimal(0); n.compareTo(Infinity) <= 0; n = n.add(BigDecimal.ONE)) {
             ans = ans.add(
-
+                ((new BigDecimal(Math.pow(-1, n.intValue()))).divide(big_factorial(2*n.intValue()+1), 50, RoundingMode.HALF_UP)).multiply(x.pow(2*n.intValue()+1))
+            );
+        }
+        return ans;
+    }
+    // Cos function using Taylor series
+    public BigDecimal cos(BigDecimal x) {
+        BigDecimal ans = new BigDecimal(0); BigDecimal Infinity = new BigDecimal(100);
+        // Taylor approximation
+        for (BigDecimal n = new BigDecimal(0); n.compareTo(Infinity) <= 0; n = n.add(BigDecimal.ONE)) {
+            ans = ans.add(
+                ((new BigDecimal(Math.pow(-1, n.intValue()))).divide(big_factorial(2*n.intValue()), 50, RoundingMode.HALF_UP)).multiply(x.pow(2*n.intValue()))
+            );
+        }
+        return ans;
+    }
+    // Sinh function using Taylor series
+    public BigDecimal sinh(BigDecimal x) {
+        BigDecimal ans = new BigDecimal(0); BigDecimal Infinity = new BigDecimal(100);
+        // Taylor approximation
+        for (BigDecimal n = new BigDecimal(0); n.compareTo(Infinity) <= 0; n = n.add(BigDecimal.ONE)) {
+            ans = ans.add(
+                ((x.pow(2*n.intValue()+1)).divide(big_factorial(2*n.intValue()+1), 50, RoundingMode.HALF_UP))
+            );
+        }
+        return ans;
+    }
+    // Cosh function using Taylor series
+    public BigDecimal cosh(BigDecimal x) {
+        BigDecimal ans = new BigDecimal(0); BigDecimal Infinity = new BigDecimal(100);
+        // Taylor approximation
+        for (BigDecimal n = new BigDecimal(0); n.compareTo(Infinity) <= 0; n = n.add(BigDecimal.ONE)) {
+            ans = ans.add(
+                ((x.pow(2*n.intValue())).divide(big_factorial(2*n.intValue()), 50, RoundingMode.HALF_UP))
             );
         }
         return ans;
