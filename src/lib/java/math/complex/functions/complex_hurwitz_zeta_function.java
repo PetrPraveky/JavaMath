@@ -8,11 +8,13 @@ public class complex_hurwitz_zeta_function {
     BigComplexNumbers ONE = new BigComplexNumbers(BigDecimal.ONE, BigDecimal.ZERO);
     BigComplexNumbers MINUS = new BigComplexNumbers(new BigDecimal(-1), BigDecimal.ZERO);
     // Hurwitz zeta function done with Laurent series
-    /*
+     /*
     public BigComplexNumbers _hurwitz_zeta_function(BigComplexNumbers s, BigComplexNumbers a) {
         BigComplexNumbers ans = new BigComplexNumbers();
         BigComplexNumbers firstPart = ONE.div(s.sub(ONE));
+        // System.out.println(firstPart);
         BigComplexNumbers secondPart = laurent_series(s, a);
+        // System.out.println(secondPart);
         ans = firstPart.add(secondPart);
         return ans;
     }
