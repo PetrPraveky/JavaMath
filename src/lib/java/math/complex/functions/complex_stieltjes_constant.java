@@ -6,7 +6,7 @@ import lib.java.math.complex.BigComplexNumbers;
 import java.math.RoundingMode;
 
 public class complex_stieltjes_constant {
-    BigDecimal Infinity = new BigDecimal(100);
+    BigDecimal Infinity = new BigDecimal(10);
     // Complex numbers for basic integers
     BigComplexNumbers ONE = new BigComplexNumbers(BigDecimal.ONE, BigDecimal.ZERO);
     BigComplexNumbers TWO = new BigComplexNumbers(new BigDecimal(2), BigDecimal.ZERO);
@@ -30,7 +30,7 @@ public class complex_stieltjes_constant {
         BigComplexNumbers ans = new BigComplexNumbers();
         BigComplexNumbers firstPart = new BigComplexNumbers(ONE.real.divide(Infinity, 50, RoundingMode.HALF_UP), BigDecimal.ZERO);
         BigComplexNumbers sumFirst = function(a, n, BigDecimal.ZERO).div(TWO);
-        System.out.println("first sum done");
+        // System.out.println("first sum done");
         BigComplexNumbers sumSecond = new BigComplexNumbers(BigDecimal.ZERO, BigDecimal.ZERO);
         for (BigDecimal k = new BigDecimal(0); k.compareTo(Infinity) <= 0; k = k.add(BigDecimal.ONE)) {
             if (k.compareTo(Infinity) == 0) {
@@ -38,11 +38,11 @@ public class complex_stieltjes_constant {
             } else {
                 sumSecond = sumSecond.add(function(a, n, X(k.divide(Infinity, 50, RoundingMode.HALF_UP))));
             }
-            System.out.println("\tPart done");
+            // System.out.println("\tPart done");
         }
-        System.out.println("second sum done");
+        // System.out.println("second sum done");
         BigComplexNumbers sumThird = function(a, n, X(new BigDecimal(0.9999))).div(TWO);
-        System.out.println("third sum done");
+        // System.out.println("third sum done");
         ans = firstPart.mul(sumFirst.add(sumSecond).add(sumThird));
         return ans;
     }

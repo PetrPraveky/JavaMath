@@ -22,6 +22,8 @@ public class BigComplexNumbers {
         if (img.compareTo(BigDecimal.ZERO) < 0) {
             plusMinus = "-";
         }
+        real = real.setScale(50, RoundingMode.CEILING);
+        img = img.setScale(50, RoundingMode.CEILING);
         System.out.println(
             real.toString()+plusMinus+(img.abs()).toString()+"i"
         );
