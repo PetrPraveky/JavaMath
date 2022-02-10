@@ -3,6 +3,7 @@ package lib.java.math.complex;
 import java.math.BigDecimal;
 import java.math.MathContext;
 import java.math.RoundingMode;
+import download.BigDecimalMath;
 
 public class BigComplexNumbers {
     public BigDecimal real;
@@ -85,6 +86,7 @@ public class BigComplexNumbers {
     // Exponentional function
     public BigComplexNumbers exp() {
         BigComplexNumbers ans = new BigComplexNumbers();
+        BigDecimalMath math = new BigDecimalMath();
         // ans.real =
         return ans; 
     }
@@ -104,7 +106,7 @@ public class BigComplexNumbers {
         BigComplexNumbers part1 = new BigComplexNumbers();
         BigComplexNumbers part2 = new BigComplexNumbers();
         // part1 = (b.mul(new BigComplexNumbers(support.ln(r), BigDecimal.ZERO)));
-        ans.real = support.exp(new BigDecimal(2));
+        // ans.real = support.exp(new BigDecimal(2));
         return ans;
     }
 }
@@ -141,11 +143,11 @@ class Support {
     private BigDecimal ln_function(BigDecimal x) {
         return BigDecimal.ONE.divide(x, 50, RoundingMode.HALF_UP);
     }
-    public BigDecimal exp(BigDecimal x) {
-        BigDecimal ans = new BigDecimal(0); BigDecimal n = new BigDecimal(1000000);
-        // BigDecimal mult = ()
-        return ans;
-    }
+    // public BigDecimal exp(BigDecimal x) {
+    //     BigDecimal ans = new BigDecimal(0); BigDecimal n = new BigDecimal(1000000);
+    //     // BigDecimal mult = ()
+    //     return ans;
+    // }
     private BigDecimal big_factorial(int m) {
         if (m == 0) {
             return new BigDecimal("1");
