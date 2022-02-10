@@ -239,6 +239,21 @@ public class BigDecimalMath
                 return root(2,x) ;
         } /* BigDecimalMath.sqrt */
 
+        // /** The cube root.
+        // * @param x The argument.
+        // * @return The cubic root of the BigDecimal rounded to the precision implied by x.
+        // * The sign of the result is the sign of the argument.
+        // * @since 2009-08-16
+        // * @author Richard J. Mathar
+        // */
+        // static public BigDecimal cbrt(final BigDecimal x)
+        // {
+        //         if ( x.compareTo(BigDecimal.ZERO) < 0 )
+        //                 return root(3,x.negate()).negate() ;
+        //         else
+        //                 return root(3,x) ;
+        // } /* BigDecimalMath.cbrt */
+
         /** The integer root.
         * @param n the positive argument.
         * @param x the non-negative argument.
@@ -287,6 +302,64 @@ public class BigDecimalMath
                 }
                 return s.round(new MathContext( err2prec(eps)) ) ;
         } /* BigDecimalMath.root */
+
+        // /** The hypotenuse.
+        // * @param x the first argument.
+        // * @param y the second argument.
+        // * @return the square root of the sum of the squares of the two arguments, sqrt(x^2+y^2).
+        // * @since 2009-06-25
+        // * @author Richard J. Mathar
+        // */
+        // static public BigDecimal hypot(final BigDecimal x, final BigDecimal y)
+        // {
+        //         /* compute x^2+y^2
+        //         */
+        //         BigDecimal z = x.pow(2).add(y.pow(2)) ;
+
+        //         /* truncate to the precision set by x and y. Absolute error = 2*x*xerr+2*y*yerr,
+        //         * where the two errors are 1/2 of the ulp's.  Two intermediate protectio digits.
+        //         */
+        //         BigDecimal zerr = x.abs().multiply(x.ulp()).add(y.abs().multiply(y.ulp())) ;
+        //         MathContext mc = new MathContext(  2+err2prec(z,zerr) ) ;
+
+        //         /* Pull square root */
+        //         z = sqrt(z.round(mc)) ;
+
+        //         /* Final rounding. Absolute error in the square root is (y*yerr+x*xerr)/z, where zerr holds 2*(x*xerr+y*yerr).
+        //         */
+        //         mc = new MathContext(  err2prec(z.doubleValue() ,0.5*zerr.doubleValue() /z.doubleValue() ) ) ;
+        //         return z.round(mc) ;
+        // } /* BigDecimalMath.hypot */
+
+        // /** The hypotenuse.
+        // * @param n the first argument.
+        // * @param x the second argument.
+        // * @return the square root of the sum of the squares of the two arguments, sqrt(n^2+x^2).
+        // * @since 2009-08-05
+        // * @author Richard J. Mathar
+        // */
+        // static public BigDecimal hypot(final int n, final BigDecimal x)
+        // {
+        //         /* compute n^2+x^2 in infinite precision
+        //         */
+        //         BigDecimal z = (new BigDecimal(n)).pow(2).add(x.pow(2)) ;
+
+        //         /* Truncate to the precision set by x. Absolute error = in z (square of the result) is |2*x*xerr|,
+        //         * where the error is 1/2 of the ulp. Two intermediate protection digits.
+        //         * zerr is a signed value, but used only in conjunction with err2prec(), so this feature does not harm. 
+        //         */
+        //         double zerr = x.doubleValue()*x.ulp().doubleValue() ;
+        //         MathContext mc = new MathContext(  2+err2prec(z.doubleValue(),zerr) ) ;
+
+        //         /* Pull square root */
+        //         z = sqrt(z.round(mc)) ;
+
+        //         /* Final rounding. Absolute error in the square root is x*xerr/z, where zerr holds 2*x*xerr.
+        //         */
+        //         mc = new MathContext(  err2prec(z.doubleValue(),0.5*zerr/z.doubleValue() ) ) ;
+        //         return z.round(mc) ;
+        // } /* BigDecimalMath.hypot */
+
 
         /** A suggestion for the maximum numter of terms in the Taylor expansion of the exponential.
         */
@@ -875,6 +948,1034 @@ public class BigDecimalMath
                 }
         } /* BigDecimalMath.powRound */
 
+        /** Trigonometric sine.
+        * @param x The argument in radians.
+        * @return sin(x) in the range -1 to 1.
+        * @since 2009-06-01
+        * @author Richard J. Mathar
+        */
+        static public BigDecimal sin(final BigDecimal x)
+        {
+                if ( x.compareTo(BigDecimal.ZERO) < 0)
+                        return sin(x.negate()).negate() ;
+                else if ( x.compareTo(BigDecimal.ZERO) == 0 )
+                        return BigDecimal.ZERO ;
+                else
+                {
+                        /* reduce modulo 2pi
+                        */
+                        BigDecimal res = mod2pi(x) ;
+                        double errpi = 0.5*Math.abs(x.ulp().doubleValue()) ;
+                        MathContext mc = new MathContext( 2+err2prec(3.14159,errpi) ) ;
+                        BigDecimal p= pi(mc) ;
+                        mc = new MathContext( x.precision() ) ;
+                        if ( res.compareTo(p) > 0 )
+                        {
+                                /* pi<x<=2pi: sin(x)= - sin(x-pi)
+                                */
+                                return sin(subtractRound(res,p)) .negate() ;
+                        }
+                        else if ( res.multiply(new BigDecimal("2")).compareTo(p) > 0 )
+                        {
+                                /* pi/2<x<=pi: sin(x)= sin(pi-x)
+                                */
+                                return sin(subtractRound(p,res)) ;
+                        }
+                        else
+                        {
+                                /* for the range 0<=x<Pi/2 one could use sin(2x)=2sin(x)cos(x)
+                                * to split this further. Here, use the sine up to pi/4 and the cosine higher up.
+                                */
+                                if ( res.multiply(new BigDecimal("4")).compareTo(p) > 0 )
+                                {
+                                        /* x>pi/4: sin(x) = cos(pi/2-x)
+                                        */
+                                        return cos( subtractRound(p.divide(new BigDecimal("2")),res) ) ;
+                                }
+                                else
+                                {
+                                        /* Simple Taylor expansion, sum_{i=1..infinity} (-1)^(..)res^(2i+1)/(2i+1)! */
+                                        BigDecimal resul = res ;
+
+                                        /* x^i */
+                                        BigDecimal xpowi = res ;
+
+                                        /* 2i+1 factorial */
+                                        BigInteger ifac = BigInteger.ONE ;
+
+                                        /* The error in the result is set by the error in x itself.
+                                        */
+                                        double xUlpDbl = res.ulp().doubleValue() ;
+
+                                        /* The error in the result is set by the error in x itself.
+                                        * We need at most k terms to squeeze x^(2k+1)/(2k+1)! below this value.
+                                        * x^(2k+1) < x.ulp; (2k+1)*log10(x) < -x.precision; 2k*log10(x)< -x.precision;
+                                        * 2k*(-log10(x)) > x.precision; 2k*log10(1/x) > x.precision
+                                        */
+                                        int k = (int)(res.precision()/Math.log10(1.0/res.doubleValue()))/2 ;
+                                        MathContext mcTay = new MathContext( err2prec(res.doubleValue(),xUlpDbl/k) ) ;
+                                        for(int i=1 ; ; i++)
+                                        {
+                                                /* TBD: at which precision will 2*i or 2*i+1 overflow? 
+                                                */
+                                                ifac = ifac.multiply(new BigInteger(""+(2*i) ) ) ;
+                                                ifac = ifac.multiply( new BigInteger(""+(2*i+1)) ) ;
+                                                xpowi = xpowi.multiply(res).multiply(res).negate() ;
+                                                BigDecimal corr = xpowi.divide(new BigDecimal(ifac),mcTay) ;
+                                                resul = resul.add( corr ) ;
+                                                if ( corr.abs().doubleValue() < 0.5*xUlpDbl ) 
+                                                        break ;
+                                        }
+                                        /* The error in the result is set by the error in x itself.
+                                        */
+                                        mc = new MathContext(res.precision() ) ;
+                                        return resul.round(mc) ;
+                                }
+                        }
+                }
+        } /* sin */
+
+        /** Trigonometric cosine.
+        * @param x The argument in radians.
+        * @return cos(x) in the range -1 to 1.
+        * @since 2009-06-01
+        * @author Richard J. Mathar
+        */
+        static public BigDecimal cos(final BigDecimal x)
+        {
+                if ( x.compareTo(BigDecimal.ZERO) < 0)
+                        return cos(x.negate());
+                else if ( x.compareTo(BigDecimal.ZERO) == 0 )
+                        return BigDecimal.ONE ;
+                else
+                {
+                        /* reduce modulo 2pi
+                        */
+                        BigDecimal res = mod2pi(x) ;
+                        double errpi = 0.5*Math.abs(x.ulp().doubleValue()) ;
+                        MathContext mc = new MathContext( 2+err2prec(3.14159,errpi) ) ;
+                        BigDecimal p= pi(mc) ;
+                        mc = new MathContext( x.precision() ) ;
+                        if ( res.compareTo(p) > 0 )
+                        {
+                                /* pi<x<=2pi: cos(x)= - cos(x-pi)
+                                */
+                                return cos( subtractRound(res,p)) .negate() ;
+                        }
+                        else if ( res.multiply(new BigDecimal("2")).compareTo(p) > 0 )
+                        {
+                                /* pi/2<x<=pi: cos(x)= -cos(pi-x)
+                                */
+                                return cos( subtractRound(p,res)).negate() ;
+                        }
+                        else
+                        {
+                                /* for the range 0<=x<Pi/2 one could use cos(2x)= 1-2*sin^2(x)
+                                * to split this further, or use the cos up to pi/4 and the sine higher up.
+                                        throw new ProviderException("Not implemented: cosine ") ;
+                                */
+                                if ( res.multiply(new BigDecimal("4")).compareTo(p) > 0 )
+                                {
+                                        /* x>pi/4: cos(x) = sin(pi/2-x)
+                                        */
+                                        return sin( subtractRound(p.divide(new BigDecimal("2")),res) ) ;
+                                }
+                                else
+                                {
+                                        /* Simple Taylor expansion, sum_{i=0..infinity} (-1)^(..)res^(2i)/(2i)! */
+                                        BigDecimal resul = BigDecimal.ONE ;
+
+                                        /* x^i */
+                                        BigDecimal xpowi = BigDecimal.ONE ;
+
+                                        /* 2i factorial */
+                                        BigInteger ifac = BigInteger.ONE ;
+
+                                        /* The absolute error in the result is the error in x^2/2 which is x times the error in x.
+                                        */
+                                        double xUlpDbl = 0.5*res.ulp().doubleValue()*res.doubleValue() ;
+
+                                        /* The error in the result is set by the error in x^2/2 itself, xUlpDbl.
+                                        * We need at most k terms to push x^(2k+1)/(2k+1)! below this value.
+                                        * x^(2k) < xUlpDbl; (2k)*log(x) < log(xUlpDbl);
+                                        */
+                                        int k = (int)(Math.log(xUlpDbl)/Math.log(res.doubleValue()) )/2 ;
+                                        MathContext mcTay = new MathContext( err2prec(1.,xUlpDbl/k) ) ;
+                                        for(int i=1 ; ; i++)
+                                        {
+                                                /* TBD: at which precision will 2*i-1 or 2*i overflow? 
+                                                */
+                                                ifac = ifac.multiply(new BigInteger(""+(2*i-1) ) ) ;
+                                                ifac = ifac.multiply( new BigInteger(""+(2*i)) ) ;
+                                                xpowi = xpowi.multiply(res).multiply(res).negate() ;
+                                                BigDecimal corr = xpowi.divide(new BigDecimal(ifac),mcTay) ;
+                                                resul = resul.add( corr ) ;
+                                                if ( corr.abs().doubleValue() < 0.5*xUlpDbl ) 
+                                                        break ;
+                                        }
+                                        /* The error in the result is governed by the error in x itself.
+                                        */
+                                        mc = new MathContext( err2prec(resul.doubleValue(),xUlpDbl) ) ;
+                                        return resul.round(mc) ;
+                                }
+                        }
+                }
+        } /* BigDecimalMath.cos */
+
+//         /** The trigonometric tangent.
+//         * @param x the argument in radians.
+//         * @return the tan(x)
+//         * @author Richard J. Mathar
+//         */
+//         static public BigDecimal tan(final BigDecimal x)
+//         {
+//                 if ( x.compareTo(BigDecimal.ZERO) == 0 )
+//                         return BigDecimal.ZERO ;
+//                 else if ( x.compareTo(BigDecimal.ZERO) < 0 )
+//                 {
+//                         return tan(x.negate()).negate() ;
+//                 }
+//                 else
+//                 {
+//                         /* reduce modulo pi
+//                         */
+//                         BigDecimal res = modpi(x) ;
+
+//                         /* absolute error in the result is err(x)/cos^2(x) to lowest order
+//                         */
+//                         final double xDbl = res.doubleValue() ;
+//                         final double xUlpDbl = x.ulp().doubleValue()/2. ;
+//                         final double eps = xUlpDbl/2./Math.pow(Math.cos(xDbl),2.) ;
+
+//                         if ( xDbl > 0.8)
+//                         {
+//                                 /* tan(x) = 1/cot(x) */
+//                                 BigDecimal co = cot(x) ;
+//                                 MathContext mc = new MathContext( err2prec(1./co.doubleValue(),eps) ) ;
+//                                 return BigDecimal.ONE.divide(co,mc) ;
+//                         }
+//                         else
+//                         {
+//                                 final BigDecimal xhighpr = scalePrec(res,2) ;
+//                                 final BigDecimal xhighprSq = multiplyRound(xhighpr,xhighpr) ;
+
+//                                 BigDecimal resul = xhighpr.plus() ;
+
+//                                 /* x^(2i+1) */
+//                                 BigDecimal xpowi = xhighpr ;
+
+//                                 Bernoulli b = new Bernoulli() ;
+
+//                                 /* 2^(2i) */
+//                                 BigInteger fourn = new BigInteger("4") ;
+//                                 /* (2i)! */
+//                                 BigInteger fac = new BigInteger("2") ;
+
+//                                 for(int i= 2 ; ; i++)
+//                                 {
+//                                         Rational f = b.at(2*i).abs() ;
+//                                         fourn = fourn.shiftLeft(2) ;
+//                                         fac = fac.multiply(new BigInteger(""+(2*i))).multiply(new BigInteger(""+(2*i-1))) ;
+//                                         f = f.multiply(fourn).multiply(fourn.subtract(BigInteger.ONE)).divide(fac) ;
+//                                         xpowi = multiplyRound(xpowi,xhighprSq) ;
+//                                         BigDecimal c = multiplyRound(xpowi,f) ;
+//                                         resul = resul.add(c) ;
+//                                         if ( Math.abs(c.doubleValue()) < 0.1*eps) 
+//                                                 break;
+//                                 }
+//                                 MathContext mc = new MathContext( err2prec(resul.doubleValue(),eps) ) ;
+//                                 return resul.round(mc) ;
+//                         }
+//                 }
+//         } /* BigDecimalMath.tan */
+
+//         /** The trigonometric co-tangent.
+//         * @param x the argument in radians.
+//         * @return the cot(x)
+//         * @since 2009-07-31
+//         * @author Richard J. Mathar
+//         */
+//         static public BigDecimal cot(final BigDecimal x)
+//         {
+//                 if ( x.compareTo(BigDecimal.ZERO) == 0 )
+//                 {
+//                         throw new ArithmeticException("Cannot take cot of zero "+ x.toString() ) ;
+//                 }
+//                 else if ( x.compareTo(BigDecimal.ZERO) < 0 )
+//                 {
+//                         return cot(x.negate()).negate() ;
+//                 }
+//                 else
+//                 {
+//                         /* reduce modulo pi
+//                         */
+//                         BigDecimal res = modpi(x) ;
+
+//                         /* absolute error in the result is err(x)/sin^2(x) to lowest order
+//                         */
+//                         final double xDbl = res.doubleValue() ;
+//                         final double xUlpDbl = x.ulp().doubleValue()/2. ;
+//                         final double eps = xUlpDbl/2./Math.pow(Math.sin(xDbl),2.) ;
+
+//                         final BigDecimal xhighpr = scalePrec(res,2) ;
+//                         final BigDecimal xhighprSq = multiplyRound(xhighpr,xhighpr) ;
+
+//                         MathContext mc = new MathContext( err2prec(xhighpr.doubleValue(),eps) ) ;
+//                         BigDecimal resul = BigDecimal.ONE.divide(xhighpr,mc) ;
+
+//                         /* x^(2i-1) */
+//                         BigDecimal xpowi = xhighpr ;
+
+//                         Bernoulli b = new Bernoulli() ;
+
+//                         /* 2^(2i) */
+//                         BigInteger fourn = new BigInteger("4") ;
+//                         /* (2i)! */
+//                         BigInteger fac = BigInteger.ONE ;
+
+//                         for(int i= 1 ; ; i++)
+//                         {
+//                                 Rational f = b.at(2*i) ;
+//                                 fac = fac.multiply(new BigInteger(""+(2*i))).multiply(new BigInteger(""+(2*i-1))) ;
+//                                 f = f.multiply(fourn).divide(fac) ;
+//                                 BigDecimal c = multiplyRound(xpowi,f) ;
+//                                 if ( i % 2 == 0 )
+//                                         resul = resul.add(c) ;
+//                                 else
+//                                         resul = resul.subtract(c) ;
+//                                 if ( Math.abs(c.doubleValue()) < 0.1*eps) 
+//                                         break;
+
+//                                 fourn = fourn.shiftLeft(2) ;
+//                                 xpowi = multiplyRound(xpowi,xhighprSq) ;
+//                         }
+//                         mc = new MathContext( err2prec(resul.doubleValue(),eps) ) ;
+//                         return resul.round(mc) ;
+//                 }
+//         } /* BigDecimalMath.cot */
+
+//         /** The inverse trigonometric sine.
+//         * @param x the argument.
+//         * @return the arcsin(x) in radians.
+//         * @author Richard J. Mathar
+//         */
+//         static public BigDecimal asin(final BigDecimal x)
+//         {
+//                 if ( x.compareTo(BigDecimal.ONE) > 0 || x.compareTo(BigDecimal.ONE.negate()) < 0 )
+//                 {
+//                         throw new ArithmeticException("Out of range argument "+ x.toString() + " of asin") ;
+//                 }
+//                 else if ( x.compareTo(BigDecimal.ZERO) == 0 )
+//                         return BigDecimal.ZERO ;
+//                 else if ( x.compareTo(BigDecimal.ONE) == 0 )
+//                 {
+//                         /* arcsin(1) = pi/2
+//                         */
+//                         double errpi = Math.sqrt(x.ulp().doubleValue()) ;
+//                         MathContext mc = new MathContext( err2prec(3.14159,errpi) ) ;
+//                         return pi(mc).divide(new BigDecimal(2)) ;
+//                 }
+//                 else if ( x.compareTo(BigDecimal.ZERO) < 0 )
+//                 {
+//                         return asin(x.negate()).negate() ;
+//                 }
+//                 else if ( x.doubleValue() > 0.7)
+//                 {
+//                         final BigDecimal xCompl = BigDecimal.ONE.subtract(x) ;
+//                         final double xDbl = x.doubleValue() ;
+//                         final double xUlpDbl = x.ulp().doubleValue()/2. ;
+//                         final double eps = xUlpDbl/2./Math.sqrt(1.-Math.pow(xDbl,2.)) ;
+
+//                         final BigDecimal xhighpr = scalePrec(xCompl,3) ;
+//                         final BigDecimal xhighprV = divideRound(xhighpr,4) ;
+
+//                         BigDecimal resul = BigDecimal.ONE ;
+
+//                         /* x^(2i+1) */
+//                         BigDecimal xpowi = BigDecimal.ONE ;
+
+//                         /* i factorial */
+//                         BigInteger ifacN = BigInteger.ONE ;
+//                         BigInteger ifacD = BigInteger.ONE ;
+
+//                         for(int i=1 ; ; i++)
+//                         {
+//                                 ifacN = ifacN.multiply(new BigInteger(""+(2*i-1)) ) ;
+//                                 ifacD = ifacD.multiply(new BigInteger(""+i) ) ;
+//                                 if ( i == 1)
+//                                         xpowi = xhighprV ;
+//                                 else
+//                                         xpowi = multiplyRound(xpowi,xhighprV) ;
+//                                 BigDecimal c = divideRound( multiplyRound(xpowi,ifacN),
+//                                                                 ifacD.multiply(new BigInteger(""+(2*i+1)) ) ) ;
+//                                 resul = resul.add(c) ;
+//                                 /* series started 1+x/12+... which yields an estimate of the sum's error
+//                                 */
+//                                 if ( Math.abs(c.doubleValue()) < xUlpDbl/120.) 
+//                                         break;
+//                         }
+//                         /* sqrt(2*z)*(1+...)
+//                         */
+//                         xpowi = sqrt(xhighpr.multiply(new BigDecimal(2))) ;
+//                         resul = multiplyRound(xpowi,resul) ;
+
+//                         MathContext mc = new MathContext( resul.precision() ) ;
+//                         BigDecimal pihalf = pi(mc).divide(new BigDecimal(2)) ;
+
+//                         mc = new MathContext( err2prec(resul.doubleValue(),eps) ) ;
+//                         return pihalf.subtract(resul,mc) ;
+//                 }
+//                 else
+//                 {
+//                         /* absolute error in the result is err(x)/sqrt(1-x^2) to lowest order
+//                         */
+//                         final double xDbl = x.doubleValue() ;
+//                         final double xUlpDbl = x.ulp().doubleValue()/2. ;
+//                         final double eps = xUlpDbl/2./Math.sqrt(1.-Math.pow(xDbl,2.)) ;
+
+//                         final BigDecimal xhighpr = scalePrec(x,2) ;
+//                         final BigDecimal xhighprSq = multiplyRound(xhighpr,xhighpr) ;
+
+//                         BigDecimal resul = xhighpr.plus() ;
+
+//                         /* x^(2i+1) */
+//                         BigDecimal xpowi = xhighpr ;
+
+//                         /* i factorial */
+//                         BigInteger ifacN = BigInteger.ONE ;
+//                         BigInteger ifacD = BigInteger.ONE ;
+
+//                         for(int i=1 ; ; i++)
+//                         {
+//                                 ifacN = ifacN.multiply(new BigInteger(""+(2*i-1)) ) ;
+//                                 ifacD = ifacD.multiply(new BigInteger(""+(2*i)) ) ;
+//                                 xpowi = multiplyRound(xpowi,xhighprSq) ;
+//                                 BigDecimal c = divideRound( multiplyRound(xpowi,ifacN),
+//                                                                 ifacD.multiply(new BigInteger(""+(2*i+1)) ) ) ;
+//                                 resul = resul.add(c) ;
+//                                 if ( Math.abs(c.doubleValue()) < 0.1*eps) 
+//                                         break;
+//                         }
+//                         MathContext mc = new MathContext( err2prec(resul.doubleValue(),eps) ) ;
+//                         return resul.round(mc) ;
+//                 }
+//         } /* BigDecimalMath.asin */
+
+//         /** The inverse trigonometric cosine.
+//         * @param x the argument.
+//         * @return the arccos(x) in radians.
+//         * @since 2009-09-29
+//         * @author Richard J. Mathar
+//         */
+//         static public BigDecimal acos(final BigDecimal x)
+//         {
+//                 /* Essentially forwarded to pi/2 - asin(x)
+//                 */
+//                 final BigDecimal xhighpr = scalePrec(x,2) ;
+//                 BigDecimal resul = asin(xhighpr) ;
+//                 double eps = resul.ulp().doubleValue()/2. ;
+
+//                 MathContext mc = new MathContext( err2prec(3.14159,eps) ) ;
+//                 BigDecimal pihalf = pi(mc).divide(new BigDecimal(2)) ;
+//                 resul = pihalf.subtract(resul) ;
+
+//                 /* absolute error in the result is err(x)/sqrt(1-x^2) to lowest order
+//                 */
+//                 final double xDbl = x.doubleValue() ;
+//                 final double xUlpDbl = x.ulp().doubleValue()/2. ;
+//                 eps = xUlpDbl/2./Math.sqrt(1.-Math.pow(xDbl,2.)) ;
+
+//                 mc = new MathContext( err2prec(resul.doubleValue(),eps) ) ;
+//                 return resul.round(mc) ;
+
+//         } /* BigDecimalMath.acos */
+
+//         /** The inverse trigonometric tangent.
+//         * @param x the argument.
+//         * @return the principal value of arctan(x) in radians in the range -pi/2 to +pi/2.
+//         * @since 2009-08-03
+//         * @author Richard J. Mathar
+//         */
+//         static public BigDecimal atan(final BigDecimal x)
+//         {
+//                 if ( x.compareTo(BigDecimal.ZERO) < 0 )
+//                 {
+//                         return atan(x.negate()).negate() ;
+//                 }
+//                 else if ( x.compareTo(BigDecimal.ZERO) == 0 )
+//                         return BigDecimal.ZERO ;
+//                 else if ( x.doubleValue() >0.7 && x.doubleValue() <3.0)
+//                 {
+//                         /* Abramowitz-Stegun 4.4.34 convergence acceleration
+//                         * 2*arctan(x) = arctan(2x/(1-x^2)) = arctan(y).  x=(sqrt(1+y^2)-1)/y
+//                         * This maps 0<=y<=3 to 0<=x<=0.73 roughly. Temporarily with 2 protectionist digits.
+//                         */
+//                         BigDecimal y = scalePrec(x,2) ;
+//                         BigDecimal newx = divideRound( hypot(1,y).subtract(BigDecimal.ONE) , y);
+
+//                         /* intermediate result with too optimistic error estimate*/
+//                         BigDecimal resul = multiplyRound( atan(newx), 2) ;
+
+//                         /* absolute error in the result is errx/(1+x^2), where errx = half  of the ulp. */
+//                         double eps = x.ulp().doubleValue()/( 2.0*Math.hypot(1.0,x.doubleValue()) ) ;
+//                         MathContext mc = new MathContext( err2prec(resul.doubleValue(),eps) ) ;
+//                         return resul.round(mc) ;
+//                 }
+//                 else if ( x.doubleValue() < 0.71 )
+//                 {
+//                         /* Taylor expansion around x=0; Abramowitz-Stegun 4.4.42 */
+
+//                         final BigDecimal xhighpr = scalePrec(x,2) ;
+//                         final BigDecimal xhighprSq = multiplyRound(xhighpr,xhighpr).negate() ;
+
+//                         BigDecimal resul = xhighpr.plus() ;
+
+//                         /* signed x^(2i+1) */
+//                         BigDecimal xpowi = xhighpr ;
+
+//                         /* absolute error in the result is errx/(1+x^2), where errx = half  of the ulp.
+//                         */
+//                         double eps = x.ulp().doubleValue()/( 2.0*Math.hypot(1.0,x.doubleValue()) ) ;
+
+//                         for(int i= 1 ; ; i++)
+//                         {
+//                                 xpowi = multiplyRound(xpowi,xhighprSq) ;
+//                                 BigDecimal c = divideRound(xpowi,2*i+1) ;
+
+//                                 resul = resul.add(c) ;
+//                                 if ( Math.abs(c.doubleValue()) < 0.1*eps) 
+//                                         break;
+//                         }
+//                         MathContext mc = new MathContext( err2prec(resul.doubleValue(),eps) ) ;
+//                         return resul.round(mc) ;
+//                 }
+//                 else
+//                 {
+//                         /* Taylor expansion around x=infinity; Abramowitz-Stegun 4.4.42 */
+
+//                         /* absolute error in the result is errx/(1+x^2), where errx = half  of the ulp.
+//                         */
+//                         double eps = x.ulp().doubleValue()/( 2.0*Math.hypot(1.0,x.doubleValue()) ) ;
+
+//                         /* start with the term pi/2; gather its precision relative to the expected result
+//                         */
+//                         MathContext mc = new MathContext( 2+err2prec(3.1416,eps) ) ;
+//                         BigDecimal onepi= pi(mc) ;
+//                         BigDecimal resul = onepi.divide(new BigDecimal(2)) ;
+
+//                         final BigDecimal xhighpr = divideRound(-1,scalePrec(x,2)) ;
+//                         final BigDecimal xhighprSq = multiplyRound(xhighpr,xhighpr).negate() ;
+
+//                         /* signed x^(2i+1) */
+//                         BigDecimal xpowi = xhighpr ;
+
+//                         for(int i= 0 ; ; i++)
+//                         {
+//                                 BigDecimal c = divideRound(xpowi,2*i+1) ;
+
+//                                 resul = resul.add(c) ;
+//                                 if ( Math.abs(c.doubleValue()) < 0.1*eps) 
+//                                         break;
+//                                 xpowi = multiplyRound(xpowi,xhighprSq) ;
+//                         }
+//                         mc = new MathContext( err2prec(resul.doubleValue(),eps) ) ;
+//                         return resul.round(mc) ;
+//                 }
+//         } /* BigDecimalMath.atan */
+
+//         /** The hyperbolic cosine.
+//         * @param x The argument.
+//         * @return The cosh(x) = (exp(x)+exp(-x))/2 .
+//         * @author Richard J. Mathar
+//         * @since 2009-08-19
+//         * @since 2015-02-09 corrected result for negative arguments.
+//         */
+//         static public BigDecimal cosh(final BigDecimal x)
+//         {
+//                 if ( x.compareTo(BigDecimal.ZERO) < 0)
+//                         return cosh(x.negate());
+//                 else if ( x.compareTo(BigDecimal.ZERO) == 0 )
+//                         return BigDecimal.ONE ;
+//                 else
+//                 {
+//                         if ( x.doubleValue() > 1.5 )
+//                         {
+//                                 /* cosh^2(x) = 1+ sinh^2(x).
+//                                 */
+//                                 return hypot(1, sinh(x) ) ;
+//                         }
+//                         else
+//                         {
+//                                 BigDecimal xhighpr = scalePrec(x,2) ;
+//                                 /* Simple Taylor expansion, sum_{0=1..infinity} x^(2i)/(2i)! */
+//                                 BigDecimal resul = BigDecimal.ONE ;
+
+//                                 /* x^i */
+//                                 BigDecimal xpowi = BigDecimal.ONE ;
+
+//                                 /* 2i factorial */
+//                                 BigInteger ifac = BigInteger.ONE ;
+
+//                                 /* The absolute error in the result is the error in x^2/2 which is x times the error in x.
+//                                 */
+//                                 double xUlpDbl = 0.5*x.ulp().doubleValue()*x.doubleValue() ;
+
+//                                 /* The error in the result is set by the error in x^2/2 itself, xUlpDbl.
+//                                 * We need at most k terms to push x^(2k)/(2k)! below this value.
+//                                 * x^(2k) < xUlpDbl; (2k)*log(x) < log(xUlpDbl);
+//                                 */
+//                                 int k = (int)(Math.log(xUlpDbl)/Math.log(x.doubleValue()) )/2 ;
+
+//                                 /* The individual terms are all smaller than 1, so an estimate of 1.0 for
+//                                 * the absolute value will give a safe relative error estimate for the indivdual terms
+//                                 */
+//                                 MathContext mcTay = new MathContext( err2prec(1.,xUlpDbl/k) ) ;
+//                                 for(int i=1 ; ; i++)
+//                                 {
+//                                         /* TBD: at which precision will 2*i-1 or 2*i overflow? 
+//                                         */
+//                                         ifac = ifac.multiply(new BigInteger(""+(2*i-1) ) ) ;
+//                                         ifac = ifac.multiply( new BigInteger(""+(2*i)) ) ;
+//                                         xpowi = xpowi.multiply(xhighpr).multiply(xhighpr) ;
+//                                         BigDecimal corr = xpowi.divide(new BigDecimal(ifac),mcTay) ;
+//                                         resul = resul.add( corr ) ;
+//                                         if ( corr.abs().doubleValue() < 0.5*xUlpDbl ) 
+//                                                 break ;
+//                                 }
+//                                 /* The error in the result is governed by the error in x itself.
+//                                 */
+//                                 MathContext mc = new MathContext( err2prec(resul.doubleValue(),xUlpDbl) ) ;
+//                                 return resul.round(mc) ;
+//                         }
+//                 }
+//         } /* BigDecimalMath.cosh */
+
+//         /** The hyperbolic sine.
+//         * @param x the argument.
+//         * @return the sinh(x) = (exp(x)-exp(-x))/2 .
+//         * @author Richard J. Mathar
+//         * @since 2009-08-19
+//         */
+//         static public BigDecimal sinh(final BigDecimal x)
+//         {
+//                 if ( x.compareTo(BigDecimal.ZERO) < 0)
+//                         return sinh(x.negate()).negate() ;
+//                 else if ( x.compareTo(BigDecimal.ZERO) == 0 )
+//                         return BigDecimal.ZERO ;
+//                 else
+//                 {
+//                         if ( x.doubleValue() > 2.4 )
+//                         {
+//                                 /* Move closer to zero with sinh(2x)= 2*sinh(x)*cosh(x).
+//                                 */
+//                                 BigDecimal two = new BigDecimal(2) ;
+//                                 BigDecimal xhalf = x.divide(two) ;
+//                                 BigDecimal resul =  sinh(xhalf).multiply(cosh(xhalf)).multiply(two) ;
+//                                 /* The error in the result is set by the error in x itself.
+//                                 * The first derivative of sinh(x) is cosh(x), so the absolute error
+//                                 * in the result is cosh(x)*errx, and the relative error is coth(x)*errx = errx/tanh(x)
+//                                 */ 
+//                                 double eps =  Math.tanh(x.doubleValue()) ;
+//                                 MathContext mc = new MathContext( err2prec(0.5*x.ulp().doubleValue()/eps) ) ;
+//                                 return resul.round(mc) ;
+//                         }
+//                         else
+//                         {
+//                                 BigDecimal xhighpr = scalePrec(x,2) ;
+//                                 /* Simple Taylor expansion, sum_{i=0..infinity} x^(2i+1)/(2i+1)! */
+//                                 BigDecimal resul = xhighpr ;
+
+//                                 /* x^i */
+//                                 BigDecimal xpowi = xhighpr ;
+
+//                                 /* 2i+1 factorial */
+//                                 BigInteger ifac = BigInteger.ONE ;
+
+//                                 /* The error in the result is set by the error in x itself.
+//                                 */
+//                                 double xUlpDbl = x.ulp().doubleValue() ;
+
+//                                 /* The error in the result is set by the error in x itself.
+//                                 * We need at most k terms to squeeze x^(2k+1)/(2k+1)! below this value.
+//                                 * x^(2k+1) < x.ulp; (2k+1)*log10(x) < -x.precision; 2k*log10(x)< -x.precision;
+//                                 * 2k*(-log10(x)) > x.precision; 2k*log10(1/x) > x.precision
+//                                 */
+//                                 int k = (int)(x.precision()/Math.log10(1.0/xhighpr.doubleValue()))/2 ;
+//                                 MathContext mcTay = new MathContext( err2prec(x.doubleValue(),xUlpDbl/k) ) ;
+//                                 for(int i=1 ; ; i++)
+//                                 {
+//                                         /* TBD: at which precision will 2*i or 2*i+1 overflow? 
+//                                         */
+//                                         ifac = ifac.multiply(new BigInteger(""+(2*i) ) ) ;
+//                                         ifac = ifac.multiply( new BigInteger(""+(2*i+1)) ) ;
+//                                         xpowi = xpowi.multiply(xhighpr).multiply(xhighpr) ;
+//                                         BigDecimal corr = xpowi.divide(new BigDecimal(ifac),mcTay) ;
+//                                         resul = resul.add( corr ) ;
+//                                         if ( corr.abs().doubleValue() < 0.5*xUlpDbl ) 
+//                                                 break ;
+//                                 }
+//                                 /* The error in the result is set by the error in x itself.
+//                                 */
+//                                 MathContext mc = new MathContext(x.precision() ) ;
+//                                 return resul.round(mc) ;
+//                         }
+//                 }
+//         } /* BigDecimalMath.sinh */
+
+//         /** The hyperbolic tangent.
+//         * @param x The argument.
+//         * @return The tanh(x) = sinh(x)/cosh(x).
+//         * @author Richard J. Mathar
+//         * @since 2009-08-20
+//         */
+//         static public BigDecimal tanh(final BigDecimal x)
+//         {
+//                 if ( x.compareTo(BigDecimal.ZERO) < 0)
+//                         return tanh(x.negate()).negate() ;
+//                 else if ( x.compareTo(BigDecimal.ZERO) == 0 )
+//                         return BigDecimal.ZERO ;
+//                 else
+//                 {
+//                         BigDecimal xhighpr = scalePrec(x,2) ;
+
+//                         /* tanh(x) = (1-e^(-2x))/(1+e^(-2x)) .
+//                         */
+//                         BigDecimal exp2x = exp( xhighpr.multiply(new BigDecimal(-2)) ) ;
+
+//                         /* The error in tanh x is err(x)/cosh^2(x).
+//                         */
+//                         double eps = 0.5*x.ulp().doubleValue()/Math.pow( Math.cosh(x.doubleValue()), 2.0 ) ;
+//                         MathContext mc = new MathContext( err2prec(Math.tanh(x.doubleValue()),eps) ) ;
+//                         return BigDecimal.ONE.subtract(exp2x).divide( BigDecimal.ONE.add(exp2x), mc) ;
+//                 }
+//         } /* BigDecimalMath.tanh */
+
+//         /** The inverse hyperbolic sine.
+//         * @param x The argument.
+//         * @return The arcsinh(x) .
+//         * @author Richard J. Mathar
+//         * @since 2009-08-20
+//         */
+//         static public BigDecimal asinh(final BigDecimal x)
+//         {
+//                 if ( x.compareTo(BigDecimal.ZERO) == 0 )
+//                         return BigDecimal.ZERO ;
+//                 else
+//                 {
+//                         BigDecimal xhighpr = scalePrec(x,2) ;
+
+//                         /* arcsinh(x) = log(x+hypot(1,x)) 
+//                         */
+//                         BigDecimal logx = log(hypot(1,xhighpr).add(xhighpr)) ;
+
+//                         /* The absolute error in arcsinh x is err(x)/sqrt(1+x^2)
+//                         */
+//                         double xDbl = x.doubleValue() ;
+//                         double eps = 0.5*x.ulp().doubleValue()/Math.hypot(1.,xDbl ) ;
+//                         MathContext mc = new MathContext( err2prec(logx.doubleValue(),eps) ) ;
+//                         return logx.round(mc) ;
+//                 }
+//         } /* BigDecimalMath.asinh */
+
+//         /** The inverse hyperbolic cosine.
+//         * @param x The argument.
+//         * @return The arccosh(x) .
+//         * @author Richard J. Mathar
+//         * @since 2009-08-20
+//         */
+//         static public BigDecimal acosh(final BigDecimal x)
+//         {
+//                 if ( x.compareTo(BigDecimal.ONE) < 0 )
+//                         throw new ArithmeticException("Out of range argument cosh "+x.toString() ) ;
+//                 else if ( x.compareTo(BigDecimal.ONE) == 0 )
+//                         return BigDecimal.ZERO ;
+//                 else
+//                 {
+//                         BigDecimal xhighpr = scalePrec(x,2) ;
+
+//                         /* arccosh(x) = log(x+sqrt(x^2-1)) 
+//                         */
+//                         BigDecimal logx = log( sqrt(xhighpr.pow(2).subtract(BigDecimal.ONE) ) .add(xhighpr)) ;
+
+//                         /* The absolute error in arcsinh x is err(x)/sqrt(x^2-1)
+//                         */
+//                         double xDbl = x.doubleValue() ;
+//                         double eps = 0.5*x.ulp().doubleValue()/Math.sqrt(xDbl*xDbl-1.) ;
+//                         MathContext mc = new MathContext( err2prec(logx.doubleValue(),eps) ) ;
+//                         return logx.round(mc) ;
+//                 }
+//         } /* BigDecimalMath.acosh */
+
+//         /** The Gamma function.
+//         * @param x The argument.
+//         * @return Gamma(x).
+//         * @since 2009-08-06
+//         * @author Richard J. Mathar
+//         */
+//         static public BigDecimal Gamma(final BigDecimal x)
+//         {
+//                 /* reduce to interval near 1.0 with the functional relation, Abramowitz-Stegun 6.1.33
+//                 */
+//                 if ( x.compareTo(BigDecimal.ZERO) < 0 )
+//                         return divideRound(Gamma( x.add(BigDecimal.ONE) ),x) ;
+//                 else if ( x.doubleValue() > 1.5 )
+//                 {
+//                         /* Gamma(x) = Gamma(xmin+n) = Gamma(xmin)*Pochhammer(xmin,n).
+//                         */
+//                         int n = (int) ( x.doubleValue()-0.5 );
+//                         BigDecimal xmin1 = x.subtract(new BigDecimal(n)) ;
+//                         return multiplyRound(Gamma(xmin1), pochhammer(xmin1,n) ) ;
+//                 }
+//                 else
+//                 {
+//                         /* apply Abramowitz-Stegun 6.1.33
+//                         */
+//                         BigDecimal z = x.subtract(BigDecimal.ONE) ;
+
+//                         /* add intermediately 2 digits to the partial sum accumulation
+//                         */
+//                         z = scalePrec(z,2) ;
+//                         MathContext mcloc = new MathContext(z.precision()) ;
+
+//                         /* measure of the absolute error is the relative error in the first, logarithmic term
+//                         */
+//                         double eps = x.ulp().doubleValue()/x.doubleValue() ;
+
+//                         BigDecimal resul = log( scalePrec(x,2)).negate() ;
+
+//                         if ( x.compareTo(BigDecimal.ONE) != 0 )
+//                         {
+
+//                                 BigDecimal gammCompl = BigDecimal.ONE.subtract(gamma(mcloc) ) ;
+//                                 resul = resul.add( multiplyRound(z,gammCompl) ) ;
+//                                 for(int n=2; ;n++)
+//                                 {
+//                                         /* multiplying z^n/n by zeta(n-1) means that the two relative errors add.
+//                                         * so the requirement in the relative error of zeta(n)-1 is that this is somewhat
+//                                         * smaller than the relative error in z^n/n (the absolute error of thelatter  is the
+//                                         * absolute error in z) 
+//                                         */
+//                                         BigDecimal c = divideRound(z.pow(n,mcloc),n) ;
+//                                         MathContext m = new MathContext( err2prec(n*z.ulp().doubleValue()/2./z.doubleValue()) ) ;
+//                                         c = c.round(m) ;
+
+//                                         /* At larger n, zeta(n)-1 is roughly 1/2^n. The product is c/2^n.
+//                                         * The relative error in c is c.ulp/2/c . The error in the product should be small versus eps/10.
+//                                         * Error from 1/2^n is c*err(sigma-1).
+//                                         * We need a relative error of zeta-1 of the order of c.ulp/50/c. This is an absolute
+//                                         * error in zeta-1 of c.ulp/50/c/2^n, and also the absolute error in zeta, because zeta is
+//                                         * of the order of 1.
+//                                         */
+//                                         if ( eps/100./c.doubleValue() < 0.01 )
+//                                                 m = new MathContext( err2prec(eps/100./c.doubleValue()) ) ;
+//                                         else
+//                                                 m = new MathContext( 2) ;
+//                                         /* zeta(n) -1 */
+//                                         BigDecimal zetm1 = zeta(n,m).subtract(BigDecimal.ONE) ;
+//                                         c = multiplyRound(c,zetm1) ;
+
+//                                         if ( n % 2 == 0 )
+//                                                 resul = resul.add(c) ;
+//                                         else
+//                                                 resul = resul.subtract(c) ;
+        
+//                                         /* alternating sum, so truncating as eps is reached suffices 
+//                                         */
+//                                         if ( Math.abs(c.doubleValue()) < eps)
+//                                                 break;
+//                                 }
+//                         }
+                        
+//                         /* The relative error in the result is the absolute error in the
+//                         * input variable times the digamma (psi) value at that point.
+//                         */
+//                         double zdbl = z.doubleValue() ;
+//                         eps = psi(zdbl)* x.ulp().doubleValue()/2. ;
+//                         mcloc = new MathContext( err2prec(eps) ) ;
+//                         return exp(resul).round(mcloc) ;
+//                 }
+//         } /* BigDecimalMath.gamma */
+
+//         /** The Gamma function.
+//         * @param q The argument.
+//         * @param mc The required accuracy in the result.
+//         * @return Gamma(x).
+//         * @since 2010-05-26
+//         * @author Richard J. Mathar
+//         */
+//         static public BigDecimal Gamma(final Rational q, final MathContext mc)
+//         {
+//                 if ( q.isBigInteger() )
+//                 {
+//                         if ( q.compareTo(Rational.ZERO) <= 0 )
+//                                 throw new ArithmeticException("Gamma at "+q.toString() ) ;
+//                         else
+//                         {
+//                                 /* Gamma(n) = (n-1)! */
+//                                 Factorial f = new Factorial() ;
+//                                 BigInteger g = f.at( q.trunc().intValue()-1 ) ;
+//                                 return scalePrec(new BigDecimal(g),mc) ;
+//                         }
+//                 }
+//                 else if ( q.b.intValue() == 2 )
+//                 {
+//                         /* half integer cases which are related to sqrt(pi)
+//                         */
+//                         BigDecimal p = sqrt(pi(mc)) ;
+//                         if ( q.compareTo(Rational.ZERO) >= 0 )
+//                         {
+//                                 Rational pro = Rational.ONE ;
+//                                 Rational f = q.subtract(1) ;
+//                                 while ( f.compareTo(Rational.ZERO) > 0 )
+//                                 {
+//                                         pro = pro.multiply(f) ;
+//                                         f = f.subtract(1) ;
+//                                 }
+//                                 return multiplyRound(p,pro) ;
+//                         }
+//                         else
+//                         {
+//                                 Rational pro = Rational.ONE ;
+//                                 Rational f = q ;
+//                                 while ( f.compareTo(Rational.ZERO) < 0 )
+//                                 {
+//                                         pro = pro.divide(f) ;
+//                                         f = f.add(1) ;
+//                                 }
+//                                 return multiplyRound(p,pro) ;
+//                         }
+//                 }
+//                 else
+//                 {
+//                         /* The relative error of the result is psi(x)*Delta(x). Tune Delta(x) such
+//                         * that this is equivalent to mc: Delta(x) = precision/psi(x).
+//                         */
+//                         double qdbl = q.doubleValue() ;
+//                         double deltx = 5.*Math.pow(10.,-mc.getPrecision()) /psi(qdbl) ;
+
+//                         MathContext mcx  = new MathContext( err2prec(qdbl,deltx) ) ;
+//                         BigDecimal x =  q.BigDecimalValue(mcx) ;
+
+//                         /* forward calculation to the general floating point case */
+//                         return Gamma(x) ;
+//                 }
+//         } /* BigDecimalMath.Gamma */
+
+//         /** Pochhammer's  function.
+//         * @param x The main argument.
+//         * @param n The non-negative index.
+//         * @return (x)_n = x(x+1)(x+2)*...*(x+n-1).
+//         * @since 2009-08-19
+//         * @author Richard J. Mathar
+//         */
+//         static public BigDecimal pochhammer(final BigDecimal x, final int n)
+//         {
+//                 /* reduce to interval near 1.0 with the functional relation, Abramowitz-Stegun 6.1.33
+//                 */
+//                 if ( n < 0 )
+//                         throw new ProviderException("Not implemented: pochhammer with negative index "+n) ;
+//                 else if ( n == 0 )
+//                         return BigDecimal.ONE ;
+//                 else
+//                 {
+//                         /* internally two safety digits
+//                         */
+//                         BigDecimal xhighpr = scalePrec(x,2) ;
+//                         BigDecimal resul = xhighpr ;
+
+//                         double xUlpDbl = x.ulp().doubleValue() ;
+//                         double xDbl = x.doubleValue() ;
+//                         /* relative error of the result is the sum of the relative errors of the factors
+//                         */
+//                         double eps = 0.5*xUlpDbl/Math.abs(xDbl) ;
+//                         for (int i =1 ; i < n ; i++)
+//                         {
+//                                 eps += 0.5*xUlpDbl/Math.abs(xDbl+i) ;
+//                                 resul = resul.multiply( xhighpr.add(new BigDecimal(i)) ) ;
+//                                 final MathContext mcloc = new MathContext(4+ err2prec(eps) ) ;
+//                                 resul = resul.round(mcloc) ;
+//                         }
+//                         return resul.round(new MathContext(err2prec(eps)) )  ;
+//                 }
+//         } /* BigDecimalMath.pochhammer */
+
+        /** Reduce value to the interval [0,2*Pi].
+        * @param x the original value
+        * @return the value modulo 2*pi in the interval from 0 to 2*pi.
+        * @since 2009-06-01
+        * @author Richard J. Mathar
+        */
+        static public BigDecimal mod2pi(BigDecimal x)
+        {
+                /* write x= 2*pi*k+r with the precision in r defined by the precision of x and not
+                * compromised by the precision of 2*pi, so the ulp of 2*pi*k should match the ulp of x.
+                * First get a guess of k to figure out how many digits of 2*pi are needed.
+                */
+                int k = (int)(0.5*x.doubleValue()/Math.PI) ;
+
+                /* want to have err(2*pi*k)< err(x)=0.5*x.ulp, so err(pi) = err(x)/(4k) with two safety digits
+                */
+                double err2pi ;
+                if ( k != 0 )
+                        err2pi = 0.25*Math.abs(x.ulp().doubleValue()/k) ;
+                else
+                        err2pi = 0.5*Math.abs(x.ulp().doubleValue()) ;
+                MathContext mc = new MathContext( 2+err2prec(6.283,err2pi) ) ;
+                BigDecimal twopi= pi(mc).multiply(new BigDecimal(2)) ;
+
+                /* Delegate the actual operation to the BigDecimal class, which may return
+                * a negative value of x was negative .
+                */
+                BigDecimal res = x.remainder(twopi) ;
+                if ( res.compareTo(BigDecimal.ZERO) < 0 )
+                        res =  res.add(twopi) ;
+
+                /* The actual precision is set by the input value, its absolute value of x.ulp()/2.
+                */
+                mc = new MathContext( err2prec(res.doubleValue(),x.ulp().doubleValue()/2.) ) ;
+                return res.round(mc) ;
+        } /* mod2pi */
+
+        /** Reduce value to the interval [-Pi/2,Pi/2].
+        * @param x The original value
+        * @return The value modulo pi, shifted to the interval from -Pi/2 to Pi/2.
+        * @since 2009-07-31
+        * @author Richard J. Mathar
+        */
+        static public BigDecimal modpi(BigDecimal x)
+        {
+                /* write x= pi*k+r with the precision in r defined by the precision of x and not
+                * compromised by the precision of pi, so the ulp of pi*k should match the ulp of x.
+                * First get a guess of k to figure out how many digits of pi are needed.
+                */
+                int k = (int)(x.doubleValue()/Math.PI) ;
+
+                /* want to have err(pi*k)< err(x)=x.ulp/2, so err(pi) = err(x)/(2k) with two safety digits
+                */
+                double errpi ;
+                if ( k != 0 )
+                        errpi = 0.5*Math.abs(x.ulp().doubleValue()/k) ;
+                else
+                        errpi = 0.5*Math.abs(x.ulp().doubleValue()) ;
+                MathContext mc = new MathContext( 2+err2prec(3.1416,errpi) ) ;
+                BigDecimal onepi= pi(mc) ;
+                BigDecimal pihalf = onepi.divide(new BigDecimal(2)) ;
+
+                /* Delegate the actual operation to the BigDecimal class, which may return
+                * a negative value of x was negative .
+                */
+                BigDecimal res = x.remainder(onepi) ;
+                if ( res.compareTo(pihalf) > 0 )
+                        res =  res.subtract(onepi) ;
+                else if ( res.compareTo(pihalf.negate()) < 0 )
+                        res =  res.add(onepi) ;
+
+                /* The actual precision is set by the input value, its absolute value of x.ulp()/2.
+                */
+                mc = new MathContext( err2prec(res.doubleValue(),x.ulp().doubleValue()/2.) ) ;
+                return res.round(mc) ;
+        } /* modpi */
+
         /** Riemann zeta function.
         * @param n The positive integer argument.
         * @param mc Specification of the accuracy of the result.
@@ -1121,6 +2222,90 @@ public class BigDecimalMath
                 }
         } /* zeta */
 
+
+//         /** trigonometric cot.
+//         * @param x The argument.
+//         * @return cot(x) = 1/tan(x).
+//         * @author Richard J. Mathar
+//         */
+//         static public double cot(final double x)
+//         {
+//                 return 1./Math.tan(x) ;
+//         }
+
+//         /** Digamma function.
+//         * @param x The main argument.
+//         * @return psi(x).
+//         *  The error is sometimes up to 10 ulp, where AS 6.3.15 suffers from cancellation of digits and psi=0
+//         * @since 2009-08-26
+//         * @author Richard J. Mathar
+//         */
+//         static public double psi(final double x)
+//         {
+//                 /* the single positive zero of psi(x)
+//                 */
+//                 final double psi0 = 1.46163214496836234126265954232572132846819;
+//                 if ( x > 2.0)
+//                 {
+//                         /* Reduce to a value near x=1 with the standard recurrence formula.
+//                         * Abramowitz-Stegun 6.3.5
+//                         */
+//                         int m = (int) ( x-0.5 );
+//                         double xmin1 = x-m ;
+//                         double resul = 0. ;
+//                         for(int i=1; i <= m ; i++)
+//                                 resul += 1./(x-i) ;
+//                         return resul+psi(xmin1) ;
+//                 }
+//                 else if ( Math.abs(x-psi0) < 0.55)
+//                 {
+//                         /* Taylor approximation around the local zero
+//                         */
+//                         final double [] psiT0 = { 9.67672245447621170427e-01, -4.42763168983592106093e-01,
+//                         2.58499760955651010624e-01, -1.63942705442406527504e-01, 1.07824050691262365757e-01,
+//                         -7.21995612564547109261e-02, 4.88042881641431072251e-02, -3.31611264748473592923e-02,
+//                         2.25976482322181046596e-02, -1.54247659049489591388e-02, 1.05387916166121753881e-02,
+//                         -7.20453438635686824097e-03, 4.92678139572985344635e-03, -3.36980165543932808279e-03,
+//                         2.30512632673492783694e-03, -1.57693677143019725927e-03, 1.07882520191629658069e-03,
+//                         -7.38070938996005129566e-04, 5.04953265834602035177e-04, -3.45468025106307699556e-04,
+//                         2.36356015640270527924e-04, -1.61706220919748034494e-04, 1.10633727687474109041e-04,
+//                         -7.56917958219506591924e-05, 5.17857579522208086899e-05, -3.54300709476596063157e-05,
+//                         2.42400661186013176527e-05, -1.65842422718541333752e-05, 1.13463845846638498067e-05,
+//                         -7.76281766846209442527e-06, 5.31106092088986338732e-06, -3.63365078980104566837e-06,
+//                         2.48602273312953794890e-06, -1.70085388543326065825e-06, 1.16366753635488427029e-06,
+//                         -7.96142543124197040035e-07, 5.44694193066944527850e-07, -3.72661612834382295890e-07,
+//                         2.54962655202155425666e-07, -1.74436951177277452181e-07, 1.19343948298302427790e-07,
+//                         -8.16511518948840884084e-08, 5.58629968353217144428e-08, -3.82196006191749421243e-08,
+//                         2.61485769519618662795e-08, -1.78899848649114926515e-08, 1.22397314032336619391e-08,
+//                         -8.37401629767179054290e-09, 5.72922285984999377160e-09} ;
+//                         final double xdiff = x-psi0 ;
+//                         double resul = 0. ;
+//                         for( int i = psiT0.length-1; i >=0 ; i--)
+//                                 resul = resul*xdiff+psiT0[i] ;
+//                         return resul*xdiff ;
+//                 }
+//                 else if ( x < 0. )
+//                 {
+//                         /* Reflection formula */
+//                         double xmin = 1.-x ;
+//                         return psi(xmin) + Math.PI/Math.tan(Math.PI*xmin) ;
+//                 }
+//                 else
+//                 {
+//                         double xmin1 = x-1 ;
+//                         double resul = 0. ;
+//                         for(int k=26 ; k>= 1; k--)
+//                         {
+//                                 resul -= zeta1(2*k+1) ;
+//                                 resul *= xmin1*xmin1 ;
+//                         }
+//                                 /* 0.422... = 1 -gamma */
+//                         return resul + 0.422784335098467139393487909917597568 
+//                                 + 0.5/xmin1-1./(1-xmin1*xmin1)- Math.PI/( 2.*Math.tan(Math.PI*xmin1) );
+//                 }
+//         } /* psi */
+
+
         /** Broadhurst ladder sequence.
         * @param n
         * @param p
@@ -1172,6 +2357,59 @@ public class BigDecimalMath
                 }
                 return res.round(mc) ;
         } /* broadhurstBBP */
+
+
+
+
+
+
+
+//         /** Convert the finite representation of a floating point value to
+//         * its fraction.
+//         * @param x The number to be translated.
+//         * @return The rational number with the same decimal expansion as x.
+//         * @since 2012-03-09
+//         * @author Richard J. Mathar
+//         */
+//         public static Rational toRational(BigDecimal x)
+//         {
+//                 /* represent the floating point number by the exact rational
+//                 * variant of the current truncated representation
+//                 */
+//                 int s = x.scale() ;
+//                 if ( s > 0)
+//                         return new Rational( x.unscaledValue(), BigInteger.TEN.pow(s) ) ;
+//                 else
+//                         return new Rational( x.unscaledValue().multiply(BigInteger.TEN.pow(-s)), BigInteger.ONE) ;
+//         } /* toRational */
+
+//         /** Continued fraction.
+//         * @param x The number the absolute value of which will be decomposed.
+//         * @return A list of the form [a0,a1,a2,a3,...] where
+//         *  The decomposition is |x| = a0+1/(a1+1/(a2+1/(a3+...))).
+//         * @since 2012-03-09
+//         * @author Richard J. Mathar
+//         */ 
+//         public static Vector<BigInteger> cfrac(final BigDecimal x)
+//         {
+//                 /* forward to the implementation in the Rational class
+//                 */
+//                 return toRational(x).cfrac() ;
+//         } /* cfrac */
+
+
+//         /** Add a BigDecimal and a BigInteger.
+//         * @param x The left summand
+//         * @param y The right summand
+//         * @return The sum x+y.
+//         * @since 2012-03-02
+//         * @author Richard J. Mathar
+//         */
+//         static public BigDecimal add(final BigDecimal x, final BigInteger y)
+//         {
+//                 return x.add(new BigDecimal(y)) ;
+//         } /* add */
+
 
 //         /** Add and round according to the larger of the two ulp's.
 //         * @param x The left summand

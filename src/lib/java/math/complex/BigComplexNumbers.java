@@ -86,7 +86,7 @@ public class BigComplexNumbers {
     // Exponentional function
     public BigComplexNumbers exp() {
         BigComplexNumbers ans = new BigComplexNumbers();
-        BigDecimalMath math = new BigDecimalMath();
+        ans.real = BigDecimalMath.exp(real).multiply(BigDecimalMath.cos(img));
         // ans.real =
         return ans; 
     }
