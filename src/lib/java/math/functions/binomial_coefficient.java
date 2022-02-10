@@ -49,7 +49,7 @@ public class binomial_coefficient {
         } else {
             BigDecimal answer = new BigDecimal(String.valueOf(m));
             for (int i = 1; i < m; i++) {
-                answer = answer.multiply(new BigDecimal(String.valueOf(m-1)));
+                answer = answer.multiply(new BigDecimal(String.valueOf(m-i)));
             }
             return answer;
         }

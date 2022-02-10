@@ -155,7 +155,7 @@ public class App {
         c2.display();
         System.out.println("");
         BigComplexNumbers o1 = new BigComplexNumbers();
-        o1 = c1.add(c2); o1.display();
+        o1 = c1.add(c2); o1.display(); 
         BigComplexNumbers o2 = new BigComplexNumbers();
         o2 = c1.sub(c2); o2.display();
         BigComplexNumbers o3 = new BigComplexNumbers();
@@ -164,7 +164,9 @@ public class App {
         o4 = c1.div(c2); o4.display();
         BigComplexNumbers o5 = new BigComplexNumbers();
         o5 = c1.ln(); o5.display();
-        BigComplexNumbers o6 = new BigComplexNumbers();
-        o6 = c1.pow(c2); o6.display();
+        // BigComplexNumbers o6 = new BigComplexNumbers();
+        // o6 = c1.pow(c2); o6.display();
+        BigComplexNumbers o7 = new BigComplexNumbers();
+        o7 = c1.exp(); o7.display();
     }
 }

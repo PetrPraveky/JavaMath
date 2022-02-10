@@ -3,6 +3,8 @@ package lib.java.math.complex;
 import java.math.BigDecimal;
 import java.math.MathContext;
 import java.math.RoundingMode;
+import java.util.ArrayList;
+
 import download.BigDecimalMath;
 
 public class BigComplexNumbers {
@@ -86,8 +88,10 @@ public class BigComplexNumbers {
     // Exponentional function
     public BigComplexNumbers exp() {
         BigComplexNumbers ans = new BigComplexNumbers();
-        ans.real = BigDecimalMath.exp(real).multiply(BigDecimalMath.cos(img));
-        // ans.real =
+        Support support = new Support();
+        // ans.real = support.exp(real).multiply(BigDecimal.ONE);
+        // ans.real = support.exp(new BigDecimal(2));
+        ans.real = support.sin(BigDecimal.ONE);
         return ans; 
     }
     // Exponentionation
@@ -105,12 +109,11 @@ public class BigComplexNumbers {
         }
         BigComplexNumbers part1 = new BigComplexNumbers();
         BigComplexNumbers part2 = new BigComplexNumbers();
-        // part1 = (b.mul(new BigComplexNumbers(support.ln(r), BigDecimal.ZERO)));
-        // ans.real = support.exp(new BigDecimal(2));
         return ans;
     }
 }
 class Support {
+    // Integral for arc tangent approximation
     public BigDecimal atan(BigDecimal x) {
         BigDecimal ans = new BigDecimal(0); BigDecimal n = new BigDecimal(1000000);
         BigDecimal mult = x.divide(n, 50, RoundingMode.HALF_UP);
@@ -124,9 +127,11 @@ class Support {
         ans = mult.multiply(firstSum.add(secondSum.add(thirdSum)));
         return ans;
     }
+    // Inside function for arc tanget integral approximation
     private BigDecimal atan_function(BigDecimal z) {
         return BigDecimal.ONE.divide(z.pow(2).add(BigDecimal.ONE), 50, RoundingMode.HALF_UP);
     }
+    // Integral for natural logarithm approximaion
     public BigDecimal ln(BigDecimal a) {
         BigDecimal ans = new BigDecimal(0); BigDecimal n = new BigDecimal(1000000);
         BigDecimal mult = (a.subtract(BigDecimal.ONE)).divide(n, 50, RoundingMode.HALF_UP);
@@ -140,21 +145,44 @@ class Support {
         ans = mult.multiply(firstSum.add(secondSum.add(thirdSum)));
         return ans;
     }
+    // Inside ufnction of integral for natural logarithm approximation
     private BigDecimal ln_function(BigDecimal x) {
         return BigDecimal.ONE.divide(x, 50, RoundingMode.HALF_UP);
     }
-    // public BigDecimal exp(BigDecimal x) {
-    //     BigDecimal ans = new BigDecimal(0); BigDecimal n = new BigDecimal(1000000);
-    //     // BigDecimal mult = ()
-    //     return ans;
-    // }
+    // Exponential function using Taylor series
+    public BigDecimal exp(BigDecimal x) {
+        BigDecimal ans = new BigDecimal(0); BigDecimal Infinity = new BigDecimal(100);
+        if (x.compareTo(BigDecimal.ZERO) < 0) {
+            ans = BigDecimal.ONE.divide(exp(x.abs()), 50, RoundingMode.HALF_UP);
+            return ans;
+        } else if (x.compareTo(BigDecimal.ZERO) == 0) {
+            return BigDecimal.ONE;
+        } else {
+            // Taylor approximation
+            for (BigDecimal n = new BigDecimal(0); n.compareTo(Infinity) <= 0; n = n.add(BigDecimal.ONE)) {
+                ans = ans.add((x.pow(n.intValue())).divide(big_factorial(n.intValue()), 50, RoundingMode.HALF_UP));
+            }
+            return ans;
+        }
+    }
+    // Sin function using Taylor series
+    public BigDecimal sin(BigDecimal x) {
+        BigDecimal ans = new BigDecimal(0); BigDecimal Infinity = new BigDecimal(100);
+        // Taylor approximation
+        for (BigDecimal n = new BigDecimal(0); n.compareTo(Infinity) <= 0; n = n.add(BigDecimal.ONE)) {
+            ans = ans.add(
+
+            );
+        }
+        return ans;
+    }
     private BigDecimal big_factorial(int m) {
         if (m == 0) {
             return new BigDecimal("1");
         } else {
             BigDecimal answer = new BigDecimal(String.valueOf(m));
             for (int i = 1; i < m; i++) {
-                answer = answer.multiply(new BigDecimal(String.valueOf(m-1)));
+                answer = answer.multiply(new BigDecimal(String.valueOf(m-i)));
             }
             return answer;
         }
