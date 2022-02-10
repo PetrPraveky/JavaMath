@@ -69,18 +69,23 @@ public class BigComplexNumbers {
     public BigComplexNumbers ln() {
         BigComplexNumbers ans = new BigComplexNumbers();
         Support support = new Support();
-        BigDecimal r = (real.pow(2).add(img.pow(2))).sqrt(new MathContext(10));
-        BigDecimal sigma = new BigDecimal(0);
-        if (img.compareTo(BigDecimal.ZERO) != 0 || real.compareTo(BigDecimal.ZERO) == 0) {
-            sigma = (new BigDecimal(2)).multiply(support.atan(img.divide(real.pow(2).add(img.pow(2)).sqrt(new MathContext(10)).add(real), 50, RoundingMode.HALF_UP)));
-        } else if (real.compareTo(BigDecimal.ZERO) < 0 && img.compareTo(BigDecimal.ZERO) == 0) {
-            sigma = new BigDecimal(Math.PI);
+        if (img.compareTo(BigDecimal.ZERO) == 0 && real.compareTo(BigDecimal.ZERO) > 0) {
+            ans.real = support.ln(real); ans.img = BigDecimal.ZERO;
+            return ans;
         } else {
+            BigDecimal r = (real.pow(2).add(img.pow(2))).sqrt(new MathContext(10));
+            BigDecimal sigma = new BigDecimal(0);
+            if (img.compareTo(BigDecimal.ZERO) != 0 || real.compareTo(BigDecimal.ZERO) == 0) {
+                sigma = (new BigDecimal(2)).multiply(support.atan(img.divide(real.pow(2).add(img.pow(2)).sqrt(new MathContext(10)).add(real), 50, RoundingMode.HALF_UP)));
+            } else if (real.compareTo(BigDecimal.ZERO) < 0 && img.compareTo(BigDecimal.ZERO) == 0) {
+                sigma = new BigDecimal(Math.PI);
+            } else {
+                return ans;
+            }
+            ans.real = support.ln(r);
+            ans.img = sigma;
             return ans;
         }
-        ans.real = support.ln(r);
-        ans.img = sigma;
-        return ans;
     }
     // Exponentional function
     public BigComplexNumbers exp() {
@@ -116,7 +121,9 @@ public class BigComplexNumbers {
             sigma = (new BigDecimal(2)).multiply(support.atan(img.divide(real.pow(2).add(img.pow(2)).sqrt(new MathContext(10)).add(real), 50, RoundingMode.HALF_UP)));
         } else if (real.compareTo(BigDecimal.ZERO) < 0 && img.compareTo(BigDecimal.ZERO) == 0) {
             sigma = new BigDecimal(Math.PI);
-        } else {
+        } else if (real.compareTo(BigDecimal.ZERO) > 0 && img.compareTo(BigDecimal.ZERO) == 0) {
+            sigma = BigDecimal.ZERO;
+        } else if (real.compareTo(BigDecimal.ZERO) == 0 && img.compareTo(BigDecimal.ZERO) == 0) {
             return ans;
         }
         BigComplexNumbers part1 = new BigComplexNumbers();
@@ -130,7 +137,7 @@ public class BigComplexNumbers {
 class Support {
     // Integral for arc tangent approximation
     public BigDecimal atan(BigDecimal x) {
-        BigDecimal ans = new BigDecimal(0); BigDecimal n = new BigDecimal(1000000);
+        BigDecimal ans = new BigDecimal(0); BigDecimal n = new BigDecimal(100);
         BigDecimal mult = x.divide(n, 50, RoundingMode.HALF_UP);
         BigDecimal firstSum = atan_function(BigDecimal.ZERO).divide(new BigDecimal(2), 50, RoundingMode.HALF_UP);
         BigDecimal secondSum = BigDecimal.ZERO;
@@ -148,7 +155,7 @@ class Support {
     }
     // Integral for natural logarithm approximaion
     public BigDecimal ln(BigDecimal a) {
-        BigDecimal ans = new BigDecimal(0); BigDecimal n = new BigDecimal(1000000);
+        BigDecimal ans = new BigDecimal(0); BigDecimal n = new BigDecimal(100);
         BigDecimal mult = (a.subtract(BigDecimal.ONE)).divide(n, 50, RoundingMode.HALF_UP);
         BigDecimal firstSum = ln_function(BigDecimal.ONE).divide(new BigDecimal(2), 50, RoundingMode.HALF_UP);
         BigDecimal secondSum = BigDecimal.ZERO;

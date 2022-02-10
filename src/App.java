@@ -13,6 +13,7 @@ import lib.java.math.complex.BigComplexNumbers;
 import lib.java.math.complex.ComplexNumbers;
 import lib.java.math.complex.functions.complex_beta_function;
 import lib.java.math.complex.functions.complex_gamma_function;
+import lib.java.math.complex.functions.complex_stieltjes_constant;
 import lib.java.math.complex.functions.complex_zeta_function;
 import lib.java.math.complex.functions.generalized_stieltjes_constant;
 import lib.java.math.complex.functions.hurwitz_zeta_function;
@@ -149,28 +150,34 @@ public class App {
         // new plotter("eisenstein_s", 5);
         */
         // Big Complex numbers
-        BigComplexNumbers c1 = new BigComplexNumbers(new BigDecimal(1), new BigDecimal(-5));
-        c1.display();
-        BigComplexNumbers c2 = new BigComplexNumbers(new BigDecimal(-0.5), new BigDecimal(2));
-        c2.display();
-        System.out.println("");
-        BigComplexNumbers o1 = new BigComplexNumbers(); // Add
-        o1 = c1.add(c2); o1.display(); 
-        BigComplexNumbers o2 = new BigComplexNumbers(); // Sub
-        o2 = c1.sub(c2); o2.display();
-        BigComplexNumbers o3 = new BigComplexNumbers(); // Mul
-        o3 = c1.mul(c2); o3.display();
-        BigComplexNumbers o4 = new BigComplexNumbers(); // Div
-        o4 = c1.div(c2); o4.display();
-        BigComplexNumbers o5 = new BigComplexNumbers(); // Ln
-        o5 = c1.ln(); o5.display();
-        BigComplexNumbers o6 = new BigComplexNumbers(); // Exp
-        o6 = c1.exp(); o6.display();
-        BigComplexNumbers o7 = new BigComplexNumbers(); // Sin
-        o7 = c1.sin(); o7.display();
-        BigComplexNumbers o8 = new BigComplexNumbers(); // Cos
-        o8 = c1.cos(); o8.display();
-        BigComplexNumbers o9 = new BigComplexNumbers(); // Pow
-        o9 = c1.pow(c2); o9.display();
+        /*
+        // BigComplexNumbers c1 = new BigComplexNumbers(new BigDecimal(1), new BigDecimal(-5));
+        // c1.display();
+        // BigComplexNumbers c2 = new BigComplexNumbers(new BigDecimal(-0.5), new BigDecimal(2));
+        // c2.display();
+        // System.out.println("");
+        // BigComplexNumbers o1 = new BigComplexNumbers(); // Add
+        // o1 = c1.add(c2); o1.display(); 
+        // BigComplexNumbers o2 = new BigComplexNumbers(); // Sub
+        // o2 = c1.sub(c2); o2.display();
+        // BigComplexNumbers o3 = new BigComplexNumbers(); // Mul
+        // o3 = c1.mul(c2); o3.display();
+        // BigComplexNumbers o4 = new BigComplexNumbers(); // Div
+        // o4 = c1.div(c2); o4.display();
+        // BigComplexNumbers o5 = new BigComplexNumbers(); // Ln
+        // o5 = c1.ln(); o5.display();
+        // BigComplexNumbers o6 = new BigComplexNumbers(); // Exp
+        // o6 = c1.exp(); o6.display();
+        // BigComplexNumbers o7 = new BigComplexNumbers(); // Sin
+        // o7 = c1.sin(); o7.display();
+        // BigComplexNumbers o8 = new BigComplexNumbers(); // Cos
+        // o8 = c1.cos(); o8.display();
+        // BigComplexNumbers o9 = new BigComplexNumbers(); // Pow
+        // o9 = c1.pow(c2); o9.display();
+        */
+        // Big Complex functions
+        BigComplexNumbers i1 = new BigComplexNumbers(new BigDecimal(2), new BigDecimal(1));
+        complex_stieltjes_constant stieltjes = new complex_stieltjes_constant();
+        stieltjes._stieltjes_constant(1, i1).display();
     }
 }
