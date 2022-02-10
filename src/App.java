@@ -16,7 +16,6 @@ import lib.java.math.complex.functions.complex_gamma_function;
 import lib.java.math.complex.functions.complex_hurwitz_zeta_function;
 import lib.java.math.complex.functions.complex_stieltjes_constant;
 import lib.java.math.complex.functions.complex_zeta_function;
-import lib.java.math.complex.functions.generalized_stieltjes_constant;
 import lib.java.math.complex.functions.hurwitz_zeta_function;
 import lib.java.math.complex.functions.fourier_series.eisenstein_series;
 
@@ -180,8 +179,6 @@ public class App {
         BigComplexNumbers i1 = new BigComplexNumbers(new BigDecimal(2), new BigDecimal(1));
         // complex_stieltjes_constant stieltjes = new complex_stieltjes_constant();
         // stieltjes._stieltjes_constant(1, i1).display();
-        BigComplexNumbers i2 = new BigComplexNumbers(new BigDecimal(5), BigDecimal.ZERO);
-        complex_hurwitz_zeta_function zeta = new complex_hurwitz_zeta_function();
-        zeta._hurwitz_zeta_function(i1, i2).display();
+        
     }
 }
