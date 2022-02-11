@@ -6,11 +6,12 @@ import java.math.RoundingMode;
 import lib.java.math.complex.BigComplexNumbers;
 
 public class complex_trigamma_function {
-    BigDecimal N = new BigDecimal(50);
-    BigComplexNumbers ONE = new BigComplexNumbers(BigDecimal.ONE, BigDecimal.ZERO);
-    BigComplexNumbers ZERO = new BigComplexNumbers(BigDecimal.ZERO, BigDecimal.ZERO);
-    BigDecimal zero= new BigDecimal(0.001);
-    BigDecimal one = new BigDecimal(0.999);
+    /*private BigDecimal N = new BigDecimal(10);*/ private BigDecimal Infinity = new BigDecimal(10000);
+    private BigComplexNumbers ONE = new BigComplexNumbers(BigDecimal.ONE, BigDecimal.ZERO);
+    private BigComplexNumbers ZERO = new BigComplexNumbers(BigDecimal.ZERO, BigDecimal.ZERO);
+    private BigComplexNumbers MINUS = new BigComplexNumbers(new BigDecimal(-1), new BigDecimal(-1));
+    private BigDecimal zero= new BigDecimal(0.001);
+    private BigDecimal one = new BigDecimal(0.999);
     // Double integral
     /*
     public BigComplexNumbers _trigamma_function(BigComplexNumbers z) {
@@ -57,5 +58,40 @@ public class complex_trigamma_function {
         ans = ((X).pow(z.sub(ONE))).div(Y.mul(ONE.sub(X)));
         return ans;
     }*/
-    // public 
+    // Geometric series
+    /*
+    public BigComplexNumbers _trigamma_function(BigComplexNumbers z) {
+        BigComplexNumbers ans = new BigComplexNumbers();
+        BigComplexNumbers N = new BigComplexNumbers(Infinity, BigDecimal.ZERO);
+        BigComplexNumbers partOne = ONE.div(N);
+        BigComplexNumbers partTwoOne = (function(z, BigDecimal.ZERO));
+        BigComplexNumbers partTwoTwo = new BigComplexNumbers(BigDecimal.ZERO, BigDecimal.ZERO);
+        for (BigDecimal k = BigDecimal.ONE; k.compareTo(Infinity.subtract(BigDecimal.ONE)) <= 0; k = k.add(BigDecimal.ONE)) {
+            partTwoTwo = partTwoTwo.add(function(z, (k.divide(Infinity, 50, RoundingMode.HALF_UP))));
+        }
+        BigComplexNumbers partTwoThree = (function(z, new BigDecimal(0.9999)));
+        ans = partOne.mul((partTwoOne.add(partTwoTwo)).add(partTwoThree));
+        ans = MINUS.mul(ans);
+        return ans;
+    }
+    private BigComplexNumbers function(BigComplexNumbers z, BigDecimal x) {
+        BigComplexNumbers ans = new BigComplexNumbers();
+        if (x.compareTo(BigDecimal.ZERO) == 0) {
+            ans.real = BigDecimal.ZERO; ans.img = BigDecimal.ZERO;
+            return ans;
+        } else {
+            BigComplexNumbers X = new BigComplexNumbers(x, BigDecimal.ZERO);
+            ans = ((X.pow(z.sub(ONE))).mul(X.ln())).div(ONE.sub(X));
+            return ans;
+        }
+    }*/
+    // Sum of series
+    public BigComplexNumbers _trigamma_function(BigComplexNumbers z) {
+        BigComplexNumbers ans = new BigComplexNumbers(BigDecimal.ZERO, BigDecimal.ZERO);
+        System.out.println(z);
+        for (BigDecimal n = BigDecimal.ZERO; n.compareTo(Infinity) <= 0; n = n.add(BigDecimal.ONE)) {
+            ans = ans.add(ONE.div((z.add(new BigComplexNumbers(n, BigDecimal.ZERO))).square()));
+        }
+        return ans;
+    }
 }

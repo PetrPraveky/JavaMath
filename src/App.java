@@ -14,6 +14,7 @@ import lib.java.math.complex.ComplexNumbers;
 import lib.java.math.complex.functions.complex_beta_function;
 import lib.java.math.complex.functions.complex_gamma_function;
 import lib.java.math.complex.functions.complex_stieltjes_constant;
+import lib.java.math.complex.functions.complex_trigamma_function;
 import lib.java.math.complex.functions.complex_zeta_function;
 import lib.java.math.complex.functions.hurwitz_zeta_function;
 import lib.java.math.complex.functions.fourier_series.eisenstein_series;
@@ -175,9 +176,12 @@ public class App {
         // o9 = c1.pow(c2); o9.display();
         */
         // Big Complex functions
-        BigComplexNumbers i1 = new BigComplexNumbers(new BigDecimal(-2), new BigDecimal(1));
+        // /*
+        BigComplexNumbers i1 = new BigComplexNumbers(new BigDecimal(2), new BigDecimal(1));
         // complex_stieltjes_constant stieltjes = new complex_stieltjes_constant();
         // stieltjes._stieltjes_constant(1, i1).display();
-        
+        complex_trigamma_function trigamma = new complex_trigamma_function();
+        trigamma._trigamma_function(i1).display();
+        // */
     }
 }

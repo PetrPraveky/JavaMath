@@ -113,6 +113,13 @@ public class BigComplexNumbers {
         ans.img = (new BigDecimal(-1)).multiply(support.sin(real).multiply(support.sinh(img)));
         return ans;
     }
+    // Square
+    public BigComplexNumbers square() {
+        BigComplexNumbers ans = new BigComplexNumbers();
+        ans.real = (real.multiply(real)).subtract(img.multiply(img));
+        ans.img = (real.multiply(img)).multiply(new BigDecimal(2));
+        return ans;
+    }
     // Exponentionation
     public BigComplexNumbers pow(BigComplexNumbers b) {
         BigComplexNumbers ans = new BigComplexNumbers();
@@ -139,7 +146,7 @@ public class BigComplexNumbers {
 class Support {
     // Integral for arc tangent approximation
     public BigDecimal atan(BigDecimal x) {
-        BigDecimal ans = new BigDecimal(0); BigDecimal n = new BigDecimal(100);
+        BigDecimal ans = new BigDecimal(0); BigDecimal n = new BigDecimal(1000);
         BigDecimal mult = x.divide(n, 50, RoundingMode.HALF_UP);
         BigDecimal firstSum = atan_function(BigDecimal.ZERO).divide(new BigDecimal(2), 50, RoundingMode.HALF_UP);
         BigDecimal secondSum = BigDecimal.ZERO;
@@ -156,8 +163,9 @@ class Support {
         return BigDecimal.ONE.divide(z.pow(2).add(BigDecimal.ONE), 50, RoundingMode.HALF_UP);
     }
     // Integral for natural logarithm approximaion
+    /*
     public BigDecimal ln(BigDecimal a) {
-        BigDecimal ans = new BigDecimal(0); BigDecimal n = new BigDecimal(100);
+        BigDecimal ans = new BigDecimal(0); BigDecimal n = new BigDecimal(1000);
         BigDecimal mult = (a.subtract(BigDecimal.ONE)).divide(n, 50, RoundingMode.HALF_UP);
         BigDecimal firstSum = ln_function(BigDecimal.ONE).divide(new BigDecimal(2), 50, RoundingMode.HALF_UP);
         BigDecimal secondSum = BigDecimal.ZERO;
@@ -172,6 +180,16 @@ class Support {
     // Inside ufnction of integral for natural logarithm approximation
     private BigDecimal ln_function(BigDecimal x) {
         return BigDecimal.ONE.divide(x, 50, RoundingMode.HALF_UP);
+    }*/
+    // Natural logarithm using taylor series
+    public BigDecimal ln(BigDecimal x) {
+        BigDecimal ans = new BigDecimal(0); BigDecimal Infinity = new BigDecimal(100);
+        BigDecimal X = x.subtract(BigDecimal.ONE);
+        BigDecimal MINUS = new BigDecimal(-1);
+        for (BigDecimal n = new BigDecimal(1); n.compareTo(Infinity) <= 0; n = n.add(BigDecimal.ONE)) {
+            ans = ans.add((MINUS.pow((n.add(BigDecimal.ONE)).intValue())).multiply((X.pow(n.intValue())).divide(n, 50, RoundingMode.HALF_UP)));
+        }
+        return ans;
     }
     // Exponential function using Taylor series
     public BigDecimal exp(BigDecimal x) {
