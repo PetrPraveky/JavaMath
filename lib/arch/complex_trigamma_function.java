@@ -11,7 +11,8 @@ public class complex_trigamma_function {
     BigComplexNumbers ZERO = new BigComplexNumbers(BigDecimal.ZERO, BigDecimal.ZERO);
     BigDecimal zero= new BigDecimal(0.001);
     BigDecimal one = new BigDecimal(0.999);
-
+    // Double integral
+    /*
     public BigComplexNumbers _trigamma_function(BigComplexNumbers z) {
         BigComplexNumbers ans = new BigComplexNumbers();
         ans = _trigamma_first_integral(z);
@@ -55,5 +56,6 @@ public class complex_trigamma_function {
         X.display();
         ans = ((X).pow(z.sub(ONE))).div(Y.mul(ONE.sub(X)));
         return ans;
-    }
+    }*/
+    // public 
 }
