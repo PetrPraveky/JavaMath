@@ -60,7 +60,7 @@ This is program for some math function created by me. They are not exactly effic
 - **Hurwitz zeta function** ("*src/lib/java/math/complex/functions/hurwitz_zeta_function.java*") - One of zeta functions. Curretly works only for values lower than 0. You can read more on wikipedia: *https://en.wikipedia.org/wiki/Hurwitz_zeta_function*.
 - **Stieltjes generalized constants** ("*src/lib/math/complex/functions/complex_stieljes_constant.java*") - Generalization of stieljes constants. Its done with approx integral calculation and thanks to wikipedia: *https://en.wikipedia.org/wiki/Stieltjes_constants#Generalized_Stieltjes_constants*. Works only for *n* being an non-negative integer and *a* not being equal to non-positive integers. It's just an approximation.
 - **Trigamma function** ("*src/lib/math/complex/functions/complex_trigamma_function.java*") - Second polygamma function. It is calculated with series. You can't use non-positive integers as *z* in this function, same as in regular gamma function. You can read more on wikipedia: *https://en.wikipedia.org/wiki/Trigamma_function*.
-- **All of trigonomic and hyperbolic functions** - They are located in file for complex numbers and are callable asi them: *"ComplexNumber".sin()* for example.
+- **All of trigonomic and hyperbolic functions** - They are located in file for complex numbers and are callable asi them: *"ComplexNumber".sin()* for example. You can read more about each bellow.
 
 ## **What complex function can it plot?**
 
