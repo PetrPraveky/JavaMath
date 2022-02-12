@@ -179,12 +179,12 @@ public class App {
         */
         // Big Complex functions
         // /*
-        BigComplexNumbers i1 = new BigComplexNumbers(new BigDecimal(-2), new BigDecimal(1));
+        BigComplexNumbers i1 = new BigComplexNumbers(new BigDecimal(5), new BigDecimal(1));
         // complex_stieltjes_constant stieltjes = new complex_stieltjes_constant();
         // stieltjes._stieltjes_constant(1, i1).display();
         // complex_trigamma_function trigamma = new complex_trigamma_function();
         // trigamma._trigamma_function(i1).display();
-        BigComplexNumbers i2 = new BigComplexNumbers(new BigDecimal(3), new BigDecimal(1));
+        BigComplexNumbers i2 = new BigComplexNumbers(new BigDecimal(3), new BigDecimal(-1));
         complex_hurwitz_zeta_function zeta = new complex_hurwitz_zeta_function();
         zeta._hurwitz_zeta_function(i1, i2).display();
         // */
