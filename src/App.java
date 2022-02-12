@@ -13,6 +13,7 @@ import lib.java.math.complex.BigComplexNumbers;
 import lib.java.math.complex.ComplexNumbers;
 import lib.java.math.complex.functions.complex_beta_function;
 import lib.java.math.complex.functions.complex_gamma_function;
+import lib.java.math.complex.functions.complex_hurwitz_zeta_function;
 import lib.java.math.complex.functions.complex_stieltjes_constant;
 import lib.java.math.complex.functions.complex_trigamma_function;
 import lib.java.math.complex.functions.complex_zeta_function;
@@ -151,7 +152,7 @@ public class App {
         */
         // Big Complex numbers
         /*
-        // BigComplexNumbers c1 = new BigComplexNumbers(new BigDecimal(1), new BigDecimal(-5));
+        BigComplexNumbers c1 = new BigComplexNumbers(new BigDecimal(1), new BigDecimal(-5));
         // c1.display();
         // BigComplexNumbers c2 = new BigComplexNumbers(new BigDecimal(-0.5), new BigDecimal(2));
         // c2.display();
@@ -174,14 +175,18 @@ public class App {
         // o8 = c1.cos(); o8.display();
         // BigComplexNumbers o9 = new BigComplexNumbers(); // Pow
         // o9 = c1.pow(c2); o9.display();
+        // c1.atan().display();
         */
         // Big Complex functions
         // /*
-        BigComplexNumbers i1 = new BigComplexNumbers(new BigDecimal(2), new BigDecimal(1));
+        BigComplexNumbers i1 = new BigComplexNumbers(new BigDecimal(-2), new BigDecimal(1));
         // complex_stieltjes_constant stieltjes = new complex_stieltjes_constant();
         // stieltjes._stieltjes_constant(1, i1).display();
-        complex_trigamma_function trigamma = new complex_trigamma_function();
-        trigamma._trigamma_function(i1).display();
+        // complex_trigamma_function trigamma = new complex_trigamma_function();
+        // trigamma._trigamma_function(i1).display();
+        BigComplexNumbers i2 = new BigComplexNumbers(new BigDecimal(3), new BigDecimal(1));
+        complex_hurwitz_zeta_function zeta = new complex_hurwitz_zeta_function();
+        zeta._hurwitz_zeta_function(i1, i2).display();
         // */
     }
 }

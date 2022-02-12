@@ -25,7 +25,7 @@ public class BigComplexNumbers {
         real = real.setScale(50, RoundingMode.CEILING);
         img = img.setScale(50, RoundingMode.CEILING);
         System.out.println(
-            real.toString()+plusMinus+(img.abs()).toString()+"i"
+            real.setScale(50).toString()+plusMinus+(img.abs().setScale(50)).toString()+"i"
         );
     }
     // To string function
@@ -72,7 +72,7 @@ public class BigComplexNumbers {
         BigComplexNumbers ans = new BigComplexNumbers();
         Support support = new Support();
         if (img.compareTo(BigDecimal.ZERO) == 0 && real.compareTo(BigDecimal.ZERO) > 0) {
-            ans.real = support.ln(real); ans.img = BigDecimal.ZERO;
+            ans.real = new BigDecimal(Math.log(real.doubleValue())); ans.img = BigDecimal.ZERO;
             return ans;
         } else {
             BigDecimal r = (real.pow(2).add(img.pow(2))).sqrt(new MathContext(10));
@@ -84,7 +84,7 @@ public class BigComplexNumbers {
             } else {
                 return ans;
             }
-            ans.real = support.ln(r);
+            ans.real = new BigDecimal(Math.log(r.doubleValue()));
             ans.img = sigma;
             return ans;
         }
@@ -113,6 +113,17 @@ public class BigComplexNumbers {
         ans.img = (new BigDecimal(-1)).multiply(support.sin(real).multiply(support.sinh(img)));
         return ans;
     }
+    // Atan function
+    public BigComplexNumbers atan() {
+        BigComplexNumbers z = new BigComplexNumbers(real, img);
+        BigComplexNumbers ans = new BigComplexNumbers();
+        BigComplexNumbers ONE = new BigComplexNumbers(BigDecimal.ONE, BigDecimal.ZERO);
+        BigComplexNumbers I = new BigComplexNumbers(BigDecimal.ZERO, BigDecimal.ONE); BigComplexNumbers TWOI = new BigComplexNumbers(BigDecimal.ZERO, new BigDecimal(2));
+        ans = (
+            (ONE.div(TWOI)).mul(((I.sub(z)).div(I.add(z))).ln())
+        );
+        return ans;
+    }
     // Square
     public BigComplexNumbers square() {
         BigComplexNumbers ans = new BigComplexNumbers();
@@ -135,16 +146,21 @@ public class BigComplexNumbers {
         } else if (real.compareTo(BigDecimal.ZERO) == 0 && img.compareTo(BigDecimal.ZERO) == 0) {
             return ans;
         }
-        BigComplexNumbers part1 = new BigComplexNumbers();
-        BigComplexNumbers part2 = new BigComplexNumbers();
-        part1 = (b.mul(new BigComplexNumbers(support.ln(r), BigDecimal.ZERO))).exp();
-        part2 = (b.mul(new BigComplexNumbers(sigma, BigDecimal.ZERO)).cos()).add(((b.mul(new BigComplexNumbers(sigma, BigDecimal.ZERO))).sin()).mul(new BigComplexNumbers(BigDecimal.ZERO, BigDecimal.ONE)));
-        ans = part1.mul(part2);
+        // BigComplexNumbers part1 = new BigComplexNumbers();
+        // BigComplexNumbers part2 = new BigComplexNumbers();
+        // part1 = (b.mul(new BigComplexNumbers(support.ln(r), BigDecimal.ZERO))).exp();
+        // part2 = (b.mul(new BigComplexNumbers(sigma, BigDecimal.ZERO)).cos()).add(((b.mul(new BigComplexNumbers(sigma, BigDecimal.ZERO))).sin()).mul(new BigComplexNumbers(BigDecimal.ZERO, BigDecimal.ONE)));
+        // ans = part1.mul(part2);
+        BigComplexNumbers lnr = new BigComplexNumbers(support.ln(r), BigDecimal.ZERO);
+        BigComplexNumbers I = new BigComplexNumbers(BigDecimal.ZERO, BigDecimal.ONE);
+        BigComplexNumbers SIGMA = new BigComplexNumbers(sigma, BigDecimal.ZERO);
+        ans = ((lnr.mul(b)).add(I.mul(SIGMA.mul(b)))).exp();
         return ans;
     }
 }
 class Support {
     // Integral for arc tangent approximation
+    
     public BigDecimal atan(BigDecimal x) {
         BigDecimal ans = new BigDecimal(0); BigDecimal n = new BigDecimal(1000);
         BigDecimal mult = x.divide(n, 50, RoundingMode.HALF_UP);
@@ -162,10 +178,22 @@ class Support {
     private BigDecimal atan_function(BigDecimal z) {
         return BigDecimal.ONE.divide(z.pow(2).add(BigDecimal.ONE), 50, RoundingMode.HALF_UP);
     }
-    // Integral for natural logarithm approximaion
+    // arc tangent using taylor series
     /*
+    public BigDecimal atan(BigDecimal x) {
+        BigDecimal ans = new BigDecimal(0); BigDecimal Infinity = new BigDecimal(10);
+        for (BigDecimal n = BigDecimal.ZERO; n.compareTo(Infinity) <= 0; n = n.add(BigDecimal.ONE)) {
+            ans = ans.add(
+                ((new BigDecimal(-1).pow(n.intValue())).divide((new BigDecimal(2).multiply(n)).add(BigDecimal.ONE), 50, RoundingMode.HALF_UP).multiply(x.pow(((new BigDecimal(2).multiply(n)).add(BigDecimal.ONE)).intValue())))
+            );
+        }
+        return ans;
+    }
+    */
+    // Integral for natural logarithm approximaion
+    
     public BigDecimal ln(BigDecimal a) {
-        BigDecimal ans = new BigDecimal(0); BigDecimal n = new BigDecimal(1000);
+        BigDecimal ans = new BigDecimal(0); BigDecimal n = new BigDecimal(2000);
         BigDecimal mult = (a.subtract(BigDecimal.ONE)).divide(n, 50, RoundingMode.HALF_UP);
         BigDecimal firstSum = ln_function(BigDecimal.ONE).divide(new BigDecimal(2), 50, RoundingMode.HALF_UP);
         BigDecimal secondSum = BigDecimal.ZERO;
@@ -180,17 +208,22 @@ class Support {
     // Inside ufnction of integral for natural logarithm approximation
     private BigDecimal ln_function(BigDecimal x) {
         return BigDecimal.ONE.divide(x, 50, RoundingMode.HALF_UP);
-    }*/
+    }
     // Natural logarithm using taylor series
+    /*
     public BigDecimal ln(BigDecimal x) {
         BigDecimal ans = new BigDecimal(0); BigDecimal Infinity = new BigDecimal(100);
-        BigDecimal X = x.subtract(BigDecimal.ONE);
+        // BigDecimal X = x.subtract(BigDecimal.ONE);
         BigDecimal MINUS = new BigDecimal(-1);
+        BigDecimal X = (MINUS.multiply(x)).add(BigDecimal.ONE);
         for (BigDecimal n = new BigDecimal(1); n.compareTo(Infinity) <= 0; n = n.add(BigDecimal.ONE)) {
-            ans = ans.add((MINUS.pow((n.add(BigDecimal.ONE)).intValue())).multiply((X.pow(n.intValue())).divide(n, 50, RoundingMode.HALF_UP)));
+            ans = ans.add((x.pow(n.intValue())).divide(n, 50, RoundingMode.HALF_UP));
         }
+        // for (BigDecimal n = new BigDecimal(1); n.compareTo(Infinity) <= 0; n = n.add(BigDecimal.ONE)) {
+        //     ans = ans.add((MINUS.pow((n.add(BigDecimal.ONE)).intValue())).multiply((X.pow(n.intValue())).divide(n, 50, RoundingMode.HALF_UP)));
+        // }
         return ans;
-    }
+    }*/
     // Exponential function using Taylor series
     public BigDecimal exp(BigDecimal x) {
         BigDecimal ans = new BigDecimal(0); BigDecimal Infinity = new BigDecimal(100);
@@ -209,7 +242,7 @@ class Support {
     }
     // Sin function using Taylor series
     public BigDecimal sin(BigDecimal x) {
-        BigDecimal ans = new BigDecimal(0); BigDecimal Infinity = new BigDecimal(100);
+        BigDecimal ans = new BigDecimal(0); BigDecimal Infinity = new BigDecimal(10);
         // Taylor approximation
         for (BigDecimal n = new BigDecimal(0); n.compareTo(Infinity) <= 0; n = n.add(BigDecimal.ONE)) {
             ans = ans.add(
@@ -220,7 +253,7 @@ class Support {
     }
     // Cos function using Taylor series
     public BigDecimal cos(BigDecimal x) {
-        BigDecimal ans = new BigDecimal(0); BigDecimal Infinity = new BigDecimal(100);
+        BigDecimal ans = new BigDecimal(0); BigDecimal Infinity = new BigDecimal(00);
         // Taylor approximation
         for (BigDecimal n = new BigDecimal(0); n.compareTo(Infinity) <= 0; n = n.add(BigDecimal.ONE)) {
             ans = ans.add(
@@ -231,7 +264,7 @@ class Support {
     }
     // Sinh function using Taylor series
     public BigDecimal sinh(BigDecimal x) {
-        BigDecimal ans = new BigDecimal(0); BigDecimal Infinity = new BigDecimal(100);
+        BigDecimal ans = new BigDecimal(0); BigDecimal Infinity = new BigDecimal(10);
         // Taylor approximation
         for (BigDecimal n = new BigDecimal(0); n.compareTo(Infinity) <= 0; n = n.add(BigDecimal.ONE)) {
             ans = ans.add(
@@ -242,7 +275,7 @@ class Support {
     }
     // Cosh function using Taylor series
     public BigDecimal cosh(BigDecimal x) {
-        BigDecimal ans = new BigDecimal(0); BigDecimal Infinity = new BigDecimal(100);
+        BigDecimal ans = new BigDecimal(0); BigDecimal Infinity = new BigDecimal(10);
         // Taylor approximation
         for (BigDecimal n = new BigDecimal(0); n.compareTo(Infinity) <= 0; n = n.add(BigDecimal.ONE)) {
             ans = ans.add(
