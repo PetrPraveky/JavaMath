@@ -73,8 +73,9 @@ This is program for some math function created by me. They are not exactly effic
 - **Eisenstein series** ("*src/lib/java/math/plotter/complex_function_plotter/fourier_series/eisenstein_plotter.java*") - Plotted with domain coloring with old settings. Plot of Eisenstein series with choosable value *k*. You can plot this with 3.7k, 14,4k or 58k points and this plot is made with 58k points. Warning - for more points it takes a huge amount of time. There are plots of G4 and G10. <br />
 ![plot](./img/complex/g4.png) ![plot](./img/complex/g10.png)
 - **Hurwitz zeta function** ("*src/lib/java/math/plotter/complex_function_plotter/complex_hurwitz_plotter.java*") - Can be plotted with new domain coloring (described at gamma function section). It takes a huge amount of time to plot, because it's computation is pretty hard. When I add here an image of this plot, it will be made with rather unprecise values, it will take less amount of time.
+- **Digamma function** ("*src/lib/java/math/plotter/complex_function_plotter/complex_digamma_plotter.java*") - Plotted with new domain coloring algorithm. Image below is plotted with 130k points
 - **Trigamma function** ("*src/lib/java/math/plotter/complex_function_plotter/complex_trigamma_plotter.java*") - Plotted with domain coloring mencioned above. Image below is plotted with something about 90k points. <br />
-![plot](./img/complex/complex_trigamma_plot.png)
+![plot](./img/complex/complex_digamma_plot.png) ![plot](./img/complex/complex_trigamma_plot.png)
 ### **Trigonometric functions**
 - **Sine function** ("*src/lib/java/math/plotter/complex_function_plotter/complex_trigonometry/complex_sin_plotter.java*") - Plot of sine function. Sine of complex numbers is done with equation from: *https://proofwiki.org/wiki/Sine_of_Complex_Number*.
 - **Cosine function** ("src/lib/java/math/plotter/complex_function_plotter/complex_trigonometry/complex_cos_plotter.java*") - Plot of cosine function. Cosine of complex numbers is done with equation from: *https://proofwiki.org/wiki/Cosine_of_Complex_Number*.
