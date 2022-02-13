@@ -4,6 +4,8 @@ import javax.swing.JFrame;
 
 import lib.java.math.plotter.complex_function_plotter.complex_beta_plotter;
 import lib.java.math.plotter.complex_function_plotter.complex_gamma_plotter;
+import lib.java.math.plotter.complex_function_plotter.complex_hurwitz_plotter;
+import lib.java.math.plotter.complex_function_plotter.complex_trigamma_plotter;
 import lib.java.math.plotter.complex_function_plotter.complex_zeta_plotter;
 import lib.java.math.plotter.complex_function_plotter.complex_hyperbolic.complex_cosh_plotter;
 import lib.java.math.plotter.complex_function_plotter.complex_hyperbolic.complex_coth_plotter;
@@ -66,6 +68,10 @@ public class plotter {
             frame.add(new complex_csch_plotter());
         } else if (function == "complex_beta") {
             frame.add(new complex_beta_plotter());
+        } else if (function == "complex_hurwitz") {
+            frame.add(new complex_hurwitz_plotter());
+        } else if (function == "complex_trigamma") {
+            frame.add(new complex_trigamma_plotter());
         }
         frame.setSize(400, 400);
         frame.setLocation(400, 200);

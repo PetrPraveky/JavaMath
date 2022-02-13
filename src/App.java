@@ -133,7 +133,7 @@ public class App {
         // o6 = stieljes._stieljes_constant(2, i1); o6.display();
         */
         // Complex plotter
-        /*
+        // /*
         // new plotter("complex_gamma");
         // new plotter("complex_zeta");
         // new plotter("complex_sin");
@@ -143,8 +143,10 @@ public class App {
         // new plotter("complex_csc");
         // new plotter("complex_sinh");
         // new plotter("complex_csch");
-        new plotter("complex_beta");
-        */
+        // new plotter("complex_beta");
+        // new plotter("complex_hurwitz");
+        new plotter("complex_trigamma");
+        // */
         // Fourier series
         /*
         // new plotter("sawtooth_wave");
@@ -184,9 +186,9 @@ public class App {
         // stieltjes._stieltjes_constant(1, i1).display();
         // complex_trigamma_function trigamma = new complex_trigamma_function();
         // trigamma._trigamma_function(i1).display();
-        BigComplexNumbers i2 = new BigComplexNumbers(new BigDecimal(3), new BigDecimal(-1));
-        complex_hurwitz_zeta_function zeta = new complex_hurwitz_zeta_function();
-        zeta._hurwitz_zeta_function(i1, i2).display();
+        // BigComplexNumbers i2 = new BigComplexNumbers(new BigDecimal(3), new BigDecimal(-1));
+        // complex_hurwitz_zeta_function zeta = new complex_hurwitz_zeta_function();
+        // zeta._hurwitz_zeta_function(i1, i2).display();
         // */
     }
 }

@@ -10,7 +10,6 @@ public class complex_trigamma_function {
     // Sum of series
     public BigComplexNumbers _trigamma_function(BigComplexNumbers z) {
         BigComplexNumbers ans = new BigComplexNumbers(BigDecimal.ZERO, BigDecimal.ZERO);
-        System.out.println(z);
         for (BigDecimal n = BigDecimal.ZERO; n.compareTo(Infinity) <= 0; n = n.add(BigDecimal.ONE)) {
             ans = ans.add(ONE.div((z.add(new BigComplexNumbers(n, BigDecimal.ZERO))).square()));
         }

@@ -162,7 +162,7 @@ class Support {
     // Integral for arc tangent approximation
     
     public BigDecimal atan(BigDecimal x) {
-        BigDecimal ans = new BigDecimal(0); BigDecimal n = new BigDecimal(1000);
+        BigDecimal ans = new BigDecimal(0); BigDecimal n = new BigDecimal(100);
         BigDecimal mult = x.divide(n, 50, RoundingMode.HALF_UP);
         BigDecimal firstSum = atan_function(BigDecimal.ZERO).divide(new BigDecimal(2), 50, RoundingMode.HALF_UP);
         BigDecimal secondSum = BigDecimal.ZERO;
@@ -193,7 +193,7 @@ class Support {
     // Integral for natural logarithm approximaion
     
     public BigDecimal ln(BigDecimal a) {
-        BigDecimal ans = new BigDecimal(0); BigDecimal n = new BigDecimal(2000);
+        BigDecimal ans = new BigDecimal(0); BigDecimal n = new BigDecimal(100);
         BigDecimal mult = (a.subtract(BigDecimal.ONE)).divide(n, 50, RoundingMode.HALF_UP);
         BigDecimal firstSum = ln_function(BigDecimal.ONE).divide(new BigDecimal(2), 50, RoundingMode.HALF_UP);
         BigDecimal secondSum = BigDecimal.ZERO;
