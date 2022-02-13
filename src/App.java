@@ -147,6 +147,7 @@ public class App {
         // new plotter("complex_beta");
         // new plotter("complex_hurwitz");
         // new plotter("complex_trigamma");
+        new plotter("complex_digamma");
         // */
         // Fourier series
         /*
@@ -190,8 +191,8 @@ public class App {
         // BigComplexNumbers i2 = new BigComplexNumbers(new BigDecimal(3), new BigDecimal(-1));
         // complex_hurwitz_zeta_function zeta = new complex_hurwitz_zeta_function();
         // zeta._hurwitz_zeta_function(i1, i2).display();
-        complex_digamma_function digamma = new complex_digamma_function();
-        digamma._digamma_function(i1).display();
+        // complex_digamma_function digamma = new complex_digamma_function();
+        // digamma._digamma_function(i1).display();
         // */
     }
 }

@@ -8,7 +8,11 @@ public class complex_digamma_function {
     public BigComplexNumbers _digamma_function(BigComplexNumbers x) {
         BigComplexNumbers ans = new BigComplexNumbers();
         BigComplexNumbers ONE = new BigComplexNumbers(BigDecimal.ONE, BigDecimal.ZERO); BigComplexNumbers TWO = new BigComplexNumbers(new BigDecimal(2), BigDecimal.ZERO);
-        ans = (x.ln()).sub(ONE.div(TWO.mul(x)));
+        try {
+            ans = (x.ln()).sub(ONE.div(TWO.mul(x)));
+        } catch (ArithmeticException e) {
+            return ans;
+        }
         return ans;
     }
 }
