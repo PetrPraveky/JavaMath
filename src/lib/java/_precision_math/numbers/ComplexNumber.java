@@ -1,6 +1,7 @@
 package lib.java._precision_math.numbers;
 
 import java.math.BigDecimal;
+import java.math.BigInteger;
 
 /**
  * <h3>Complex numbers and their calculations</h3>
@@ -62,12 +63,65 @@ public class ComplexNumber {
     // ----------------------------------------------------
     /**
      * <h3>Constructor with both values as double</h3>
-     * Constructor wich set real and imaginary values from double inputs <b>a</b> and <b>b</b>.
+     * Constructor which sets real and imaginary values from double inputs <b>a</b> and <b>b</b>.
      */
     public ComplexNumber(double a, double b) {
         REAL = new BigDecimal(a); IMG = new BigDecimal(b);
     }
     // ----------------------------------------------------
-
+    /**
+     * <h3>Constructor with both values as BigDecimal</h3>
+     * Constructor which sets real and imaginary values from BigDecimal input <b>a</b> and <b>b</b>.
+     */
+    public ComplexNumber(BigDecimal a, BigDecimal b) {
+        REAL = a; IMG = b;
+    }
     // ----------------------------------------------------
+    /**
+     * <h3>Constructor with both values as BigInteger</h3>
+     * Constructor wich sets real and imaginary values from BigInteger input <b>a</b> and <b>b</b>.
+     */
+    public ComplexNumber(BigInteger a, BigInteger b) {
+        REAL = new BigDecimal(a); IMG = new BigDecimal(b);
+    }
+    // ----------------------------------------------------
+    /**
+     * <h3>Constructor with both values as float</h3>
+     * Constructor which sets real and imaginary values from float input <b>a</b> and <b>b</b>.
+     */
+    public ComplexNumber(float a, float b) {
+        REAL = new BigDecimal(a); IMG = new BigDecimal(b);
+    }
+    // ----------------------------------------------------
+    /**
+     * <h3>Constructor with only real value as double</h3>
+     * Constructor which sets real part to <b>r<b> and imaginary sets to <b>zero</b>.
+     */
+    public ComplexNumber(double r) {
+        REAL = new BigDecimal(r); IMG = BigDecimal.ZERO;
+    }
+    // ----------------------------------------------------
+    /**
+     * <h3>Constructor with only real value as BigDecimal</h3>
+     * Constructor which sets real part to <b>r<b> and imaginary sets to <b>zero</b>.
+     */
+    public ComplexNumber(BigDecimal r) {
+        REAL = r; IMG = BigDecimal.ZERO;
+    }
+    // ----------------------------------------------------
+    /**
+     * <h3>Constructor with only real value as BigInteger</h3>
+     * Constructor which sets real part to <b>r<b> and imaginary sets to <b>zero</b>.
+     */
+    public ComplexNumber(BigInteger r) {
+        REAL = new BigDecimal(r); IMG = BigDecimal.ZERO;
+    } 
+    // ----------------------------------------------------
+    /**
+     * <h3>Constructor with only real value as float</h3>
+     * Constructor which sets real part to <b>r<b> and imaginary sets to <b>zero</b>.
+     */
+    public ComplexNumber(float r) {
+        REAL = new BigDecimal(r); IMG = BigDecimal.ZERO;
+    }
 }
