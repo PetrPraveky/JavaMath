@@ -28,9 +28,9 @@ public class BigDecimalMath {
     // ----------------------------------------------------
     /**
      * <h3>Arctangent for BigDecimal values</h3>
-     * I used approximation from this website: {@link https://www.researchgate.net/publication/258792323_Full_Quadrant_Approximations_for_the_Arctangent_Function_Tips_and_Tricks}
+     * I used seventh-order approximation from this website: {@link https://www.researchgate.net/publication/258792323_Full_Quadrant_Approximations_for_the_Arctangent_Function_Tips_and_Tricks}
      * <p>
-     * It's approximation is on
+     * It's accuracy is around 2.212°*10^(-8)
      */
     public static BigDecimal arctan(BigDecimal x) {
         BigDecimal[] A = new BigDecimal[] {
@@ -55,8 +55,30 @@ public class BigDecimalMath {
     }
     // ----------------------------------------------------
     /**
+     * <h3>Factorial for BigDecimal
+     * This function returns product of all positive integer less than or eqaul to {@code n}
+     * <p>
+     * You can read more on wikipedia: {@link https://en.wikipedia.org/wiki/Factorial}
+     */
+    public static BigDecimal factorial(BigDecimal n) {
+        BigDecimal ans = n;
+        if (n.compareTo(BigDecimal.ZERO) == 0) {
+            return BigDecimal.ONE;
+        }
+        if (n.compareTo(BigDecimal.ZERO) < 0) {
+            return null;
+        }
+        for (BigDecimal k = new BigDecimal(1); k.compareTo(n) < 0; k = k.add(BigDecimal.ONE)) {
+            ans = ans.multiply(n.subtract(k));
+        }
+        return ans;
+    }
+    // ----------------------------------------------------
+    /**
      * <h3>Sign function</h3>
-     * Sign function for BigDecimal
+     * Sign function for BigDecimal.
+     * <p>
+     * You can read more on wikipedia: {@link https://en.wikipedia.org/wiki/Sign_function}
      */
     public static BigDecimal sign(BigDecimal x) {
         if (x.compareTo(BigDecimal.ZERO) < 0) {

@@ -328,8 +328,8 @@ public class ComplexNumber {
      */
     public ComplexNumber exp() {
         ComplexNumber ans = new ComplexNumber();
-        ans.REAL = BigDecimalMath.sin(REAL);
-        ans.IMG = BigDecimalMath.sin(IMG);
+        // ans.REAL = BigDecimalMath.sin(REAL);
+        ans.IMG = BigDecimalMath.factorial(IMG);
         return ans;
     }
     // ----------------------------------------------------
