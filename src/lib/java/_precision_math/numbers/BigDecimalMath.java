@@ -20,10 +20,7 @@ public class BigDecimalMath {
      * I used this approximaton: {@link }
      */
     public static BigDecimal sin(BigDecimal x) {
-        BigDecimal SIXT = new BigDecimal(16); BigDecimal FIVE = new BigDecimal(5); BigDecimal FOUR = new BigDecimal(4);
-        BigDecimal numerator = SIXT.multiply(x).multiply(PI.subtract(x));
-        BigDecimal denominator = (FIVE.multiply(PI.pow(2))).subtract((FOUR.multiply(x)).multiply(PI.subtract(x)));
-        return numerator.divide(denominator, 50, RoundingMode.HALF_UP);
+        return null;
     }
     // ----------------------------------------------------
     /**
