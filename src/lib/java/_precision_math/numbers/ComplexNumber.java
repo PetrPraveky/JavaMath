@@ -2,6 +2,8 @@ package lib.java._precision_math.numbers;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.math.MathContext;
+import java.math.RoundingMode;
 
 /**
  * <h3>Complex numbers and their calculations</h3>
@@ -31,9 +33,25 @@ public class ComplexNumber {
      * <h3>Imaginary part of complex number</h3>
      * This part is set to be {@code BigDecimal} value.
      * You can change it to {@code double}</b> value with <b>{@code .doubleValue()}</b>, set it to {@code float} with <b>{@code .floatValue()}</b>,
-     * {@code BigInteger} with <b>{@code .BigIntegerValue()}</b> or to {@code int} with <b>{@code .intValue()}</b>.
+     * {@code BigInteger} with <b>{@code .toBigInteger()}</b> or to {@code int} with <b>{@code .intValue()}</b>.
      */
     public BigDecimal IMG;
+    // ----------------------------------------------------
+    /**
+     * <h3>Radius of complex number in polar complex plane</h3>
+     * This part is set to be {@code BigDecimal} value.
+     * You can change it to {@code double}</b> value with <b>{@code .doubleValue()}</b>, set it to {@code float} with <b>{@code .floatValue()}</b>,
+     * {@code BigInteger} with <b>{@code .toBigInteger()}</b> or to {@code int} with <b>{@code .intValue()}</b>.
+     */
+    public BigDecimal R;
+    // ----------------------------------------------------
+    /**
+     * <h3>Angle of complex number in polar complex plane</h3>
+     * This part is set to be {@code BigDecimal} value.
+     * You can change it to {@code double}</b> value with <b>{@code .doubleValue()}</b>, set it to {@code float} with <b>{@code .floatValue()}</b>,
+     * {@code BigInteger} with <b>{@code .toBigInteger()}</b> or to {@code int} with <b>{@code .intValue()}</b>.
+     */
+    public BigDecimal PHI;
     // ----------------------------------------------------
     /**
      * <h3>Zero value of complex number</h3>
@@ -57,6 +75,36 @@ public class ComplexNumber {
      * <h3>Empty constructor</h3>
      * Empty constructor for complex nubmers. Output will be determined as 0+0i, so real and imaginary part will be equal to {@code BigDecimal.ZERO}
      */
+    // ----------------------------------------------------
+        /**
+     * <h3>Polar conversion</h3>
+     * Sets values for polar complex interpretaion. You can return those values with {@code .R}, which is radius, and {@code .PHI}, which is angle.
+     */
+    public void polar_conversion() {
+        // R value
+        R = (REAL.pow(2).add(IMG.pow(2))).sqrt(new MathContext(50));
+        // PHI value
+        /*
+        PHI = arg(x+yi) = if i == 0 and x != 0 ---> 0
+                            if y != 0 or x > 0 -----> 2*arctan( y/( sqrt(x^2+y^2)+x) )
+                            if x < 0 and y == 0 ----> pi
+                            if x == 0 and y == 0 ---> undefined
+        */
+        if (REAL.compareTo(BigDecimal.ZERO) != 0 && IMG.compareTo(BigDecimal.ZERO) == 0) {
+            PHI =  BigDecimal.ZERO;
+        } else if (REAL.compareTo(BigDecimal.ZERO) > 0 || IMG.compareTo(BigDecimal.ZERO) != 0) {
+            BigDecimal TWO = new BigDecimal(2);
+            PHI = (
+                TWO.multiply(BigDecimalMath.arctan(IMG.divide(R.add(REAL), 50, RoundingMode.HALF_UP)))
+            );
+            PHI = PHI.setScale(50, RoundingMode.HALF_UP);
+        } else if (REAL.compareTo(BigDecimal.ZERO) < 0 && IMG.compareTo(BigDecimal.ZERO) == 0) {
+            PHI = new BigDecimal(Math.PI);
+            PHI = PHI.setScale(50, RoundingMode.HALF_UP);
+        } else {
+            PHI = null;
+        }
+    }
     public ComplexNumber() {
         REAL = BigDecimal.ZERO; IMG = BigDecimal.ZERO;
     }
@@ -124,4 +172,61 @@ public class ComplexNumber {
     public ComplexNumber(float r) {
         REAL = new BigDecimal(r); IMG = BigDecimal.ZERO;
     }
+    // ----------------------------------------------------
+    /**
+     * <h3>Display function of complex number</h3>
+     * Function that print value of complex number to console.
+     * <p>
+     * It contains some basic editing like managing zeros and plus/minus.
+     */
+    public void display() {
+        if (REAL.compareTo(BigDecimal.ZERO) == 0) {
+            System.out.println(
+                IMG.toString()+"i"
+            );
+            return;
+        } else if (IMG.compareTo(BigDecimal.ZERO) == 0) {
+            System.out.println(
+                REAL.toString()
+            );
+            return;
+        }
+        if (IMG.compareTo(BigDecimal.ZERO) < 0) {
+            System.out.println(
+                REAL.toString()+"-"+IMG.abs().toString()+"i"
+            );
+            return;
+        } else {
+            System.out.println(
+                REAL.toString()+"+"+IMG.toString()+"i"
+            );
+            return;
+        }
+    }
+    // ----------------------------------------------------
+    /**
+     * <h3>Pretier display function</h3>
+     * Function that print value of complex number to console.
+     * <p>
+     * It contains some basic editing like managing zeros and plus/minus. Also it prints out prettier answers and more vivid values. I'll add some stuff like LaTeX print with simplification (like 1.414... = sqrt{2})
+     */
+    public void b_display() {
+        String mp = "+";
+        this.polar_conversion();
+        if (IMG.compareTo(BigDecimal.ZERO) != 0 && REAL.compareTo(BigDecimal.ZERO) != 0) {
+            if (IMG.compareTo(BigDecimal.ZERO) < 0) {
+                mp = "-";
+            }
+            System.out.println(REAL+mp+IMG.abs()+"i");
+            System.out.println("\nCartesian complex values: ");
+            System.out.println("Real: "+REAL);
+            System.out.println("Img:  "+IMG);
+            System.out.println("\nPolar complex values: ");
+            System.out.println("r:    "+R);
+            System.out.println("Phi:  "+PHI+"rad");
+        }
+    }
+    // ----------------------------------------------------
+    
+    // ----------------------------------------------------
 }
