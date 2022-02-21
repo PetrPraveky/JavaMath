@@ -14,8 +14,21 @@ public class BigDecimalMath {
     );
     // ----------------------------------------------------
     /**
+     * <h3>Sine function</h3>
+     * Sine approximation for BigDecimal
+     * <p>
+     * I used this approximaton: {@link }
+     */
+    public static BigDecimal sin(BigDecimal x) {
+        BigDecimal SIXT = new BigDecimal(16); BigDecimal FIVE = new BigDecimal(5); BigDecimal FOUR = new BigDecimal(4);
+        BigDecimal numerator = SIXT.multiply(x).multiply(PI.subtract(x));
+        BigDecimal denominator = (FIVE.multiply(PI.pow(2))).subtract((FOUR.multiply(x)).multiply(PI.subtract(x)));
+        return numerator.divide(denominator, 50, RoundingMode.HALF_UP);
+    }
+    // ----------------------------------------------------
+    /**
      * <h3>Arctangent for BigDecimal values</h3>
-     * I used approximation from this website: https://www.researchgate.net/publication/258792323_Full_Quadrant_Approximations_for_the_Arctangent_Function_Tips_and_Tricks
+     * I used approximation from this website: {@link https://www.researchgate.net/publication/258792323_Full_Quadrant_Approximations_for_the_Arctangent_Function_Tips_and_Tricks}
      * <p>
      * It's approximation is on
      */

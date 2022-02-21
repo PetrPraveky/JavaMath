@@ -227,7 +227,7 @@ public class ComplexNumber {
     // ----------------------------------------------------
     /**
      * <h3>Additionfunction for complex numbers</h3>
-     * Function that adds two complex numbers
+     * Function that adds two complex numbers.
      * <p>
      * Adding works simply:  {@code (a+bi)+(x+yi) = a+bi+x+yi = (a+x)+(bi+yi)}
      * <p>
@@ -242,7 +242,7 @@ public class ComplexNumber {
     // ----------------------------------------------------
     /**
      * <h3>Subtraction function for complex numbers</h3>
-     * Function that subtracts two complex numbers
+     * Function that subtracts two complex numbers.
      * <p>
      * Subtracting works simply: {@code (a+bi)-(x+y1) = a+bi-x-yi = (a-x)+(bi-yi)}
      * <p>
@@ -257,7 +257,7 @@ public class ComplexNumber {
     // ----------------------------------------------------
     /**
      * <h3>Multiplication function for complex numbers</h3>
-     * Function that multiplies two complex numbers
+     * Function that multiplies two complex numbers.
      * <p>
      * Multiplication works like this: {@code (a+bi)*(x+yi) = ax+ayi+bix-by = (ax-by)+(ayi+bxi)}
      * <p>
@@ -272,7 +272,7 @@ public class ComplexNumber {
     // ----------------------------------------------------
     /**
      * <h3>DIvision function for complex numbers</h3>
-     * Function that divide one complex number and one non-zero complex number
+     * Function that divide one complex number and one non-zero complex number.
      * <p>
      * Division works like this: {@code (a+bi)/(x+yi) = ((ax+by)(bx-ay)i)/(x^2+y^2)}
      * <p>
@@ -290,7 +290,7 @@ public class ComplexNumber {
     // ----------------------------------------------------
     /**
      * <h3>Squaring of complex number</h3>
-     * Function that squares one complex number
+     * Function that squares one complex number.
      * <p>
      * Squaring works simply like this: {@code (a+bi)^2 = a^2+2abi-b^2 = (a^2-b^2)+2abi}
      * <p>
@@ -305,9 +305,9 @@ public class ComplexNumber {
     // ----------------------------------------------------
     /**
      * <h3>Square root of complex number</h3>
-     * Function that make square root of complex number
+     * Function that make square root of complex number.
      * <p>
-     * Square root work like this: {@code }
+     * Square root work like this: {@code (a+bi)^(1/2) = m+ni }, where {@code m = ((a+(a^2+b^2)^(1/2))/2)^(1/2)}  and {@code n = sgn(b)*((-a+(a^2+b^2)^(1/2))/2)^(1/2)}
      * <p>
      * You can read more on wikipedia: {@link https://en.wikipedia.org/wiki/Complex_number#Square_root}
      */
@@ -318,5 +318,21 @@ public class ComplexNumber {
         return ans;
     }
     // ----------------------------------------------------
+    /**
+     * <h3>Exponential function</h3>
+     * Function that return exponential value of complex number. I used functional equation with Euler's formula.
+     * <p>
+     * Exponential function works like this: {@}
+     * <p>
+     * You can read more on wikipedia: {@link https://en.wikipedia.org/wiki/Complex_number#Exponential_function}
+     */
+    public ComplexNumber exp() {
+        ComplexNumber ans = new ComplexNumber();
+        ans.REAL = BigDecimalMath.sin(REAL);
+        ans.IMG = BigDecimalMath.sin(IMG);
+        return ans;
+    }
+    // ----------------------------------------------------
+
     // ----------------------------------------------------
 }

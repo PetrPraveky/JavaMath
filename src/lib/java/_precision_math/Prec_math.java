@@ -17,5 +17,6 @@ public class Prec_math {
         (n1.divide(n2)).display(); // Division
         (n1.square()).display(); // Square
         (n1.sqrt()).display(); // Square root
+        (n1.exp()).display(); // Exponential function
     }
 }
