@@ -20,26 +20,53 @@ public class BigDecimalMath {
     public static final BigDecimal TWOPI = PI.multiply(new BigDecimal(2));
     // ----------------------------------------------------
     /**
-     * <h3>Minus one value for big decimal</h3>
+     * <h3>Minus one value for BigDecimal</h3>
      */
     public static final BigDecimal MINUSONE = new BigDecimal(-1);
     // ----------------------------------------------------
     /**
+     * <h3>Two value for BigDecimal</h3>
+     */
+    public static final BigDecimal TWO = new BigDecimal(2);
+    // ----------------------------------------------------
+    /**
      * <h3>Sine function</h3>
-     * Sine approximation for BigDecimal
+     * Sine approximation using taylor series. You can read more on wikipedia: {@link https://en.wikipedia.org/wiki/Taylor_series#Trigonometric_functions}
      * <p>
-     * I used this approximaton: {@link https://en.wikipedia.org/wiki/Bhaskara_I%27s_sine_approximation_formula}
-     * I just needed modify intepretarion of this apperoximation.
+     * It's precision is around 1x10^(-50) and time of execution is around 10ms.
      */
     public static BigDecimal sin(BigDecimal x) {
-        // If angle is greater than full circle, it will subtract 2pi so the algortihm will work normally
-        if (x.compareTo(TWOPI) > 0) {
-            return sin(x.subtract(TWOPI));
+        // Taylor series approximation
+        BigDecimal ans = new BigDecimal(0);
+        // // long startTime = System.nanoTime();
+        for (BigDecimal n = BigDecimal.ZERO; n.compareTo(new BigDecimal(25)) <= 0; n = n.add(BigDecimal.ONE)) {
+            BigDecimal numerator = MINUSONE.pow(n.intValue());
+            BigDecimal denominator = factorial((TWO.multiply(n)).add(BigDecimal.ONE));
+            ans = ans.add((numerator.divide(denominator, 1000, RoundingMode.HALF_UP)).multiply(x.pow(((TWO.multiply(n)).add(BigDecimal.ONE)).intValue())));
         }
-        if (x.compareTo(PI) > 0) {
-            return 
+        // // long endTime = System.nanoTime();
+        // // System.out.println((endTime-startTime)/1000000+"ms");
+        return ans.setScale(50, RoundingMode.HALF_UP);
+    }
+    // ----------------------------------------------------
+    /**
+     * <h3>Cosine function</h3>
+     * Cosine approximation using taylor series. You can read more on wikipedia: {@link https://en.wikipedia.org/wiki/Taylor_series#Trigonometric_functions}
+     * <p>
+     * It's precision is around 1x10^(-50) and time of execution is around 10ms.
+     */
+    public static BigDecimal cos(BigDecimal x) {  
+        // Taylor series approximation
+        BigDecimal ans = new BigDecimal(0);
+        // // long startTime = System.nanoTime();
+        for (BigDecimal n = BigDecimal.ZERO; n.compareTo(new BigDecimal(50)) <= 0; n = n.add(BigDecimal.ONE)) {
+            BigDecimal numerator = MINUSONE.pow(n.intValue());
+            BigDecimal denominator = factorial(TWO.multiply(n));
+            ans = ans.add((numerator.divide(denominator, 1000, RoundingMode.HALF_UP)).multiply(x.pow((TWO.multiply(n)).intValue())));
         }
-        return null;
+        // // long endTime = System.nanoTime();
+        // // System.out.println((endTime-startTime)/1000000+"ms");
+        return ans.setScale(50, RoundingMode.HALF_UP);  
     }
     // ----------------------------------------------------
     /**
@@ -67,6 +94,23 @@ public class BigDecimalMath {
             );
         BigDecimal PHI = PHI_num.divide(PHI_dec, 50, RoundingMode.HALF_UP);
         BigDecimal ans = (PI.divide(new BigDecimal(2), 100, RoundingMode.HALF_UP)).multiply(sign(x)).multiply(PHI);
+        return ans;
+    }
+    // ----------------------------------------------------
+    /**
+     * <h3>Exponential function for BigDecimal</h3>
+     * I used taylor series to approximate this. You can read more on wikipedia: {@link https://en.wikipedia.org/wiki/Exponential_function}
+     * <p>
+     * It's precision is around 1x10^(-10)
+     */
+    public static BigDecimal exp(BigDecimal z) {
+        BigDecimal ans = new BigDecimal(0);
+        // // long startTime = System.nanoTime();
+        for (BigDecimal n = BigDecimal.ZERO; n.compareTo(new BigDecimal(100)) <= 0; n = n.add(BigDecimal.ONE)) {
+            ans = ans.add((z.pow(n.intValue())).divide(factorial(n), 50, RoundingMode.HALF_UP));
+        }
+        // // long endTime = System.nanoTime();
+        // // System.out.println((endTime-startTime)/1000000+"ms");
         return ans;
     }
     // ----------------------------------------------------
