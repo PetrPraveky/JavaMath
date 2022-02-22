@@ -101,16 +101,16 @@ public class BigDecimalMath {
      * <h3>Exponential function for BigDecimal</h3>
      * I used taylor series to approximate this. You can read more on wikipedia: {@link https://en.wikipedia.org/wiki/Exponential_function}
      * <p>
-     * It's precision is around 1x10^(-10)
+     * It's precision is around 1x10^(-50) and time of execution is around 13ms.
      */
     public static BigDecimal exp(BigDecimal z) {
         BigDecimal ans = new BigDecimal(0);
-        // // long startTime = System.nanoTime();
-        for (BigDecimal n = BigDecimal.ZERO; n.compareTo(new BigDecimal(100)) <= 0; n = n.add(BigDecimal.ONE)) {
+        long startTime = System.nanoTime();
+        for (BigDecimal n = BigDecimal.ZERO; n.compareTo(new BigDecimal(150)) <= 0; n = n.add(BigDecimal.ONE)) {
             ans = ans.add((z.pow(n.intValue())).divide(factorial(n), 50, RoundingMode.HALF_UP));
         }
-        // // long endTime = System.nanoTime();
-        // // System.out.println((endTime-startTime)/1000000+"ms");
+        long endTime = System.nanoTime();
+        System.out.println((endTime-startTime)/1000000+"ms");
         return ans;
     }
     // ----------------------------------------------------
