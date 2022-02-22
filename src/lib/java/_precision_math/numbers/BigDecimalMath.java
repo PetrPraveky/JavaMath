@@ -14,12 +14,31 @@ public class BigDecimalMath {
     );
     // ----------------------------------------------------
     /**
+     * <h3>Pi approximation to 50 decimal places multiplied by 2</h3>
+     * This returns two times previous approximation
+     */
+    public static final BigDecimal TWOPI = PI.multiply(new BigDecimal(2));
+    // ----------------------------------------------------
+    /**
+     * <h3>Minus one value for big decimal</h3>
+     */
+    public static final BigDecimal MINUSONE = new BigDecimal(-1);
+    // ----------------------------------------------------
+    /**
      * <h3>Sine function</h3>
      * Sine approximation for BigDecimal
      * <p>
-     * I used this approximaton: {@link }
+     * I used this approximaton: {@link https://en.wikipedia.org/wiki/Bhaskara_I%27s_sine_approximation_formula}
+     * I just needed modify intepretarion of this apperoximation.
      */
     public static BigDecimal sin(BigDecimal x) {
+        // If angle is greater than full circle, it will subtract 2pi so the algortihm will work normally
+        if (x.compareTo(TWOPI) > 0) {
+            return sin(x.subtract(TWOPI));
+        }
+        if (x.compareTo(PI) > 0) {
+            return 
+        }
         return null;
     }
     // ----------------------------------------------------
