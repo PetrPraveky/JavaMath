@@ -6,11 +6,19 @@ import java.math.RoundingMode;
 public class BigDecimalMath {
     // ----------------------------------------------------
     /**
-     * <h3>Pi approximation to 50 decimal places</h3>
-     * I just copied this value from http://www.math.com/tables/constants/pi.htm
+     * <h3>Pi approximation to 1000 decimal places</h3>
+     * I just copied this value from {@link http://www.math.com/tables/constants/pi.htm}
      */
     public static final BigDecimal PI = new BigDecimal(
         "3.1415926535897932384626433832795028841971693993751058209749445923078164062862089986280348253421170679821480865132823066470938446095505822317253594081284811174502841027019385211055596446229489549303819644288109756659334461284756482337867831652712019091456485669234603486104543266482133936072602491412737245870066063155881748815209209628292540917153643678925903600113305305488204665213841469519415116094330572703657595919530921861173819326117931051185480744623799627495673518857527248912279381830119491298336733624406566430860213949463952247371907021798609437027705392171762931767523846748184676694051320005681271452635608277857713427577896091736371787214684409012249534301465495853710507922796892589235420199561121290219608640344181598136297747713099605187072113499999983729780499510597317328160963185950244594553469083026425223082533446850352619311881710100031378387528865875332083814206171776691473035982534904287554687311595628638823537875937519577818577805321712268066130019278766111959092164201989"
+    );
+    // ----------------------------------------------------
+    /**
+     * <h3>E approximation to 1000 decimal places</h3>
+     * O just copird this value from {@link https://miniwebtool.com/first-n-digits-of-e/?number=1000}
+     */
+    public static final BigDecimal E = new BigDecimal(
+        "2.7182818284590452353602874713526624977572470936999595749669676277240766303535475945713821785251664274274663919320030599218174135966290435729003342952605956307381323286279434907632338298807531952510190115738341879307021540891499348841675092447614606680822648001684774118537423454424371075390777449920695517027618386062613313845830007520449338265602976067371132007093287091274437470472306969772093101416928368190255151086574637721112523897844250569536967707854499699679468644549059879316368892300987931277361782154249992295763514822082698951936680331825288693984964651058209392398294887933203625094431173012381970684161403970198376793206832823764648042953118023287825098194558153017567173613320698112509961818815930416903515988885193458072738667385894228792284998920868058257492796104841984443634632449684875602336248270419786232090021609902353043699418491463140934317381436405462531520961836908887070167683964243781405927145635490613031072085103837505101157477041718986106873969655212671546889570350354"
     );
     // ----------------------------------------------------
     /**
@@ -71,30 +79,25 @@ public class BigDecimalMath {
     // ----------------------------------------------------
     /**
      * <h3>Arctangent for BigDecimal values</h3>
-     * I used seventh-order approximation from this website: {@link https://www.researchgate.net/publication/258792323_Full_Quadrant_Approximations_for_the_Arctangent_Function_Tips_and_Tricks}
+     * Arctangent approximation using taylor series. You can read more on wikipedia: {@link https://en.wikipedia.org/wiki/Taylor_series#Trigonometric_functions}
      * <p>
-     * It's accuracy is around 2.212°*10^(-8)
+     * It's precision is around 1x10^(-50) and time of execution is around 10ms.
      */
     public static BigDecimal arctan(BigDecimal x) {
-        BigDecimal[] A = new BigDecimal[] {
-            new BigDecimal("0.6366198228040826"),
-            new BigDecimal("2.1940566630059660"),
-            new BigDecimal("4.1987334443688801")
-        };
-        BigDecimal[] B = new BigDecimal[] {
-            new BigDecimal("3.4464210488063778"),
-            new BigDecimal("6.9285856685452193"),
-            new BigDecimal("9.5401599602587312")
-        };
-        BigDecimal PHI_num = (
-            ((A[0].multiply(x.abs())).add(A[1].multiply((x.abs()).pow(2))).add(A[2].multiply((x.abs()).pow(3)))).add(((B[2].subtract(A[2]).multiply((x.abs()).pow(4))).add((B[1].subtract(A[1]).multiply((x.abs()).pow(5)))).add((B[0].subtract(A[0])).multiply((x.abs()).pow(6)))).add((x.abs()).pow(7)))
-            );
-        BigDecimal PHI_dec = (
-            BigDecimal.ONE.add(B[0].multiply((x.abs()))).add(B[1].multiply((x.abs()).pow(2))).add(B[2].multiply((x.abs()).pow(3))).add(B[2].multiply((x.abs()).pow(4))).add(B[1].multiply((x.abs()).pow(5))).add(B[0].multiply((x.abs()).pow(6))).add((x.abs()).pow(7))
-            );
-        BigDecimal PHI = PHI_num.divide(PHI_dec, 50, RoundingMode.HALF_UP);
-        BigDecimal ans = (PI.divide(new BigDecimal(2), 100, RoundingMode.HALF_UP)).multiply(sign(x)).multiply(PHI);
-        return ans;
+        // If |x| is greater than one, it will return null
+        if (x.abs().compareTo(BigDecimal.ONE) > 0) {
+            return null;
+        }
+        BigDecimal ans = new BigDecimal(0);
+        // // long startTime = System.nanoTime();
+        for (BigDecimal n = BigDecimal.ZERO; n.compareTo(new BigDecimal(50)) <= 0; n = n.add(BigDecimal.ONE)) {
+            BigDecimal numerator = MINUSONE.pow(n.intValue());
+            BigDecimal denominator = (TWO.multiply(n)).add(BigDecimal.ONE);
+            ans = ans.add((numerator.divide(denominator, 1000, RoundingMode.HALF_UP)).multiply(x.pow(((TWO.multiply(n)).add(BigDecimal.ONE)).intValue())));
+        }
+        // // long endTime = System.nanoTime();
+        // //System.out.println((endTime-startTime)/1000000+"ms");
+        return ans.setScale(50, RoundingMode.HALF_UP);
     }
     // ----------------------------------------------------
     /**
@@ -105,13 +108,34 @@ public class BigDecimalMath {
      */
     public static BigDecimal exp(BigDecimal z) {
         BigDecimal ans = new BigDecimal(0);
-        long startTime = System.nanoTime();
+        // // long startTime = System.nanoTime();
         for (BigDecimal n = BigDecimal.ZERO; n.compareTo(new BigDecimal(150)) <= 0; n = n.add(BigDecimal.ONE)) {
             ans = ans.add((z.pow(n.intValue())).divide(factorial(n), 50, RoundingMode.HALF_UP));
         }
-        long endTime = System.nanoTime();
-        System.out.println((endTime-startTime)/1000000+"ms");
+        // // long endTime = System.nanoTime();
+        // // System.out.println((endTime-startTime)/1000000+"ms");
         return ans;
+    }
+    /**
+     * <h3>Natural logarithm function for BigDecimal</h3>
+     * I used thaylor series to approximate this. You can read more on wikipedia: {@link https://en.wikipedia.org/wiki/Taylor_series#Natural_logarithm}
+     * <p>
+     * 
+     */
+    public static BigDecimal ln(BigDecimal z) {
+        BigDecimal ans = new BigDecimal(0); BigDecimal x = z.subtract(BigDecimal.ONE);
+        // // long startTime = System.nanoTime();
+        /*
+        for (BigDecimal k = BigDecimal.ONE; k.compareTo(new BigDecimal(1000)) <= 0; k = k.add(BigDecimal.ONE)) {
+            // // ans = ans.add((z.pow(n.intValue())).divide(n, 1000, RoundingMode.HALF_UP));
+            // ans = ans.add((MINUSONE.pow((n.intValue()+1))).multiply(x.pow(n.intValue()).divide(n, 1000, RoundingMode.HALF_UP)));
+            ans = ans.add(((MINUSONE.pow((k.intValue()-1))).multiply((x.subtract(BigDecimal.ONE)).pow(k.intValue()))).divide(k, 1000, RoundingMode.HALF_UP));
+        }
+        */
+        BigDecimal mul = (z.subtract(BigDecimal.ONE)).divide(E.subtract(BigDecimal.ONE));
+        // // long endTime = System.nanoTime();
+        // // System.out.println((endTime-startTime)/1000000+"ms");
+        return ans.setScale(50, RoundingMode.HALF_UP);
     }
     // ----------------------------------------------------
     /**

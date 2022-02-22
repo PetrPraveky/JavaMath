@@ -322,18 +322,29 @@ public class ComplexNumber {
      * <h3>Exponential function</h3>
      * Function that return exponential value of complex number. I used functional equation with Euler's formula.
      * <p>
-     * Exponential function works like this: {@}
+     * Exponential function works like this: {@code e^(x+yi) = e^x*cos(y)+e^x*sin(y)i}
      * <p>
      * You can read more on wikipedia: {@link https://en.wikipedia.org/wiki/Complex_number#Exponential_function}
      */
     public ComplexNumber exp() {
         ComplexNumber ans = new ComplexNumber();
-        ans.REAL = BigDecimalMath.exp(REAL);
-        // ans.REAL = BigDecimalMath.sin(REAL);
-        // ans.IMG = BigDecimalMath.cos(REAL);
+        ans.REAL = BigDecimalMath.exp(REAL).multiply(BigDecimalMath.cos(IMG));
+        ans.IMG = BigDecimalMath.exp(REAL).multiply(BigDecimalMath.sin(IMG));
         return ans;
     }
     // ----------------------------------------------------
-
+    /**
+     * <h3>Natural logarithm</h3>
+     * Function that return natural logarithm of complex number. I caluclate it with polar form of complex number.
+     * <p>
+     * Natural logarithm works like this: {@code z = r(cos(phi)+sin(phi)i) ; ln(z) = ln(r) + phi*i}
+     * <p>
+     * You can read more on wikipedia: {@link https://en.wikipedia.org/wiki/Complex_number#Complex_logarithm}
+     */
+    public ComplexNumber log() {
+        ComplexNumber ans = new ComplexNumber();
+        ans.REAL = BigDecimalMath.ln(REAL);
+        return ans;
+    }
     // ----------------------------------------------------
 }

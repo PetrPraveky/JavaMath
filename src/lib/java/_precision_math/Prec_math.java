@@ -18,5 +18,6 @@ public class Prec_math {
         (n1.square()).display(); // Square
         (n1.sqrt()).display(); // Square root
         (n1.exp()).display(); // Exponential function
+        (n1.log()).display(); // Natural logarithm
     }
 }
