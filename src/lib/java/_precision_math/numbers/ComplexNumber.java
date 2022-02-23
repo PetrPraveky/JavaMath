@@ -274,17 +274,20 @@ public class ComplexNumber {
      * <h3>Division function for complex numbers</h3>
      * Function that divide one complex number and one non-zero complex number.
      * <p>
-     * Division works like this: {@code (a+bi)/(x+yi) = ((ax+by)(bx-ay)i)/(x^2+y^2)}
+     * Division works like this: {@code (a+bi)/(x+yi) = ((ax+by)(bx-ay)i)/(x^2+y^2)}. It's accuracy is around 1x10^(-50).
      * <p>
      * You can read more on wikipedia: {@link https://en.wikipedia.org/wiki/Complex_number#Reciprocal_and_division}
      */
     public ComplexNumber divide(ComplexNumber b) {
         ComplexNumber ans = new ComplexNumber();
+        // // long startTime = System.nanoTime();
         if (b.REAL.compareTo(BigDecimal.ZERO) == 0 && b.IMG.compareTo(BigDecimal.ZERO) == 0) {
             return null;
         }
         ans.REAL = ((REAL.multiply(b.REAL)).add(IMG.multiply(b.IMG))).divide((b.REAL.pow(2)).add(b.IMG.pow(2)), 50, RoundingMode.HALF_UP);
         ans.IMG = ((IMG.multiply(b.REAL)).subtract(REAL.multiply(b.IMG))).divide((b.REAL.pow(2)).add(b.IMG.pow(2)), 50, RoundingMode.HALF_UP);
+        // // long endTime = System.nanoTime();
+        // // System.out.println((endTime-startTime)/1000000+"ms");
         return ans;
     }
     // ----------------------------------------------------
@@ -307,14 +310,18 @@ public class ComplexNumber {
      * <h3>Square root of complex number</h3>
      * Function that make square root of complex number.
      * <p>
-     * Square root work like this: {@code (a+bi)^(1/2) = m+ni }, where {@code m = ((a+(a^2+b^2)^(1/2))/2)^(1/2)}  and {@code n = sgn(b)*((-a+(a^2+b^2)^(1/2))/2)^(1/2)}
+     * Square root work like this: {@code (a+bi)^(1/2) = m+ni }, where {@code m = ((a+(a^2+b^2)^(1/2))/2)^(1/2)}  and {@code n = sgn(b)*((-a+(a^2+b^2)^(1/2))/2)^(1/2)}.
+     * It's accuracy is around 1x10^(-50) and time of exectuion is 5ms.
      * <p>
      * You can read more on wikipedia: {@link https://en.wikipedia.org/wiki/Complex_number#Square_root}
      */
     public ComplexNumber sqrt() {
         ComplexNumber ans = new ComplexNumber();
+        // // long startTime = System.nanoTime();
         ans.REAL = ((REAL.add(((REAL.pow(2)).add(IMG.pow(2))).sqrt(new MathContext(50)))).divide(new BigDecimal(2), 50, RoundingMode.HALF_UP)).sqrt(new MathContext(50));
         ans.IMG = (BigDecimalMath.sign(IMG)).multiply(((((new BigDecimal(-1)).multiply(REAL)).add(((REAL.pow(2)).add(IMG.pow(2))).sqrt(new MathContext(50)))).divide(new BigDecimal(2), 50, RoundingMode.HALF_UP)).sqrt(new MathContext(50)));
+        // // long endTime = System.nanoTime();
+        // // System.out.println((endTime-startTime)/1000000+"ms");
         return ans;
     }
     // ----------------------------------------------------
@@ -322,14 +329,17 @@ public class ComplexNumber {
      * <h3>Exponential function</h3>
      * Function that return exponential value of complex number. I used functional equation with Euler's formula.
      * <p>
-     * Exponential function works like this: {@code e^(x+yi) = e^x*cos(y)+e^x*sin(y)i}
+     * Exponential function works like this: {@code e^(x+yi) = e^x*cos(y)+e^x*sin(y)i}. It's accuracy is around 1x10^(-40) and time of exectuion is 30ms.
      * <p>
      * You can read more on wikipedia: {@link https://en.wikipedia.org/wiki/Complex_number#Exponential_function}
      */
     public ComplexNumber exp() {
         ComplexNumber ans = new ComplexNumber();
+        // // long startTime = System.nanoTime();
         ans.REAL = BigDecimalMath.exp(REAL).multiply(BigDecimalMath.cos(IMG));
         ans.IMG = BigDecimalMath.exp(REAL).multiply(BigDecimalMath.sin(IMG));
+        // // long endTime = System.nanoTime();
+        // // System.out.println((endTime-startTime)/1000000+"ms");
         return ans;
     }
     // ----------------------------------------------------
@@ -337,18 +347,22 @@ public class ComplexNumber {
      * <h3>Natural logarithm</h3>
      * Function that return natural logarithm of complex number. I caluclate it with polar form of complex number.
      * <p>
-     * Natural logarithm works like this: {@code z = r(cos(phi)+sin(phi)i) ; ln(z) = ln(r) + phi*i}
+     * Natural logarithm works like this: {@code z = r(cos(phi)+sin(phi)i) ; ln(z) = ln(r) + phi*i}. Its precision should be around 1x10^(-30) and exection time around 300ms.
      * <p>
      * You can read more on wikipedia: {@link https://en.wikipedia.org/wiki/Complex_number#Complex_logarithm}
      */
     public ComplexNumber log() {
         ComplexNumber ans = new ComplexNumber();
+        // // long startTime = System.nanoTime();
         // Check if polar values are created or not
         // - If not, it will call function that create them
         if (R == null || PHI == null) {
             this.polar_conversion();
         }
-        ans = BigDecimalMath
+        ans.REAL = BigDecimalMath.log(R);
+        ans.IMG = PHI;
+        // // long endTime = System.nanoTime();
+        // // System.out.println((endTime-startTime)/1000000+"ms");
         return ans;
     }
     // ----------------------------------------------------

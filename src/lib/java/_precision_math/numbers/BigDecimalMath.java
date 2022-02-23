@@ -131,7 +131,7 @@ public class BigDecimalMath {
      * It's precision is around 1x10^(-50) but time of execution is around 300ms, so it is not that fast, but precise.
      */
     public static BigDecimal log(BigDecimal x) {
-        long startTime = System.nanoTime();
+        // // long startTime = System.nanoTime();
         BigDecimal n = x; BigDecimal term;
         if (x.compareTo(BigDecimal.ZERO) <= 0) {
             return null;
@@ -141,8 +141,8 @@ public class BigDecimalMath {
             term = eToX.subtract(n).divide(eToX, 50, RoundingMode.HALF_UP);
             x = x.subtract(term);
         }
-        long endTime = System.nanoTime();
-        System.out.println((endTime-startTime)/1000000+"ms");
+        // // long endTime = System.nanoTime();
+        // // System.out.println((endTime-startTime)/1000000+"ms");
         return x.setScale(50, RoundingMode.HALF_UP);
     }
     // ----------------------------------------------------
