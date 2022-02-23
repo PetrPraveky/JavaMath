@@ -5,6 +5,14 @@ import java.math.RoundingMode;
 
 public class BigDecimalMath {
     // ----------------------------------------------------
+    // // /**
+    // //  * <h3>Log(2) approximation to 1000 decimal places</h3>
+    // //  * I just copied answer from WolframAlpha: {@link https://www.wolframalpha.com/input?i=ln%282%29}
+    // //  */
+    // // /*public static final BigDecimal Log2 = new BigDecimal(
+    // //     "0.6931471805599453094172321214581765680755001343602552541206800094933936219696947156058633269964186875420014810205706857336855202357581305570326707516350759619307275708283714351903070386238916734711233501153644979552391204751726815749320651555247341395258829504530070953263666426541042391578149520437404303855008019441706416715186447128399681717845469570262716310645461502572074024816377733896385506952606683411372738737229289564935470257626520988596932019650585547647033067936544325476327449512504060694381471046899465062201677204245245296126879465461931651746813926725041038025462596568691441928716082938031727143677826548775664850856740776484514644399404614226031930967354025744460703080960850474866385231381816767514386674766478908814371419854942315199735488037516586127535291661000710535582498794147295092931138971559982056543928717000721808576102523688921324497138932037843935308877482597017155910708823683627589842589185353024363421436706118923678919237231467232172053401649256872747782344535347"
+    // // );*/
+    // // ----------------------------------------------------
     /**
      * <h3>Pi approximation to 1000 decimal places</h3>
      * I just copied this value from {@link http://www.math.com/tables/constants/pi.htm}
@@ -118,25 +126,38 @@ public class BigDecimalMath {
     }
     /**
      * <h3>Natural logarithm function for BigDecimal</h3>
-     * I used thaylor series to approximate this. You can read more on wikipedia: {@link https://en.wikipedia.org/wiki/Taylor_series#Natural_logarithm}
+     * I used modified Newton algorithm for computing this. You can read something here on wikipedia: {@link https://en.wikipedia.org/wiki/Natural_logarithm#High_precision}
      * <p>
-     * 
+     * It's precision is around 1x10^(-50) but time of execution is around 300ms, so it is not that fast, but precise.
      */
-    public static BigDecimal ln(BigDecimal z) {
-        BigDecimal ans = new BigDecimal(0); BigDecimal x = z.subtract(BigDecimal.ONE);
-        // // long startTime = System.nanoTime();
-        /*
-        for (BigDecimal k = BigDecimal.ONE; k.compareTo(new BigDecimal(1000)) <= 0; k = k.add(BigDecimal.ONE)) {
-            // // ans = ans.add((z.pow(n.intValue())).divide(n, 1000, RoundingMode.HALF_UP));
-            // ans = ans.add((MINUSONE.pow((n.intValue()+1))).multiply(x.pow(n.intValue()).divide(n, 1000, RoundingMode.HALF_UP)));
-            ans = ans.add(((MINUSONE.pow((k.intValue()-1))).multiply((x.subtract(BigDecimal.ONE)).pow(k.intValue()))).divide(k, 1000, RoundingMode.HALF_UP));
+    public static BigDecimal log(BigDecimal x) {
+        long startTime = System.nanoTime();
+        BigDecimal n = x; BigDecimal term;
+        if (x.compareTo(BigDecimal.ZERO) <= 0) {
+            return null;
         }
-        */
-        BigDecimal mul = (z.subtract(BigDecimal.ONE)).divide(E.subtract(BigDecimal.ONE));
-        // // long endTime = System.nanoTime();
-        // // System.out.println((endTime-startTime)/1000000+"ms");
-        return ans.setScale(50, RoundingMode.HALF_UP);
+        for (int i = 1; i<=10; i++) {
+            BigDecimal eToX = exp(x);
+            term = eToX.subtract(n).divide(eToX, 50, RoundingMode.HALF_UP);
+            x = x.subtract(term);
+        }
+        long endTime = System.nanoTime();
+        System.out.println((endTime-startTime)/1000000+"ms");
+        return x.setScale(50, RoundingMode.HALF_UP);
     }
+    // ----------------------------------------------------
+    
+    /**
+     * <h3>Polylogarithm function</h3>
+     * Polylogarithm function done thanks to: {@link https://mathworld.wolfram.com/Polylogarithm.html}
+     */
+    /*public static BigDecimal Li(int s, BigDecimal z) {
+        BigDecimal ans = new BigDecimal(0);
+        for (BigDecimal k = BigDecimal.ONE; k.compareTo(new BigDecimal(100)) <= 0; k = k.add(BigDecimal.ONE)) {
+            ans = ans.add((z.pow(k.intValue())).divide(k.pow(s), 1000, RoundingMode.HALF_UP));
+        }
+        return ans.setScale(50, RoundingMode.HALF_UP);
+    }*/
     // ----------------------------------------------------
     /**
      * <h3>Factorial for BigDecimal

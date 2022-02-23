@@ -343,7 +343,7 @@ public class ComplexNumber {
      */
     public ComplexNumber log() {
         ComplexNumber ans = new ComplexNumber();
-        ans.REAL = BigDecimalMath.ln(REAL);
+        ans.REAL = BigDecimalMath.log(new BigDecimal(5));
         return ans;
     }
     // ----------------------------------------------------
