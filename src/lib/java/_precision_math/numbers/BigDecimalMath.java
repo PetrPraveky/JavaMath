@@ -146,19 +146,6 @@ public class BigDecimalMath {
         return x.setScale(50, RoundingMode.HALF_UP);
     }
     // ----------------------------------------------------
-    
-    /**
-     * <h3>Polylogarithm function</h3>
-     * Polylogarithm function done thanks to: {@link https://mathworld.wolfram.com/Polylogarithm.html}
-     */
-    /*public static BigDecimal Li(int s, BigDecimal z) {
-        BigDecimal ans = new BigDecimal(0);
-        for (BigDecimal k = BigDecimal.ONE; k.compareTo(new BigDecimal(100)) <= 0; k = k.add(BigDecimal.ONE)) {
-            ans = ans.add((z.pow(k.intValue())).divide(k.pow(s), 1000, RoundingMode.HALF_UP));
-        }
-        return ans.setScale(50, RoundingMode.HALF_UP);
-    }*/
-    // ----------------------------------------------------
     /**
      * <h3>Factorial for BigDecimal
      * This function returns product of all positive integer less than or eqaul to {@code n}
