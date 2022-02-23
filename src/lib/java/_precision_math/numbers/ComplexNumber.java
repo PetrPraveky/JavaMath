@@ -271,7 +271,7 @@ public class ComplexNumber {
     }
     // ----------------------------------------------------
     /**
-     * <h3>DIvision function for complex numbers</h3>
+     * <h3>Division function for complex numbers</h3>
      * Function that divide one complex number and one non-zero complex number.
      * <p>
      * Division works like this: {@code (a+bi)/(x+yi) = ((ax+by)(bx-ay)i)/(x^2+y^2)}
@@ -343,7 +343,12 @@ public class ComplexNumber {
      */
     public ComplexNumber log() {
         ComplexNumber ans = new ComplexNumber();
-        ans.REAL = BigDecimalMath.log(new BigDecimal(5));
+        // Check if polar values are created or not
+        // - If not, it will call function that create them
+        if (R == null || PHI == null) {
+            this.polar_conversion();
+        }
+        ans = BigDecimalMath
         return ans;
     }
     // ----------------------------------------------------
