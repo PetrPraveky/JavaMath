@@ -435,17 +435,12 @@ public class ComplexNumber {
     // ----------------------------------------------------
     /**
      * <h3>Sign function</h3>
-     * Sign function is more complex with complex number, so I recomend you to read this: {@link https://en.wikipedia.org/wiki/Sign_function#Complex_signum}
+     * Sign function is for complex numbers works like this: {@code sgn(z) = z/|z|}
      * <p>
-     * Its precision is about _ and time of execution is _ms
+     * You can read more on wikipedia: {@link https://en.wikipedia.org/wiki/Sign_function#Complex_signum}
      */
-    public static ComplexNumber sign(ComplexNumber z) {
-        ComplexNumber ans = new ComplexNumber();
-        if (z.REAL.compareTo(BigDecimal.ZERO) > 0) {
-            return ONE;
-        } else if (z.REAL.compareTo(BigDecimal.ZERO) < 0) {
-            return 
-        }
+    public static ComplexNumber sgn(ComplexNumber z) {
+        return z.divide(abs(z));
     }
     // ----------------------------------------------------
 }
