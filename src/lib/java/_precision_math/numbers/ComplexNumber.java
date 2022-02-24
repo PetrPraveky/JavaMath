@@ -299,10 +299,10 @@ public class ComplexNumber {
      * <p>
      * You can read more on wikipedia: {@link https://en.wikipedia.org/wiki/Complex_number#Multiplication_and_square}
      */
-    public ComplexNumber square() {
+    public static ComplexNumber square(ComplexNumber a) {
         ComplexNumber ans = new ComplexNumber();
-        ans.REAL = (REAL.pow(2)).subtract(IMG.pow(2));
-        ans.IMG = ((new BigDecimal(2)).multiply(REAL.multiply(IMG)));
+        ans.REAL = (a.REAL.pow(2)).subtract(a.IMG.pow(2));
+        ans.IMG = ((new BigDecimal(2)).multiply(a.REAL.multiply(a.IMG)));
         return ans;
     }
     // ----------------------------------------------------
@@ -315,11 +315,11 @@ public class ComplexNumber {
      * <p>
      * You can read more on wikipedia: {@link https://en.wikipedia.org/wiki/Complex_number#Square_root}
      */
-    public ComplexNumber sqrt() {
+    public static ComplexNumber sqrt(ComplexNumber a) {
         ComplexNumber ans = new ComplexNumber();
         // // long startTime = System.nanoTime();
-        ans.REAL = ((REAL.add(((REAL.pow(2)).add(IMG.pow(2))).sqrt(new MathContext(50)))).divide(new BigDecimal(2), 50, RoundingMode.HALF_UP)).sqrt(new MathContext(50));
-        ans.IMG = (BigDecimalMath.sign(IMG)).multiply(((((new BigDecimal(-1)).multiply(REAL)).add(((REAL.pow(2)).add(IMG.pow(2))).sqrt(new MathContext(50)))).divide(new BigDecimal(2), 50, RoundingMode.HALF_UP)).sqrt(new MathContext(50)));
+        ans.REAL = ((a.REAL.add(((a.REAL.pow(2)).add(a.IMG.pow(2))).sqrt(new MathContext(50)))).divide(new BigDecimal(2), 50, RoundingMode.HALF_UP)).sqrt(new MathContext(50));
+        ans.IMG = (BigDecimalMath.sign(a.IMG)).multiply(((((new BigDecimal(-1)).multiply(a.REAL)).add(((a.REAL.pow(2)).add(a.IMG.pow(2))).sqrt(new MathContext(50)))).divide(new BigDecimal(2), 50, RoundingMode.HALF_UP)).sqrt(new MathContext(50)));
         // // long endTime = System.nanoTime();
         // // System.out.println((endTime-startTime)/1000000+"ms");
         return ans;
@@ -333,11 +333,11 @@ public class ComplexNumber {
      * <p>
      * You can read more on wikipedia: {@link https://en.wikipedia.org/wiki/Complex_number#Exponential_function}
      */
-    public ComplexNumber exp() {
+    public static ComplexNumber exp(ComplexNumber a) {
         ComplexNumber ans = new ComplexNumber();
         // // long startTime = System.nanoTime();
-        ans.REAL = BigDecimalMath.exp(REAL).multiply(BigDecimalMath.cos(IMG));
-        ans.IMG = BigDecimalMath.exp(REAL).multiply(BigDecimalMath.sin(IMG));
+        ans.REAL = BigDecimalMath.exp(a.REAL).multiply(BigDecimalMath.cos(a.IMG));
+        ans.IMG = BigDecimalMath.exp(a.REAL).multiply(BigDecimalMath.sin(a.IMG));
         // // long endTime = System.nanoTime();
         // // System.out.println((endTime-startTime)/1000000+"ms");
         return ans;
@@ -351,16 +351,16 @@ public class ComplexNumber {
      * <p>
      * You can read more on wikipedia: {@link https://en.wikipedia.org/wiki/Complex_number#Complex_logarithm}
      */
-    public ComplexNumber log() {
+    public static ComplexNumber log(ComplexNumber a) {
         ComplexNumber ans = new ComplexNumber();
         // // long startTime = System.nanoTime();
         // Check if polar values are created or not
         // - If not, it will call function that create them
-        if (R == null || PHI == null) {
-            this.polar_conversion();
+        if (a.R == null || a.PHI == null) {
+            a.polar_conversion();
         }
-        ans.REAL = BigDecimalMath.log(R);
-        ans.IMG = PHI;
+        ans.REAL = BigDecimalMath.log(a.R);
+        ans.IMG = a.PHI;
         // // long endTime = System.nanoTime();
         // // System.out.println((endTime-startTime)/1000000+"ms");
         return ans;

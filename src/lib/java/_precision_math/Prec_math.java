@@ -1,7 +1,5 @@
 package lib.java._precision_math;
 
-// import java.math.BigDecimal;
-
 import lib.java._precision_math.numbers.ComplexNumber;
 
 public class Prec_math {
@@ -15,9 +13,10 @@ public class Prec_math {
         (n1.subtract(n2)).display(); // Subtraction
         (n1.multiply(n2)).display(); // Multiplication
         (n1.divide(n2)).display(); // Division
-        (n1.square()).display(); // Square
-        (n1.sqrt()).display(); // Square root
-        (n1.exp()).display(); // Exponential function
-        (n1.log()).display(); // Natural logarithm
+        (ComplexNumber.square(n1)).display(); // Square
+        (ComplexNumber.sqrt(n1)).display(); // Square root
+        (ComplexNumber.exp(n1)).display(); // Exponentional function
+        (ComplexNumber.log(n1)).display(); // Natural logarithm
+
     }
 }
