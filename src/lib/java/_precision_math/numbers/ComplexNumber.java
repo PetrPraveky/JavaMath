@@ -10,13 +10,14 @@ import java.math.RoundingMode;
  * This program provides most of calculations with complex numbers to large precision.
  * <p>
  * Some of those calculations can take more time than others, because some of them are more complicated.
- * Still I tried to make them efficient as possible.
+ * Still I tried to make them efficient as possible. Their precision is written in their description, but with larger number it become more unprecise. Those function were tested from real values
+ * <-5;5> and imaginary values <-5;5>, so it works good on smaller values.
  * <p>
  * <b>Basic usage of opearions and function is: </b>
  * <p>
- *  - If you need only one argument (like sine, cosine,...), you write it like this: {@code ComplexNumber.log(a)}, where <i>a</i> is complex number.
+ *  - If you need only one argument or use one argument as base of function (like sine(x), cosine(x), log(x) with base b, etc), you write it like this: {@code ComplexNumber.log(a)}, where <i>a</i> is complex number or {@code ComplexNumber.log(x, b)}, where <i>x</i> is complex number and <i>b</i> is base (can also be complex).
  * <p>
- *  - If you "edit" one complex number with another (like adding, subtracting,...), you write it like this: {@code a.add(b)}, where <i>a</i> and <i>b</i> are complex numbers.
+ *  - If you "edit" one complex number with another (like adding, subtracting, etc), you write it like this: {@code a.add(b)}, where <i>a</i> and <i>b</i> are complex numbers.
  * <p>
  * All of commands that are here are commented, so they are easy to understand.
  * If you want to see the full documentation, you can check it here: ---- in section: "Complex numbers".
@@ -278,7 +279,7 @@ public class ComplexNumber {
     // ----------------------------------------------------
     /**
      * <h3>Division function for complex numbers</h3>
-     * Function that divide one complex number and one non-zero complex number.
+     * Function that divides one complex number and one non-zero complex number.
      * <p>
      * Division works like this: {@code (a+bi)/(x+yi) = ((ax+by)(bx-ay)i)/(x^2+y^2)}. It's accuracy is around 1x10^(-50).
      * <p>
@@ -314,7 +315,7 @@ public class ComplexNumber {
     // ----------------------------------------------------
     /**
      * <h3>Square root of complex number</h3>
-     * Function that make square root of complex number.
+     * Function that makes square root of complex number.
      * <p>
      * Square root work like this: {@code (a+bi)^(1/2) = m+ni }, where {@code m = ((a+(a^2+b^2)^(1/2))/2)^(1/2)}  and {@code n = sgn(b)*((-a+(a^2+b^2)^(1/2))/2)^(1/2)}.
      * It's accuracy is around 1x10^(-50) and time of exectuion is 5ms.
@@ -333,7 +334,7 @@ public class ComplexNumber {
     // ----------------------------------------------------
     /**
      * <h3>Exponential function</h3>
-     * Function that return exponential value of complex number. I used functional equation with Euler's formula.
+     * Function that returns exponential value of complex number. I used functional equation with Euler's formula.
      * <p>
      * Exponential function works like this: {@code e^(x+yi) = e^x*cos(y)+e^x*sin(y)i}. It's accuracy is around 1x10^(-40) and time of exectuion is 30ms.
      * <p>
@@ -351,9 +352,9 @@ public class ComplexNumber {
     // ----------------------------------------------------
     /**
      * <h3>Natural logarithm</h3>
-     * Function that return natural logarithm of complex number. I caluclate it with polar form of complex number.
+     * Function that returns natural logarithm of complex number. I caluclate it with polar form of complex number.
      * <p>
-     * Natural logarithm works like this: {@code z = r(cos(phi)+sin(phi)i) ; ln(z) = ln(r) + phi*i}. Its precision should be around 1x10^(-30) and exection time around 300ms.
+     * Natural logarithm works like this: {@code z = r(cos(phi)+sin(phi)i) ; ln(z) = ln(r) + phi*i}. Its precision should be around 1x10^(-30) and execution time around 300ms.
      * <p>
      * You can read more on wikipedia: {@link https://en.wikipedia.org/wiki/Complex_number#Complex_logarithm}
      */
@@ -367,6 +368,40 @@ public class ComplexNumber {
         }
         ans.REAL = BigDecimalMath.log(a.R);
         ans.IMG = a.PHI;
+        // // long endTime = System.nanoTime();
+        // // System.out.println((endTime-startTime)/1000000+"ms");
+        return ans;
+    }
+    // ----------------------------------------------------
+    /**
+     * <h3>Logarithm of some base</h3>
+     * Function that returns logarithm of complex number with base of another complex number. 
+     * <p>
+     * Logarithm with other base work like this: {@code log(x, b) = log(x)/log(b)}, <i>b</i> is base of this logarithm. Its precision is about 1x10^(-15) and time of execution is 
+     * <p>
+     * You can read more on wikipedia: {@link https://en.wikipedia.org/wiki/Complex_logarithm#Logarithms_to_other_bases}
+     */
+    public static ComplexNumber log(ComplexNumber x, ComplexNumber b) {
+        ComplexNumber ans = new ComplexNumber();
+        // // long startTime = System.nanoTime();
+        ans = log(x).divide(log(b));
+        // // long endTime = System.nanoTime();
+        // // System.out.println((endTime-startTime)/1000000+"ms");
+        return ans;
+    }
+    // ----------------------------------------------------
+    /**
+     * <h3>Power function</h3>
+     * Function that returns complex number to the power of another.
+     * <p>
+     * Power function works like this: {@code x^z = e^(z*ln(x))}. Its precision should be around 1x10^(-15) and execution time around 260ms.
+     * <p>
+     * You can read more on wikipedia: {@link https://en.wikipedia.org/wiki/Complex_number#Exponentiation}
+     */
+    public ComplexNumber pow(ComplexNumber b) {
+        ComplexNumber ans = new ComplexNumber();
+        // // long startTime = System.nanoTime();
+        ans = exp(b.multiply(log(new ComplexNumber(REAL, IMG))));
         // // long endTime = System.nanoTime();
         // // System.out.println((endTime-startTime)/1000000+"ms");
         return ans;

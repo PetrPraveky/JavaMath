@@ -5,7 +5,7 @@ import lib.java._precision_math.numbers.ComplexNumber;
 public class Prec_math {
     public static void main(String[] args) {
         ComplexNumber n1 = new ComplexNumber(5, 4);
-        ComplexNumber n2 = new ComplexNumber(2, 0.5);
+        ComplexNumber n2 = new ComplexNumber(2, 1);
         // n1.display();
         // n1.b_display();
         // ----------------------------------------------------
@@ -17,6 +17,7 @@ public class Prec_math {
         (ComplexNumber.sqrt(n1)).display(); // Square root
         (ComplexNumber.exp(n1)).display(); // Exponentional function
         (ComplexNumber.log(n1)).display(); // Natural logarithm
-
+        (n1.pow(n2)).display(); // Power
+        (ComplexNumber.log(n2, n1)).display(); // Logarithm with other base
     }
 }
