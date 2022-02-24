@@ -19,5 +19,6 @@ public class Prec_math {
         (ComplexNumber.log(n1)).display(); // Natural logarithm
         (n1.pow(n2)).display(); // Power
         (ComplexNumber.log(n2, n1)).display(); // Logarithm with other base
+        (ComplexNumber.abs(n1)).display(); // Absolute value
     }
 }

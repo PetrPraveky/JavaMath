@@ -64,26 +64,27 @@ public class ComplexNumber {
      * <h3>Zero value of complex number</h3>
      * Returns both parts of complex number as <b>zero</b>.
      */
-    public static ComplexNumber ZERO = new ComplexNumber();
+    public static final ComplexNumber ZERO = new ComplexNumber();
     // ----------------------------------------------------
     /**
      * <h3>One value of complex number</h3>
-     * Returns real part as <b>one</b> and imaginary part as <b>zero</b>
+     * Returns real part as <b>one</b> and imaginary part as <b>zero</b>.
      */
-    public static ComplexNumber ONE = new ComplexNumber(1, 0);
+    public static final ComplexNumber ONE = new ComplexNumber(1, 0);
+    // ----------------------------------------------------
+    /**
+     * <h3>Minus one value of complex number</h3>
+     * Returns real part as <b>-1</b> and imaginary part as <b>0</b>.
+     */
+    public static final ComplexNumber MINUSONE = new ComplexNumber(-1, 0);
     // ----------------------------------------------------
     /**
      * <h3>I value of complex number</h3>
-     * Returns real part as <b>zero</b> and imaginary part as <b>one</b>
+     * Returns real part as <b>zero</b> and imaginary part as <b>one</b>.
      */
-    public static ComplexNumber I = new ComplexNumber(0, 1);
+    public static final ComplexNumber I = new ComplexNumber(0, 1);
     // ----------------------------------------------------
     /**
-     * <h3>Empty constructor</h3>
-     * Empty constructor for complex nubmers. Output will be determined as 0+0i, so real and imaginary part will be equal to {@code BigDecimal.ZERO}
-     */
-    // ----------------------------------------------------
-        /**
      * <h3>Polar conversion</h3>
      * Sets values for polar complex interpretaion. You can return those values with {@code .R}, which is radius, and {@code .PHI}, which is angle.
      */
@@ -106,6 +107,11 @@ public class ComplexNumber {
             PHI = null;
         }
     }
+    // ----------------------------------------------------
+    /**
+     * <h3>Empty constructor</h3>
+     * Empty constructor for complex nubmers. Output will be determined as 0+0i, so real and imaginary part will be equal to {@code BigDecimal.ZERO}
+     */
     public ComplexNumber() {
         REAL = BigDecimal.ZERO; IMG = BigDecimal.ZERO;
     }
@@ -394,7 +400,7 @@ public class ComplexNumber {
      * <h3>Power function</h3>
      * Function that returns complex number to the power of another.
      * <p>
-     * Power function works like this: {@code x^z = e^(z*ln(x))}. Its precision should be around 1x10^(-15) and execution time around 260ms.
+     * Power function works like this: {@code x^z = e^(z*ln(x))}. Its precision should be around 1x10^(-15) and execution time is around 260ms.
      * <p>
      * You can read more on wikipedia: {@link https://en.wikipedia.org/wiki/Complex_number#Exponentiation}
      */
@@ -405,6 +411,41 @@ public class ComplexNumber {
         // // long endTime = System.nanoTime();
         // // System.out.println((endTime-startTime)/1000000+"ms");
         return ans;
+    }
+    // ----------------------------------------------------
+    /**
+     * <h3>Absolute power</h3>
+     * Function that return absolute power of complex number.
+     * <p>
+     * Absolute power is radius of complex number.
+     * <p>
+     * You can read more on wikipedia: {@link https://en.wikipedia.org/wiki/Absolute_value#Complex_numbers}
+     */
+    public static ComplexNumber abs(ComplexNumber z) {
+        // Check if polar values are created or not
+        // - If not, it will call function that create them
+        // // long startTime = System.nanoTime();
+        if (z.R == null || z.PHI == null) {
+            z.polar_conversion();
+        }
+        // // long endTime = System.nanoTime();
+        // // System.out.println((endTime-startTime)/1000000+"ms");
+        return new ComplexNumber(z.R);
+    }
+    // ----------------------------------------------------
+    /**
+     * <h3>Sign function</h3>
+     * Sign function is more complex with complex number, so I recomend you to read this: {@link https://en.wikipedia.org/wiki/Sign_function#Complex_signum}
+     * <p>
+     * Its precision is about _ and time of execution is _ms
+     */
+    public static ComplexNumber sign(ComplexNumber z) {
+        ComplexNumber ans = new ComplexNumber();
+        if (z.REAL.compareTo(BigDecimal.ZERO) > 0) {
+            return ONE;
+        } else if (z.REAL.compareTo(BigDecimal.ZERO) < 0) {
+            return 
+        }
     }
     // ----------------------------------------------------
 }
