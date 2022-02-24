@@ -12,6 +12,12 @@ import java.math.RoundingMode;
  * Some of those calculations can take more time than others, because some of them are more complicated.
  * Still I tried to make them efficient as possible.
  * <p>
+ * <b>Basic usage of opearions and function is: </b>
+ * <p>
+ *  - If you need only one argument (like sine, cosine,...), you write it like this: {@code ComplexNumber.log(a)}, where <i>a</i> is complex number.
+ * <p>
+ *  - If you "edit" one complex number with another (like adding, subtracting,...), you write it like this: {@code a.add(b)}, where <i>a</i> and <i>b</i> are complex numbers.
+ * <p>
  * All of commands that are here are commented, so they are easy to understand.
  * If you want to see the full documentation, you can check it here: ---- in section: "Complex numbers".
  * <p>
