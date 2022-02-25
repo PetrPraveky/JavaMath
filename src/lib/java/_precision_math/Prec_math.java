@@ -9,6 +9,7 @@ public class Prec_math {
         // n1.display();
         // n1.b_display();
         // ----------------------------------------------------
+        /*
         (n1.add(n2)).display(); // Addition
         (n1.subtract(n2)).display(); // Subtraction
         (n1.multiply(n2)).display(); // Multiplication
@@ -21,5 +22,8 @@ public class Prec_math {
         (ComplexNumber.log(n2, n1)).display(); // Logarithm with other base
         (ComplexNumber.abs(n1)).display(); // Absolute value
         (ComplexNumber.sgn(n1)).display(); // Complex sign
+        */
+        // ----------------------------------------------------
+        (ComplexNumber.sin(n1)).display(); // Sine
     }
 }
