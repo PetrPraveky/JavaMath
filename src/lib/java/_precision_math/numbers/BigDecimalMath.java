@@ -104,7 +104,7 @@ public class BigDecimalMath {
      * <h3>Hyperbolic sine function for BigDecimal values</h3>
      * Hyperbolic sine approximation using taylor series. You can read more on wikipedia: {@link https://en.wikipedia.org/wiki/Taylor_series#Hyperbolic_functions}
      * <p>
-     * It's precision is around 1x10^(-50) and execution time around 10ms
+     * It's precision is around 1x10^(-50) and execution time around 10ms.
      */
     public static BigDecimal sinh(BigDecimal x) {
         BigDecimal ans = new BigDecimal(0);
@@ -115,7 +115,7 @@ public class BigDecimalMath {
             ans = ans.add(numerator.divide(denominator, 1000, RoundingMode.HALF_UP));
         }
         // // long endTime = System.nanoTime();
-        // / /System.out.println((endTime-startTime)/1000000+"ms");
+        // // System.out.println((endTime-startTime)/1000000+"ms");
         return ans.setScale(50, RoundingMode.HALF_UP);
     }
     // ----------------------------------------------------
@@ -123,11 +123,19 @@ public class BigDecimalMath {
      * <h3>Hyperbolic cosine function for BigDecimal values</h3>
      * Hyperbolic cosine approximation using taylor series. You can read more on wikipedia: {@link https://en.wikipedia.org/wiki/Taylor_series#Hyperbolic_functions}
      * <p>
-     * It's precision is around 1x10^(-50) and execution time around 10ms
+     * It's precision is around 1x10^(-50) and execution time around 10ms.
      */
     public static BigDecimal cosh(BigDecimal x) {
         BigDecimal ans = new BigDecimal(0);
-
+        // // long startTime = System.nanoTime();
+        for (BigDecimal n = BigDecimal.ZERO; n.compareTo(new BigDecimal(50)) <= 0; n = n.add(BigDecimal.ONE)) {
+            BigDecimal numerator = x.pow(2*(n.intValue()));
+            BigDecimal denominator = factorial(TWO.multiply(n));
+            ans = ans.add(numerator.divide(denominator, 1000, RoundingMode.HALF_UP));
+        }
+        // // long endTime = System.nanoTime();
+        // // System.out.println((endTime-startTime)/1000000+"ms");
+        return ans.setScale(50, RoundingMode.HALF_UP);
     }
     // ----------------------------------------------------
     /**

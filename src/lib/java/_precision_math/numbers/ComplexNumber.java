@@ -447,13 +447,17 @@ public class ComplexNumber {
      * <h3>Complex sine function</h3>
      * Sine function for complex numbers.
      * <p>
-     * It's precision is around
+     * It's precision is around 1x10^(-20) and execturion time is around 30ms.
      * <p>
      * You can read moew on wikipedia: {@link https://en.wikipedia.org/wiki/Sine_and_cosine#Complex_arguments}
      */
     public static ComplexNumber sin(ComplexNumber z) {
         ComplexNumber ans = new ComplexNumber();
-        ans.REAL = BigDecimalMath.cosh(z.REAL);
+        long startTime = System.nanoTime();
+        ans.REAL = (BigDecimalMath.sin(z.REAL)).multiply(BigDecimalMath.cosh(z.IMG));
+        ans.IMG = (BigDecimalMath.cos(z.REAL)).multiply(BigDecimalMath.sinh(z.IMG));
+        long endTime = System.nanoTime();
+        System.out.println((endTime-startTime)/1000000+"ms");
         return ans;
     }
     // ----------------------------------------------------
