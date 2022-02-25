@@ -449,15 +449,101 @@ public class ComplexNumber {
      * <p>
      * It's precision is around 1x10^(-20) and execturion time is around 30ms.
      * <p>
-     * You can read moew on wikipedia: {@link https://en.wikipedia.org/wiki/Sine_and_cosine#Complex_arguments}
+     * You can read more on wikipedia: {@link https://en.wikipedia.org/wiki/Sine_and_cosine#Complex_arguments}
      */
     public static ComplexNumber sin(ComplexNumber z) {
         ComplexNumber ans = new ComplexNumber();
-        long startTime = System.nanoTime();
+        // // long startTime = System.nanoTime();
         ans.REAL = (BigDecimalMath.sin(z.REAL)).multiply(BigDecimalMath.cosh(z.IMG));
         ans.IMG = (BigDecimalMath.cos(z.REAL)).multiply(BigDecimalMath.sinh(z.IMG));
-        long endTime = System.nanoTime();
-        System.out.println((endTime-startTime)/1000000+"ms");
+        // // long endTime = System.nanoTime();
+        // // System.out.println((endTime-startTime)/1000000+"ms");
+        return ans;
+    }
+    // ----------------------------------------------------
+    /**
+     * <h3>Complex cosine function</h3>
+     * Cosine function for complex numbers.
+     * <p>
+     * It's precision is around 1x10^(-20) and execturion time is around 30ms.
+     * <p>
+     * You can read more on wikipedia: {@link https://en.wikipedia.org/wiki/Sine_and_cosine#Complex_arguments}
+     */
+    public static ComplexNumber cos(ComplexNumber z) {
+        ComplexNumber ans = new ComplexNumber();
+        // // long startTime = System.nanoTime();
+        ans.REAL = (BigDecimalMath.cos(z.REAL)).multiply(BigDecimalMath.cosh(z.IMG));
+        ans.IMG = (BigDecimalMath.MINUSONE).multiply((BigDecimalMath.sin(z.REAL)).multiply(BigDecimalMath.sinh(z.IMG)));
+        // // long endTime = System.nanoTime();
+        // // System.out.println((endTime-startTime)/1000000+"ms");
+        return ans;
+    }
+    // ----------------------------------------------------
+    /**
+     * <h3>Complex tangent function</h3>
+     * Tangent function for complex numbers. I used the unit circle definition to compute this.
+     * <p>
+     * It's precision is around 1x10^(-20) and execturion time is around 30ms.
+     * <p>
+     * You can read more on wikipedia: {@link https://en.wikipedia.org/wiki/Trigonometric_functions#Unit-circle_definitions}
+     */
+    public static ComplexNumber tan(ComplexNumber z) {
+        ComplexNumber ans = new ComplexNumber();
+        // // long startTime = System.nanoTime();
+        ans = sin(z).divide(cos(z));
+        // // long endTime = System.nanoTime();
+        // // System.out.println((endTime-startTime)/1000000+"ms");
+        return ans;
+    }
+    // ----------------------------------------------------
+    /**
+     * <h3>Complex tangent function</h3>
+     * Tangent function for complex numbers. I used the unit circle definition to compute this.
+     * <p>
+     * It's precision is around 1x10^(-20) and execution time is around 30ms.
+     * <p>
+     * You can read more on wikipedia: {@link https://en.wikipedia.org/wiki/Trigonometric_functions#Unit-circle_definitions}
+     */
+    public static ComplexNumber cot(ComplexNumber z) {
+        ComplexNumber ans = new ComplexNumber();
+        // // long startTime = System.nanoTime();
+        ans = cos(z).divide(sin(z));
+        // // long endTime = System.nanoTime();
+        // // System.out.println((endTime-startTime)/1000000+"ms");
+        return ans;
+    }
+    // ----------------------------------------------------
+    /**
+     * <h3>Complex secant function</h3>
+     * Secant function for complex numbers. I used the unit circle definition to compute this.
+     * <p>
+     * It's precision is around 1x10^(-20) and execution time is aroun 30ms.
+     * <p>
+     * You can read more on wikipedia: {@link https://en.wikipedia.org/wiki/Trigonometric_functions#Unit-circle_definitions}
+     */
+    public static ComplexNumber sec(ComplexNumber z) {
+        ComplexNumber ans = new ComplexNumber();
+        // // long startTime = System.nanoTime();
+        ans = ONE.divide(cos(z));
+        // // long endTime = System.nanoTime();
+        // // System.out.println((endTime-startTime)/1000000+"ms");
+        return ans;
+    }
+    // ----------------------------------------------------
+    /**
+     * <h3>Complex cosecant function</h3>
+     * Cosecant function for complex numbers. I used the unit circle definition to compute this.
+     * <p>
+     * It's precision is around 1x10^(-20) and execution time is aroun 30ms.
+     * <p>
+     * You can read more on wikipedia: {@link https://en.wikipedia.org/wiki/Trigonometric_functions#Unit-circle_definitions}
+     */
+    public static ComplexNumber csc(ComplexNumber z) {
+        ComplexNumber ans = new ComplexNumber();
+        // // long startTime = System.nanoTime();
+        ans = ONE.divide(sin(z));
+        // // long endTime = System.nanoTime();
+        // // System.out.println((endTime-startTime)/1000000+"ms");
         return ans;
     }
     // ----------------------------------------------------

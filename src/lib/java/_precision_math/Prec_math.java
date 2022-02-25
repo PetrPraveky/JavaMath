@@ -25,5 +25,10 @@ public class Prec_math {
         */
         // ----------------------------------------------------
         (ComplexNumber.sin(n1)).display(); // Sine
+        (ComplexNumber.cos(n1)).display(); // Cosine
+        (ComplexNumber.tan(n1)).display(); // Tangent
+        (ComplexNumber.cot(n1)).display(); // Cotangent
+        (ComplexNumber.sec(n1)).display(); // Secant
+        (ComplexNumber.csc(n1)).display(); // Cosecant
     }
 }
