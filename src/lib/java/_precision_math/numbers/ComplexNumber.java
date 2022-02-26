@@ -85,6 +85,12 @@ public class ComplexNumber {
     public static final ComplexNumber I = new ComplexNumber(0, 1);
     // ----------------------------------------------------
     /**
+     * <h3>Returns value of pi/2</h3>
+     * Returns real part as <b>pi/2</b> and imaginary part as <b>one</b>
+     */
+    public static final ComplexNumber HALFPI = new ComplexNumber(BigDecimalMath.PI.divide(BigDecimalMath.TWO, 1000, RoundingMode.HALF_UP));
+    // ----------------------------------------------------
+    /**
      * <h3>Polar conversion</h3>
      * Sets values for polar complex interpretaion. You can return those values with {@code .R}, which is radius, and {@code .PHI}, which is angle.
      */
@@ -360,7 +366,7 @@ public class ComplexNumber {
      * <h3>Natural logarithm</h3>
      * Function that returns natural logarithm of complex number. I caluclate it with polar form of complex number.
      * <p>
-     * Natural logarithm works like this: {@code z = r(cos(phi)+sin(phi)i) ; ln(z) = ln(r) + phi*i}. Its precision should be around 1x10^(-30) and execution time around 300ms.
+     * Natural logarithm works like this: {@code z = r(cos(phi)+sin(phi)i) ; ln(z) = ln(r) + phi*i}. Its precision should be around 1x10^(-30) and execution time around 400ms.
      * <p>
      * You can read more on wikipedia: {@link https://en.wikipedia.org/wiki/Complex_number#Complex_logarithm}
      */
@@ -383,7 +389,7 @@ public class ComplexNumber {
      * <h3>Logarithm of some base</h3>
      * Function that returns logarithm of complex number with base of another complex number. 
      * <p>
-     * Logarithm with other base work like this: {@code log(x, b) = log(x)/log(b)}, <i>b</i> is base of this logarithm. Its precision is about 1x10^(-15) and time of execution is 
+     * Logarithm with other base work like this: {@code log(x, b) = log(x)/log(b)}, <i>b</i> is base of this logarithm. Its precision is about 1x10^(-15) and time of execution is 400ms.
      * <p>
      * You can read more on wikipedia: {@link https://en.wikipedia.org/wiki/Complex_logarithm#Logarithms_to_other_bases}
      */
@@ -517,7 +523,7 @@ public class ComplexNumber {
      * <h3>Complex secant function</h3>
      * Secant function for complex numbers. I used the unit circle definition to compute this.
      * <p>
-     * It's precision is around 1x10^(-20) and execution time is aroun 30ms.
+     * It's precision is around 1x10^(-20) and execution time is around 30ms.
      * <p>
      * You can read more on wikipedia: {@link https://en.wikipedia.org/wiki/Trigonometric_functions#Unit-circle_definitions}
      */
@@ -534,7 +540,7 @@ public class ComplexNumber {
      * <h3>Complex cosecant function</h3>
      * Cosecant function for complex numbers. I used the unit circle definition to compute this.
      * <p>
-     * It's precision is around 1x10^(-20) and execution time is aroun 30ms.
+     * It's precision is around 1x10^(-20) and execution time is around 30ms.
      * <p>
      * You can read more on wikipedia: {@link https://en.wikipedia.org/wiki/Trigonometric_functions#Unit-circle_definitions}
      */
@@ -544,6 +550,38 @@ public class ComplexNumber {
         ans = ONE.divide(sin(z));
         // // long endTime = System.nanoTime();
         // // System.out.println((endTime-startTime)/1000000+"ms");
+        return ans;
+    }
+    // ----------------------------------------------------
+    /**
+     * <h3>Complex arcsine function</h3>
+     * Arcsine function for complex numbers. I used logarithmic form to compute this.
+     * <p>
+     * It's precision is around 1x10^(-30) and exceution time is around 500ms.
+     * <p>
+     * You can read more on wikipedia: {@link https://en.wikipedia.org/wiki/Inverse_trigonometric_functions#Logarithmic_forms}
+     */
+    public static ComplexNumber asin(ComplexNumber z) {
+        // // long startTime = System.nanoTime();
+        ComplexNumber inside = (sqrt(ONE.subtract(square(z))).subtract(I.multiply(z)));
+        ComplexNumber ans = I.multiply(log(inside));
+        // // long endTime = System.nanoTime();
+        // // System.out.println((endTime-startTime)/1000000+"ms");
+        return (ans);
+    }
+    // ----------------------------------------------------
+    /**
+     * <h3>Complex arccosine function</h3>
+     * Arccosine function for complex numbers. I used logarithmic form to compute this.
+     * <p>
+     * It's precision is around 1x10^(-30) and exceution time is around 500ms.
+     * <p>
+     * You can read more on wikipedia: {@link https://en.wikipedia.org/wiki/Inverse_trigonometric_functions#Logarithmic_forms}
+     */
+    public static ComplexNumber acos(ComplexNumber z) {
+        ComplexNumber ans = HALFPI.subtract(asin(z));
+        ans.REAL = ans.REAL.setScale(50, RoundingMode.HALF_UP);
+        ans.IMG = ans.IMG.setScale(50, RoundingMode.HALF_UP);
         return ans;
     }
     // ----------------------------------------------------

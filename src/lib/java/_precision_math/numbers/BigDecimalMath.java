@@ -166,7 +166,7 @@ public class BigDecimalMath {
         if (x.compareTo(BigDecimal.ZERO) <= 0) {
             return null;
         }
-        for (int i = 1; i<=10; i++) {
+        for (int i = 1; i<=20; i++) {
             BigDecimal eToX = exp(x);
             term = eToX.subtract(n).divide(eToX, 50, RoundingMode.HALF_UP);
             x = x.subtract(term);

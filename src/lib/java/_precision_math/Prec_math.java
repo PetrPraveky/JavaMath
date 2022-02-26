@@ -24,11 +24,17 @@ public class Prec_math {
         (ComplexNumber.sgn(n1)).display(); // Complex sign
         */
         // ----------------------------------------------------
+        /*
+        // Trigonometric functions
         (ComplexNumber.sin(n1)).display(); // Sine
         (ComplexNumber.cos(n1)).display(); // Cosine
         (ComplexNumber.tan(n1)).display(); // Tangent
         (ComplexNumber.cot(n1)).display(); // Cotangent
         (ComplexNumber.sec(n1)).display(); // Secant
         (ComplexNumber.csc(n1)).display(); // Cosecant
+        */
+        // Inverse trigonometric functions
+        (ComplexNumber.asin(n1)).display(); // Arcsine
+        (ComplexNumber.acos(n1)).display(); // Arccosine
     }
 }
