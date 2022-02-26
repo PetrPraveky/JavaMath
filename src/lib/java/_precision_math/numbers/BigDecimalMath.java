@@ -6,6 +6,16 @@ import java.math.RoundingMode;
 public class BigDecimalMath {
     // ----------------------------------------------------
     /**
+     * <h3>Minus one value for BigDecimal</h3>
+     */
+    public static final BigDecimal MINUSONE = new BigDecimal(-1);
+    // ----------------------------------------------------
+    /**
+     * <h3>Two value for BigDecimal</h3>
+     */
+    public static final BigDecimal TWO = new BigDecimal(2);
+    // ----------------------------------------------------
+    /**
      * <h3>Pi approximation to 1000 decimal places</h3>
      * I just copied this value from {@link http://www.math.com/tables/constants/pi.htm}
      */
@@ -28,14 +38,17 @@ public class BigDecimalMath {
     public static final BigDecimal TWOPI = PI.multiply(new BigDecimal(2));
     // ----------------------------------------------------
     /**
-     * <h3>Minus one value for BigDecimal</h3>
+     * <h3>-Pi/2 approximation to 50 decimal places multiplied by 2</h3>
+     * This returns minus two times divided previous approximation
      */
-    public static final BigDecimal MINUSONE = new BigDecimal(-1);
+    public static final BigDecimal MINHALFPI = MINUSONE.multiply(PI.divide(new BigDecimal(2), 1000, RoundingMode.HALF_UP));
+    // ----------------------------------------------------
     // ----------------------------------------------------
     /**
-     * <h3>Two value for BigDecimal</h3>
+     * <h3>Pi/2 approximation to 50 decimal places multiplied by 2</h3>
+     * This returns two times devided previous approximation
      */
-    public static final BigDecimal TWO = new BigDecimal(2);
+    public static final BigDecimal HALFPI = PI.divide(new BigDecimal(2), 1000, RoundingMode.HALF_UP);
     // ----------------------------------------------------
     /**
      * <h3>Sine function</h3>
@@ -79,25 +92,42 @@ public class BigDecimalMath {
     // ----------------------------------------------------
     /**
      * <h3>Arctangent for BigDecimal values</h3>
-     * Arctangent approximation using taylor series. You can read more on wikipedia: {@link https://en.wikipedia.org/wiki/Taylor_series#Trigonometric_functions}
+     * Arctangent approximation using taylor series. You can read more on wikipedia: {@link https://en.wikipedia.org/wiki/Taylor_series#Trigonometric_functions} and here: {@link https://proofwiki.org/wiki/Power_Series_Expansion_for_Real_Arctangent_Function}
      * <p>
      * It's precision is around 1x10^(-50) and time of execution is around 10ms.
      */
     public static BigDecimal arctan(BigDecimal x) {
         // If |x| is greater than one, it will return null
-        if (x.abs().compareTo(BigDecimal.ONE) > 0) {
-            return null;
-        }
-        BigDecimal ans = new BigDecimal(0);
+        
         // // long startTime = System.nanoTime();
-        for (BigDecimal n = BigDecimal.ZERO; n.compareTo(new BigDecimal(50)) <= 0; n = n.add(BigDecimal.ONE)) {
-            BigDecimal numerator = MINUSONE.pow(n.intValue());
-            BigDecimal denominator = (TWO.multiply(n)).add(BigDecimal.ONE);
-            ans = ans.add((numerator.divide(denominator, 1000, RoundingMode.HALF_UP)).multiply(x.pow(((TWO.multiply(n)).add(BigDecimal.ONE)).intValue())));
+        // If value is between 1 and -1
+        if (x.abs().compareTo(BigDecimal.ONE) <= 0) {
+            BigDecimal ans = new BigDecimal(0);
+            for (BigDecimal n = BigDecimal.ZERO; n.compareTo(new BigDecimal(50)) <= 0; n = n.add(BigDecimal.ONE)) {
+                BigDecimal numerator = MINUSONE.pow(n.intValue());
+                BigDecimal denominator = (TWO.multiply(n)).add(BigDecimal.ONE);
+                ans = ans.add((numerator.divide(denominator, 1000, RoundingMode.HALF_UP)).multiply(x.pow(((TWO.multiply(n)).add(BigDecimal.ONE)).intValue())));
+            }
+            // // long endTime = System.nanoTime();
+            // // System.out.println((endTime-startTime)/1000000+"ms");
+            return ans.setScale(50, RoundingMode.HALF_UP);
+        } else {
+            BigDecimal ans = new BigDecimal(0);
+            for (BigDecimal n = BigDecimal.ZERO; n.compareTo(new BigDecimal(50)) <= 0; n = n.add(BigDecimal.ONE)) {
+                BigDecimal numerator = MINUSONE.pow(n.intValue());
+                BigDecimal denominator = ((TWO.multiply(n)).add(BigDecimal.ONE)).multiply(x.pow(((TWO.multiply(n)).add(BigDecimal.ONE)).intValue()));
+                ans = ans.add((numerator.divide(denominator, 1000, RoundingMode.HALF_UP)));
+            }
+            // // long endTime = System.nanoTime();
+            // // System.out.println((endTime-startTime)/1000000+"ms");
+            if (x.compareTo(BigDecimal.ONE) > 0) {
+                return HALFPI.subtract(ans).setScale(50, RoundingMode.HALF_UP);
+            } else if (x.compareTo(MINUSONE) < 0) {
+                return MINHALFPI.subtract(ans).setScale(50, RoundingMode.HALF_UP);
+            } else {
+                return ans.setScale(50, RoundingMode.HALF_UP);
+            }
         }
-        // // long endTime = System.nanoTime();
-        // //System.out.println((endTime-startTime)/1000000+"ms");
-        return ans.setScale(50, RoundingMode.HALF_UP);
     }
     // ----------------------------------------------------
     /**

@@ -85,10 +85,16 @@ public class ComplexNumber {
     public static final ComplexNumber I = new ComplexNumber(0, 1);
     // ----------------------------------------------------
     /**
-     * <h3>Returns value of pi/2</h3>
+     * <h3>PI/2 value of complex number</h3>
      * Returns real part as <b>pi/2</b> and imaginary part as <b>one</b>
      */
     public static final ComplexNumber HALFPI = new ComplexNumber(BigDecimalMath.PI.divide(BigDecimalMath.TWO, 1000, RoundingMode.HALF_UP));
+    // ----------------------------------------------------
+    /**
+     * <h3>Half I calue of complex number </h3>
+     * Returns real part as <b>zero</b> and imaginary part as <b>i/2</b>
+     */
+    public static final ComplexNumber HALFI = new ComplexNumber(0, 0.5);
     // ----------------------------------------------------
     /**
      * <h3>Polar conversion</h3>
@@ -557,11 +563,11 @@ public class ComplexNumber {
      * <h3>Complex arcsine function</h3>
      * Arcsine function for complex numbers. I used logarithmic form to compute this.
      * <p>
-     * It's precision is around 1x10^(-30) and exceution time is around 500ms.
+     * It's precision is around 1x10^(-30) and execution time is around 500ms.
      * <p>
      * You can read more on wikipedia: {@link https://en.wikipedia.org/wiki/Inverse_trigonometric_functions#Logarithmic_forms}
      */
-    public static ComplexNumber asin(ComplexNumber z) {
+    public static ComplexNumber arcsin(ComplexNumber z) {
         // // long startTime = System.nanoTime();
         ComplexNumber inside = (sqrt(ONE.subtract(square(z))).subtract(I.multiply(z)));
         ComplexNumber ans = I.multiply(log(inside));
@@ -574,15 +580,237 @@ public class ComplexNumber {
      * <h3>Complex arccosine function</h3>
      * Arccosine function for complex numbers. I used logarithmic form to compute this.
      * <p>
-     * It's precision is around 1x10^(-30) and exceution time is around 500ms.
+     * It's precision is around 1x10^(-30) and execution time is around 500ms.
      * <p>
      * You can read more on wikipedia: {@link https://en.wikipedia.org/wiki/Inverse_trigonometric_functions#Logarithmic_forms}
      */
-    public static ComplexNumber acos(ComplexNumber z) {
-        ComplexNumber ans = HALFPI.subtract(asin(z));
+    public static ComplexNumber arccos(ComplexNumber z) {
+        ComplexNumber ans = HALFPI.subtract(arcsin(z));
         ans.REAL = ans.REAL.setScale(50, RoundingMode.HALF_UP);
         ans.IMG = ans.IMG.setScale(50, RoundingMode.HALF_UP);
         return ans;
+    }
+    // ----------------------------------------------------
+    /**
+     * <h3>Complex arctangent function</h3>
+     * Arctangent function for complex numbers. I used logarithmic form to compute this.
+     * <p>
+     * It's precision is around 1x10^(-30) and execution time is around 500ms.
+     * <p>
+     * You can read more on wikipedia: {@link https://en.wikipedia.org/wiki/Inverse_trigonometric_functions#Logarithmic_forms}
+     */
+    public static ComplexNumber arctan(ComplexNumber z) {
+        // // long startTime = System.nanoTime();
+        ComplexNumber inside = (I.subtract(z)).divide(I.add(z));
+        ComplexNumber ans = MINUSONE.multiply(HALFI.multiply(log(inside)));
+        // // long endTime = System.nanoTime();
+        // // System.out.println((endTime-startTime)/1000000+"ms");
+        return ans;
+    }
+    // ----------------------------------------------------
+    /**
+     * <h3>Complex arccotangent function</h3>
+     * Arccotangent function for complex numbers. I used logarithmic form to compute this.
+     * <p>
+     * It's precision is around 1x10^(-30) and execution time is around 500ms.
+     * <p>
+     * You can read more on wikipedia: {@link https://en.wikipedia.org/wiki/Inverse_trigonometric_functions#Logarithmic_forms}
+     */
+    public static ComplexNumber arccot(ComplexNumber z) {
+        // // long startTime = System.nanoTime();
+        ComplexNumber inside = (z.add(I)).divide(z.subtract(I));
+        ComplexNumber ans = MINUSONE.multiply(HALFI.multiply(log(inside)));
+        // // long endTime = System.nanoTime();
+        // // System.out.println((endTime-startTime)/1000000+"ms");
+        return ans;
+    }
+    // ----------------------------------------------------
+    /**
+     * <h3>Complex arcsecant function</h3>
+     * Arcsecant function for complex numbers. I used logarithmic form to compute this.
+     * <p>
+     * It's precision is around 1x10^(-30) and execution time is around 500ms.
+     * <p>
+     * You can read more on wikipedia: {@link https://en.wikipedia.org/wiki/Inverse_trigonometric_functions#Logarithmic_forms}
+     */
+    public static ComplexNumber arcsec(ComplexNumber z) {
+        ComplexNumber ans = HALFPI.subtract(arccsc(z));
+        ans.REAL = ans.REAL.setScale(50, RoundingMode.HALF_UP);
+        ans.IMG = ans.IMG.setScale(50, RoundingMode.HALF_UP);
+        return (ans);
+    }
+    // ----------------------------------------------------
+    /**
+     * <h3>Complex arccosecant function</h3>
+     * Arccosecant function for complex numbers. I used logarithmic form to compute this.
+     * <p>
+     * It's precision is around 1x10^(-30) and execution time is around 500ms.
+     * <p>
+     * You can read more on wikipedia: {@link https://en.wikipedia.org/wiki/Inverse_trigonometric_functions#Logarithmic_forms}
+     */
+    public static ComplexNumber arccsc(ComplexNumber z) {
+        // // long startTime = System.nanoTime();
+        ComplexNumber inside = (sqrt(ONE.subtract(ONE.divide(square(z)))).subtract(I.divide(z)));
+        ComplexNumber ans = I.multiply(log(inside));
+        // // long endTime = System.nanoTime();
+        // // System.out.println((endTime-startTime)/1000000+"ms");
+        return ans;
+    }
+    // ----------------------------------------------------
+    /**
+     * <h3>Complex sinh function</h3>
+     * Hyperbolic sine function for complex numbers. I used definition with trigonometric function.
+     * <p>
+     * It's precision is around 1x10^(-20) and execution time is around 30ms.
+     * <p>
+     * You can read more on wikipedia: {@link https://en.wikipedia.org/wiki/Hyperbolic_functions#Complex_trigonometric_definitions}
+     */
+    public static ComplexNumber sinh(ComplexNumber z) {
+        ComplexNumber ans = MINUSONE.multiply(I.multiply(sin(I.multiply(z))));
+        return ans;
+    }
+    // ----------------------------------------------------
+    /**
+     * <h3>Complex cosh function</h3>
+     * Hyperbolic cosine function for complex numbers. I used definition with trigonometric function.
+     * <p>
+     * It's precision is around 1x10^(-20) and execution time is around 30ms.
+     * <p>
+     * You can read more on wikipedia: {@link https://en.wikipedia.org/wiki/Hyperbolic_functions#Complex_trigonometric_definitions}
+     */
+    public static ComplexNumber cosh(ComplexNumber z) {
+        ComplexNumber ans = cos(I.multiply(z));
+        return ans;
+    }
+    // ----------------------------------------------------
+    /**
+     * <h3>Complex tanh function</h3>
+     * Hyperbolic tangent function for complex numbers. I used definition with trigonometric function.
+     * <p>
+     * It's precision is around 1x10^(-20) and execution time is around 30ms.
+     * <p>
+     * You can read more on wikipedia: {@link https://en.wikipedia.org/wiki/Hyperbolic_functions#Complex_trigonometric_definitions}
+     */
+    public static ComplexNumber tanh(ComplexNumber z) {
+        ComplexNumber ans = MINUSONE.multiply(I.multiply(tan(I.multiply(z))));
+        return ans;
+    }
+    // ----------------------------------------------------
+    /**
+     * <h3>Complex coth function</h3>
+     * Hyperbolic cotangent function for complex numbers. I used definition with trigonometric function.
+     * <p>
+     * It's precision is around 1x10^(-20) and execution time is around 30ms.
+     * <p>
+     * You can read more on wikipedia: {@link https://en.wikipedia.org/wiki/Hyperbolic_functions#Complex_trigonometric_definitions}
+     */
+    public static ComplexNumber coth(ComplexNumber z) {
+        ComplexNumber ans = I.multiply(cot(I.multiply(z)));
+        return ans;
+    }
+    // ----------------------------------------------------
+    /**
+     * <h3>Complex sech function</h3>
+     * Hyperbolic secant function for complex numbers. I used definition with trigonometric function.
+     * <p>
+     * It's precision is around 1x10^(-20) and execution time is around 30ms.
+     * <p>
+     * You can read more on wikipedia: {@link https://en.wikipedia.org/wiki/Hyperbolic_functions#Complex_trigonometric_definitions}
+     */
+    public static ComplexNumber sech(ComplexNumber z) {
+        ComplexNumber ans = sec(I.multiply(z));
+        return ans;
+    }
+    // ----------------------------------------------------
+    /**
+     * <h3>Complex csch function</h3>
+     * Hyperbolic cosecant function for complex numbers. I used definition with trigonometric function.
+     * <p>
+     * It's precision is around 1x10^(-20) and execution time is around 30ms.
+     * <p>
+     * You can read more on wikipedia: {@link https://en.wikipedia.org/wiki/Hyperbolic_functions#Complex_trigonometric_definitions}
+     */
+    public static ComplexNumber csch(ComplexNumber z) {
+        ComplexNumber ans = I.multiply(csc(I.multiply(z)));
+        return ans;
+    }
+    // ----------------------------------------------------
+    /**
+     * <h3>Complex arsinh function</h3>
+     * Inverse hyperbolic sine function for complex numbers. I used logarithmic definition.
+     * <p>
+     * It's precision is around 1x10^(-30) and execution time is around 500ms-
+     * <p>
+     * You can read more on wikipedia: {@link https://en.wikipedia.org/wiki/Inverse_hyperbolic_functions#Principal_values_in_the_complex_plane}
+     */
+    public static ComplexNumber arcsinh(ComplexNumber z) {
+        ComplexNumber ans = z.add(sqrt(square(z).add(ONE)));
+        return log(ans);
+    }
+    // ----------------------------------------------------
+    /**
+     * <h3>Complex arcosh function</h3>
+     * Inverse hyperbolic cosine function for complex numbers. I used logarithmic definition.
+     * <p>
+     * It's precision is around 1x10^(-30) and execution time is around 500ms-
+     * <p>
+     * You can read more on wikipedia: {@link https://en.wikipedia.org/wiki/Inverse_hyperbolic_functions#Principal_values_in_the_complex_plane}
+     */
+    public static ComplexNumber arccosh(ComplexNumber z) {
+        ComplexNumber ans = z.add(sqrt(z.add(ONE)).add(sqrt(z.subtract(ONE))));
+        return log(ans);
+    }
+    // ----------------------------------------------------
+    /**
+     * <h3>Complex artanh function</h3>
+     * Inverse hyperbolic tangent function for complex numbers. I used logarithmic definition.
+     * <p>
+     * It's precision is around 1x10^(-30) and execution time is around 500ms-
+     * <p>
+     * You can read more on wikipedia: {@link https://en.wikipedia.org/wiki/Inverse_hyperbolic_functions#Principal_values_in_the_complex_plane}
+     */
+    public static ComplexNumber arctanh(ComplexNumber z) {
+        ComplexNumber ans = (z.add(ONE)).divide(ONE.subtract(z));
+        return log(ans).divide(new ComplexNumber(2, 0));
+    }
+    // ----------------------------------------------------
+    /**
+     * <h3>Complex arcoth function</h3>
+     * Inverse hyperbolic cotangent function for complex numbers. I used logarithmic definition.
+     * <p>
+     * It's precision is around 1x10^(-30) and execution time is around 500ms-
+     * <p>
+     * You can read more on wikipedia: {@link https://en.wikipedia.org/wiki/Inverse_hyperbolic_functions#Principal_values_in_the_complex_plane}
+     */
+    public static ComplexNumber arccoth(ComplexNumber z) {
+        ComplexNumber ans = (z.add(ONE)).divide(z.subtract(ONE));
+        return log(ans).divide(new ComplexNumber(2, 0));
+    }
+    // ----------------------------------------------------
+    /**
+     * <h3>Complex arcsch function</h3>
+     * Inverse hyperbolic cosecant function for complex numbers. I used logarithmic definition.
+     * <p>
+     * It's precision is around 1x10^(-30) and execution time is around 500ms-
+     * <p>
+     * You can read more on wikipedia: {@link https://en.wikipedia.org/wiki/Inverse_hyperbolic_functions#Principal_values_in_the_complex_plane}
+     */
+    public static ComplexNumber arccsch(ComplexNumber z) {
+        ComplexNumber ans = ((ONE.divide(z)).add(sqrt((ONE.divide(square(z))).add(ONE))));
+        return log(ans);
+    }
+    // ----------------------------------------------------
+    /**
+     * <h3>Complex arsech function</h3>
+     * Inverse hyperbolic secant function for complex numbers. I used logarithmic definition.
+     * <p>
+     * It's precision is around 1x10^(-30) and execution time is around 500ms-
+     * <p>
+     * You can read more on wikipedia: {@link https://en.wikipedia.org/wiki/Inverse_hyperbolic_functions#Principal_values_in_the_complex_plane}
+     */
+    public static ComplexNumber arcsech(ComplexNumber z) {
+        ComplexNumber ans = ((ONE.divide(z)).add(sqrt((ONE.divide(z)).add(ONE)).multiply(sqrt((ONE.divide(z)).subtract(ONE)))));
+        return log(ans);
     }
     // ----------------------------------------------------
 }

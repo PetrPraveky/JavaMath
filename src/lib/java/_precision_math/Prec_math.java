@@ -33,8 +33,32 @@ public class Prec_math {
         (ComplexNumber.sec(n1)).display(); // Secant
         (ComplexNumber.csc(n1)).display(); // Cosecant
         */
+        /*
         // Inverse trigonometric functions
-        (ComplexNumber.asin(n1)).display(); // Arcsine
-        (ComplexNumber.acos(n1)).display(); // Arccosine
+        (ComplexNumber.arcsin(n1)).display(); // Arcsine
+        (ComplexNumber.arccos(n1)).display(); // Arccosine
+        (ComplexNumber.arctan(n1)).display(); // Atangent
+        (ComplexNumber.arccot(n1)).display(); // Acotangent
+        (ComplexNumber.arcsec(n1)).display(); // Asecant
+        (ComplexNumber.arccsc(n1)).display(); // Acosecant
+        */
+        /*
+        // Hyperbolic functions
+        (ComplexNumber.sinh(n1)).display(); // Sinh
+        (ComplexNumber.cosh(n1)).display(); // Cosh
+        (ComplexNumber.tanh(n1)).display(); // Tanh
+        (ComplexNumber.coth(n1)).display(); // Coth
+        (ComplexNumber.sech(n1)).display(); // Sech
+        (ComplexNumber.csch(n1)).display(); // Csch
+        */
+        /*
+        // Inverse hyperbolic function
+        (ComplexNumber.arcsinh(n1)).display(); // Arsinh
+        (ComplexNumber.arccosh(n1)).display(); // Arcosh
+        (ComplexNumber.arctanh(n1)).display(); // Artanh
+        (ComplexNumber.arccoth(n1)).display(); // Arcoth
+        (ComplexNumber.arcsech(n1)).display(); // Arsech
+        (ComplexNumber.arccsch(n1)).display(); // Arcsch
+        */
     }
 }
