@@ -5,7 +5,7 @@
 \usepackage{listings}
 \usepackage{color}
 \usepackage{mathtools}
-\usepackage{hyperref}
+% \usepackage{hyperref}
 % Colors
 \definecolor{dkgreen}{rgb}{0,0.6,0}
 \definecolor{gray}{rgb}{0.5,0.5,0.5}
@@ -153,48 +153,50 @@
     Výsledný algoritmus vypadá tedy takto:
     \sloppy
     \begin{lstlisting}
-        // Pokud je |x| <= 1
-        if (x.abs().compareTo(BigDecimal.ONE) <= 0) {
-            BigDecimal ans = new BigDecimal(0);
-            // Suma
-            for (BigDecimal n = BigDecimal.ZERO; n.compareTo(new BigDecimal(50)) <= 0; n = n.add(BigDecimal.ONE)) {
-                // Citatel
-                BigDecimal numerator = MINUSONE.pow(n.intValue());
-                // Jmenovatel
-                BigDecimal denominator = (TWO.multiply(n)).add(BigDecimal.ONE);
-                // Vzorec uvnitr sumy
-                ans = ans.add((numerator.divide(denominator, 1000, 
-                    RoundingMode.HALF_UP)).multiply(
-                    x.pow(((TWO.multiply(n)).add(
-                    BigDecimal.ONE)).intValue())));
+        public static BigDecimal arctan(BigDecimal x) {
+            // Pokud je |x| <= 1
+            if (x.abs().compareTo(BigDecimal.ONE) <= 0) {
+                BigDecimal ans = new BigDecimal(0);
+                // Suma
+                for (BigDecimal n = BigDecimal.ZERO; n.compareTo(new BigDecimal(50)) <= 0; n = n.add(BigDecimal.ONE)) {
+                    // Citatel
+                    BigDecimal numerator = MINUSONE.pow(n.intValue());
+                    // Jmenovatel
+                    BigDecimal denominator = (TWO.multiply(n)).add(BigDecimal.ONE);
+                    // Vzorec uvnitr sumy
+                    ans = ans.add((numerator.divide(denominator, 1000, 
+                        RoundingMode.HALF_UP)).multiply(
+                        x.pow(((TWO.multiply(n)).add(
+                        BigDecimal.ONE)).intValue())));
 
-                // Vraceni vysledku
-            }
-            return ans.setScale(50, RoundingMode.HALF_UP);
-        // Jinak
-        } else {
-            BigDecimal ans = new BigDecimal(0);
-            // Suma
-            for (BigDecimal n = BigDecimal.ZERO; n.compareTo(new BigDecimal(50)) <= 0; n = n.add(BigDecimal.ONE)) {
-                // Citatel
-                BigDecimal numerator = MINUSONE.pow(n.intValue());
-                // Jmenovatel
-                BigDecimal denominator = 
-                    ((TWO.multiply(n)).add(BigDecimal.ONE)).multiply(
-                    x.pow(((TWO.multiply(n)).add(
-                    BigDecimal.ONE)).intValue()));
-                // Vzorec uvnitr sumy
-                ans = ans.add((numerator.divide(denominator, 1000, RoundingMode.HALF_UP)));
-            }
-            // Pokud je x > 1
-            if (x.compareTo(BigDecimal.ONE) > 0) {
-                return HALFPI.subtract(ans).setScale(50, RoundingMode.HALF_UP);
-            // Pokud je x < 1
-            } else if (x.compareTo(MINUSONE) < 0) {
-                return MINHALFPI.subtract(ans).setScale(50, RoundingMode.HALF_UP);
-            // Jinak vrati chybny vysledek
-            } else {
+                    // Vraceni vysledku
+                }
                 return ans.setScale(50, RoundingMode.HALF_UP);
+            // Jinak
+            } else {
+                BigDecimal ans = new BigDecimal(0);
+                // Suma
+                for (BigDecimal n = BigDecimal.ZERO; n.compareTo(new BigDecimal(50)) <= 0; n = n.add(BigDecimal.ONE)) {
+                    // Citatel
+                    BigDecimal numerator = MINUSONE.pow(n.intValue());
+                    // Jmenovatel
+                    BigDecimal denominator = 
+                        ((TWO.multiply(n)).add(BigDecimal.ONE)).multiply(
+                        x.pow(((TWO.multiply(n)).add(
+                        BigDecimal.ONE)).intValue()));
+                    // Vzorec uvnitr sumy
+                    ans = ans.add((numerator.divide(denominator, 1000, RoundingMode.HALF_UP)));
+                }
+                // Pokud je x > 1
+                if (x.compareTo(BigDecimal.ONE) > 0) {
+                    return HALFPI.subtract(ans).setScale(50, RoundingMode.HALF_UP);
+                // Pokud je x < 1
+                } else if (x.compareTo(MINUSONE) < 0) {
+                    return MINHALFPI.subtract(ans).setScale(50, RoundingMode.HALF_UP);
+                // Jinak vrati chybny vysledek
+                } else {
+                    return ans.setScale(50, RoundingMode.HALF_UP);
+                }
             }
         }
     \end{lstlisting}
@@ -202,20 +204,86 @@
     větší přesnost zvyšte \textit{n.compareTo(new BigDecimal(50))} hodnotu na vyšší.
     \subsubsection{Hyperbolický sinus}
     Pro aproximaci hyperbolického sinusu jsem použil opět taylorovu sérii.
-    % \begin{lstlisting}
-    %     // Hello.java
-    %     import javax.swing.JApplet;
-    %     import java.awt.Graphics;
-        
-    %     public class Hello extends JApplet {
-    %         public void paintComponent(Graphics g) {
-    %             g.drawString("Hello, world!", 65, 95);
-    %         }    
-    %     }
-    % \end{lstlisting}
+    \begin{center}
+        $sinh x = \displaystyle\sum_{n=0}^{\infty}\frac{x^{2n+1}}{(2n+1)!}$
+    \end{center}
+    Výsledný algoritmus vypadá tedy takto:
+    \newline
+    \begin{lstlisting}
+        public static BigDecimal sinh(BigDecimal x) {
+            BigDecimal ans = new BigDecimal(0);
+            // Suma
+            for (BigDecimal n = BigDecimal.ZERO; n.compareTo(new BigDecimal(50)) <= 0; n = n.add(BigDecimal.ONE)) {
+                // Citatel
+                BigDecimal numerator = x.pow((2*(n.intValue())+1));
+                // Jmenovatel
+                BigDecimal denominator = factorial((TWO.multiply(n)).add(BigDecimal.ONE));
+                // Vzorec uvnitr sumy
+                ans = ans.add(numerator.divide(denominator, 1000, RoundingMode.HALF_UP));
+            }
+            // Vraceni vysledku
+            return ans.setScale(50, RoundingMode.HALF_UP);
+        }
+    \end{lstlisting}
+    Tento algoritmus je nastaven na přesnost okolo $1\times{10^{-50}}$ s časem vypočítání okolo 10ms. Pro
+    větší přesnost zvyšte \textit{n.compareTo(new BigDecimal(50))} hodnotu na vyšší.
+    \subsubsection{Hyperbolický cosinus}
+    Pro aproximaci hyperbolického cosinu je opět užita taylorova série.
+    \begin{center}
+        $cosh x = \displaystyle\sum_{n=0}^{\infty}\frac{x^{2n}}{(2n)!}$
+    \end{center}
+    Výsledný algoritmus vypadá tedy takto:
+    \begin{lstlisting}
+        public static BigDecimal cosh(BigDecimal x) {
+            BigDecimal ans = new BigDecimal(0);
+            // Suma 
+            for (BigDecimal n = BigDecimal.ZERO; n.compareTo(new BigDecimal(50)) <= 0; n = n.add(BigDecimal.ONE)) {
+                // Citatel
+                BigDecimal numerator = x.pow(2*(n.intValue()));
+                // Jmenovatel
+                BigDecimal denominator = factorial(TWO.multiply(n));
+                // Vzorec uvnitr sumy
+                ans = ans.add(numerator.divide(denominator, 1000, RoundingMode.HALF_UP));
+            }
+            // Vraceni vysledku
+            return ans.setScale(50, RoundingMode.HALF_UP);
+        }
+    \end{lstlisting}
+    Tento algoritmus je nastaven na přesnost okolo $1\times{10^{-50}}$ s časem vypočítání okolo 10ms. Pro
+    větší přesnost zvyšte \textit{n.compareTo(new BigDecimal(50))} hodnotu na vyšší.
+    \subsection{Exponenciální funkce a přirozený logaritmus}
+    \subsubsection{Exponenciální funkce}
+    Exponenciální funkce ve tvaru $exp(x) = e^x$ je vypočítaná taylorovou sérií, která vypadá takto:
+    \begin{center}
+        $exp(x)=\displaystyle\sum_{n=0}^{\infty}\frac{x^n}{n!}$
+    \end{center}
+    Algoritmus pro vypočítaní vypadá tedy takto:
+    \begin{lstlisting}
+        public static BigDecimal exp(BigDecimal z) {
+            BigDecimal ans = new BigDecimal(0);
+            // Suma
+            for (BigDecimal n = BigDecimal.ZERO; n.compareTo(new BigDecimal(150)) <= 0; n = n.add(BigDecimal.ONE)) {
+                ans = ans.add((z.pow(n.intValue())).divide(factorial(n), 50, RoundingMode.HALF_UP));
+            }
+            // Navraceni vysledku
+            return ans;
+        }
+    \end{lstlisting}
+    Tento algoritmus je nastaven na přesnost okolo $1\times{10^{-50}}$ s časem vypočítání okolo 15ms. Pro
+    větší přesnost zvyšte \textit{n.compareTo(new BigDecimal(50))} hodnotu na vyšší.
+    \subsubsection{Přirozený logaritmus}
+    Algorimizace přirozeného logarimu je složitá. Integrální vzorec je časově velice neefektivní, tudíž jsem
+    se rozhodl použít lehce upravený Newtonův algoritmus. Vypadá takto:
+    \begin{center}
+        $log(x)=\displaystyle\sum^{\infty}x-\frac{e^x-x}{e^x}$
+    \end{center}
     \subsection{Zdroje}
-    \sloppy
     Zdroj pro aproximace trigonometrických funkcí: \newline
-    \indent https://en.wikipedia.org/wiki/Taylor_series#Trigonometric_functions
+    \indent \textbf{Wikipedia:} Taylor series \newline
+    \indent \textbf{Wikiproof:} Power series expansion for real arctangnet function \newline
+    Zdroj pro aproximace hyperbolických funkcí: \newline
+    \indent \textbf{Wikipedia:} Taylor series \newline
+    Zdroj pro exponenciální funkci: \newline
+    \indent \textbf{Wikipedia:} Taylor series \newline
     
 \end{document}
