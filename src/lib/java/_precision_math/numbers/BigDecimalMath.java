@@ -35,20 +35,19 @@ public class BigDecimalMath {
      * <h3>Pi approximation to 50 decimal places multiplied by 2</h3>
      * This returns two times previous approximation
      */
-    public static final BigDecimal TWOPI = PI.multiply(new BigDecimal(2));
-    // ----------------------------------------------------
-    /**
-     * <h3>-Pi/2 approximation to 50 decimal places multiplied by 2</h3>
-     * This returns minus two times divided previous approximation
-     */
-    public static final BigDecimal MINHALFPI = MINUSONE.multiply(PI.divide(new BigDecimal(2), 1000, RoundingMode.HALF_UP));
-    // ----------------------------------------------------
+    public static final BigDecimal TWOPI = PI.multiply(TWO);
     // ----------------------------------------------------
     /**
      * <h3>Pi/2 approximation to 50 decimal places multiplied by 2</h3>
      * This returns two times devided previous approximation
      */
-    public static final BigDecimal HALFPI = PI.divide(new BigDecimal(2), 1000, RoundingMode.HALF_UP);
+    public static final BigDecimal HALFPI = PI.divide(TWO, 1000, RoundingMode.HALF_UP);
+    // ----------------------------------------------------
+    /**
+     * <h3>-Pi/2 approximation to 50 decimal places multiplied by 2</h3>
+     * This returns minus two times divided previous approximation
+     */
+    public static final BigDecimal MINHALFPI = MINUSONE.multiply(HALFPI);
     // ----------------------------------------------------
     /**
      * <h3>Sine function</h3>
@@ -60,7 +59,7 @@ public class BigDecimalMath {
         // Taylor series approximation
         BigDecimal ans = new BigDecimal(0);
         // // long startTime = System.nanoTime();
-        for (BigDecimal n = BigDecimal.ZERO; n.compareTo(new BigDecimal(25)) <= 0; n = n.add(BigDecimal.ONE)) {
+        for (BigDecimal n = BigDecimal.ZERO; n.compareTo(new BigDecimal(50)) <= 0; n = n.add(BigDecimal.ONE)) {
             BigDecimal numerator = MINUSONE.pow(n.intValue());
             BigDecimal denominator = factorial((TWO.multiply(n)).add(BigDecimal.ONE));
             ans = ans.add((numerator.divide(denominator, 1000, RoundingMode.HALF_UP)).multiply(x.pow(((TWO.multiply(n)).add(BigDecimal.ONE)).intValue())));

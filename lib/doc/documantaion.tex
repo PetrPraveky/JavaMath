@@ -1,16 +1,221 @@
+\documentclass{article}
 % This is czech documantion of my project "JavaMath". 
 % Here I'll explain everything that made this projet possible, every site that I used to gather infomation etc.
-\documentclass[a4book]{book}
 % Packages
-
+\usepackage{listings}
+\usepackage{color}
+\usepackage{mathtools}
+\usepackage{hyperref}
+% Colors
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+% Title page
 \title{\textbf{JavaMath documentace}}
 \author{Petr Kučera}
 \date{\today}
-
+% Pagenumbering
 \pagenumbering{gobble}
-
+% Sets listing for java code
+\lstset{frame=tb,
+  language=Java,
+  aboveskip=3mm,
+  belowskip=3mm,
+  showstringspaces=false,
+  columns=flexible,
+  basicstyle={\small\ttfamily},
+  numbers=none,
+  numberstyle=\tiny\color{gray},
+  keywordstyle=\color{blue},
+  commentstyle=\color{dkgreen},
+  stringstyle=\color{mauve},
+  breaklines=true,
+  breakatwhitespace=true,
+  tabsize=3
+}
+% Main document
 \begin{document}
     % \maketitle
-    \tableofcontents
+    % \tableofcontents
+    %% BigDecimalMath section
+    \section{BigDecimalMath}
+    V tomto souboru řeším matematické funkce, které nejsou normálně dostupné pro
+    java modul \textit{BigDecimal}. Řešení těchto funkcí je vybráno tak, aby bylo co
+    nejvíce nejpřesnější a jednoduše na provedení, ale zároveň aby čas vypočtení byl co
+    nejmneší.
+
+    %%% Subsection of constants and numbers
+    \subsection{Konstanty a čísla}
+    Součástí \textit{BigDecimalMath} jsou i konstanty a jiná užitečná čísla, pro rychlejší
+    a přehlednější programování. 
+    \textit{BigDecimal} modul pro Javu již nějaké takovéto čísla obsahuje, 
+    například \textit{BigDecimal.ZERO} a \textit{BigDecimal.ONE}. Ovšem jiné variace, například
+    pro číslo dva si musíme definovat vlastnoručně, proto jsem někerá tato čísla definoval pro
+    jednoduší použití v \textit{BigDecimalMath}. 
+    %%%% Code preview
+    \begin{lstlisting}
+        import java.math.BigDecimal;
+        import java.math.RoundingMode;
+        // Minus jedna
+        public static final BigDecimal MINUSONE = new BigDecimal(-1);
+        // Dva
+        public static final BigDecimal TWO = new BigDecimal(2);
+        // Pi hodnota - napsana na 1000 desetinnych mist
+        public static final BigDecimal PI = new BigDecimal(
+            "3.141592653589793238462643383279502884197169399..."
+        );
+        // E hodnota - napsana na 1000 desetinnych mist
+        public static final BigDecimal E = new BigDecimal(
+            "2.718281828459045235360287471352662497757247093..."
+        );
+        // 2*Pi
+        pubic static final BigDecmal TWOPI = PI.multiply(TWO);
+        // Pi/2
+        public static final BigDecimal HALFPI = PI.divide(TWO, 1000, RoundingMode.HALF_UP);
+        // Minus Pi/2
+        public static final BigDecimal MINHALFPI = MINUSONE.multiply(HALFPI);
+    \end{lstlisting}
+    %%% Trigonometric subsection
+    \subsection{Trigonometrické a Hyperbolické funkce}
+    Původní použití pro tento soubor bylo použití při implementaci complexních čísel a 
+    jejich funkcí do Java modulu \textit{BigDecimal}. Použití modulu \textit{Math} nebylo
+    na místě, kvůli jeho omezení na \textit{double} hodnoty. Z tohoto důvodu jsem musel napsat
+    nové algoritmy na výpočty trigonometrických funkcí, které jsem potřeboval použít. \newline
+    Tento script neobsahuje všechny trigonometrické či hyperbolické funkce, jen ty, které jsem potřeboval.
+    %%%% Sine approximation
+    \subsubsection{Sinus}
+    Pro aproximaci sinu z čísla jsem použil taylorovu sérii, která vypadá takto:
+    \begin{center}
+        $sin(x) = \displaystyle\sum_{n=0}^{\infty} \frac{(-1)^n}{(2x+1)!}x^{2x+1}$.
+    \end{center}
+    Výsledný algoritmus vypadá tedy takto:
+    \sloppy
+    \begin{lstlisting}
+        public static BigDecimal sin(BigDecimal x) {
+            BigDecimal ans = new BigDecimal(0);
+            // Suma
+            for (BigDecimal n = BigDecimal.ZERO; n.compareTo(new BigDecimal(50)) <= 0; n = n.add(BigDecimal.ONE)) {
+                // Citatel
+                BigDecimal numerator = MINUSONE.pow(n.intValue());
+                // Jmenovatel
+                BigDecimal denominator = factorial((TWO.multiply(n)).add(BigDecimal.ONE));
+                // Vzorec uvnitr sumy
+                ans = ans.add((numerator.divide(denominator, 1000, 
+                    RoundingMode.HALF_UP)).multiply(
+                    x.pow(((TWO.multiply(n)).add(
+                    BigDecimal.ONE)).intValue())));
+            }
+            // Vraceni vysledku
+            return ans.setScale(50, RoundingMode.HALF_UP);
+        }
+    \end{lstlisting}
+    Tento algoritmus je nastaven na přesnost okolo $1\times{10^{-50}}$ s časem vypočítání okolo 10ms. Pro
+    větší přesnost zvyšte \textit{n.compareTo(new BigDecimal(50))} hodnotu na vyšší.
+    \subsubsection{Cosinus}
+    Pro aproximaci cosinu je opět použita taylorova série, která vypadá takto:
+    \begin{center}
+        $cos x = \displaystyle\sum_{n=0}^{\infty} \frac{(-1)^n}{(2n)!}x^{2x}$
+    \end{center}
+    Výsledný algoritmu vypadá tedy takto:
+    \sloppy
+    \begin{lstlisting}
+        public static BigDecimal cos(BigDecimal x) { 
+            BigDecimal ans = new BigDecimal(0);
+            // Suma
+            for (BigDecimal n = BigDecimal.ZERO; n.compareTo(new BigDecimal(50)) <= 0; n = n.add(BigDecimal.ONE)) {
+                // Citatel
+                BigDecimal numerator = MINUSONE.pow(n.intValue());
+
+                // Jmenovatel
+                BigDecimal denominator = factorial(TWO.multiply(n));
+                // Vzorec uvnitr sumy
+                ans = ans.add((numerator.divide(denominator, 1000, 
+                    RoundingMode.HALF_UP)).multiply(
+                    x.pow((TWO.multiply(n)).intValue())));
+            }
+            // Vraceni vysledku
+            return ans.setScale(50, RoundingMode.HALF_UP);  
+        }
+    \end{lstlisting}
+    Tento algoritmus je nastaven na přesnost okolo $1\times{10^{-50}}$ s časem vypočítání okolo 10ms. Pro
+    větší přesnost zvyšte \textit{n.compareTo(new BigDecimal(50))} hodnotu na vyšší.
+    \subsubsection{Arctangens}
+    Pro aproximaci arctangensu jsem opět použil taylorovy série, konkrétně jejich kombinaci, která bypadá takto:
+    \begin{center}
+        \begin{equation}            
+            arctan x = \begin{cases}
+                \displaystyle\sum_{n=0}^{\infty}\frac{(-1)^n}{2n+1}x^{2n+1} & \text{$: |x|\leq 1$}\\
+                \frac{\pi}{2}-\displaystyle\sum_{n=0}^{\infty}\frac{(-1)^n}{(2n+1)x^{2n+1}} & \text{$: x \geq 1$}\\
+                -\frac{\pi}{2}-\displaystyle\sum_{n=0}^{\infty}\frac{(-1)^n}{(2n+1)x^{2n+1}} & \text{$: x \leq -1$}
+            \end{cases}
+        \end{equation}
+    \end{center}
+    Výsledný algoritmus vypadá tedy takto:
+    \sloppy
+    \begin{lstlisting}
+        // Pokud je |x| <= 1
+        if (x.abs().compareTo(BigDecimal.ONE) <= 0) {
+            BigDecimal ans = new BigDecimal(0);
+            // Suma
+            for (BigDecimal n = BigDecimal.ZERO; n.compareTo(new BigDecimal(50)) <= 0; n = n.add(BigDecimal.ONE)) {
+                // Citatel
+                BigDecimal numerator = MINUSONE.pow(n.intValue());
+                // Jmenovatel
+                BigDecimal denominator = (TWO.multiply(n)).add(BigDecimal.ONE);
+                // Vzorec uvnitr sumy
+                ans = ans.add((numerator.divide(denominator, 1000, 
+                    RoundingMode.HALF_UP)).multiply(
+                    x.pow(((TWO.multiply(n)).add(
+                    BigDecimal.ONE)).intValue())));
+
+                // Vraceni vysledku
+            }
+            return ans.setScale(50, RoundingMode.HALF_UP);
+        // Jinak
+        } else {
+            BigDecimal ans = new BigDecimal(0);
+            // Suma
+            for (BigDecimal n = BigDecimal.ZERO; n.compareTo(new BigDecimal(50)) <= 0; n = n.add(BigDecimal.ONE)) {
+                // Citatel
+                BigDecimal numerator = MINUSONE.pow(n.intValue());
+                // Jmenovatel
+                BigDecimal denominator = 
+                    ((TWO.multiply(n)).add(BigDecimal.ONE)).multiply(
+                    x.pow(((TWO.multiply(n)).add(
+                    BigDecimal.ONE)).intValue()));
+                // Vzorec uvnitr sumy
+                ans = ans.add((numerator.divide(denominator, 1000, RoundingMode.HALF_UP)));
+            }
+            // Pokud je x > 1
+            if (x.compareTo(BigDecimal.ONE) > 0) {
+                return HALFPI.subtract(ans).setScale(50, RoundingMode.HALF_UP);
+            // Pokud je x < 1
+            } else if (x.compareTo(MINUSONE) < 0) {
+                return MINHALFPI.subtract(ans).setScale(50, RoundingMode.HALF_UP);
+            // Jinak vrati chybny vysledek
+            } else {
+                return ans.setScale(50, RoundingMode.HALF_UP);
+            }
+        }
+    \end{lstlisting}
+    Tento algoritmus je nastaven na přesnost okolo $1\times{10^{-50}}$ s časem vypočítání okolo 10ms. Pro
+    větší přesnost zvyšte \textit{n.compareTo(new BigDecimal(50))} hodnotu na vyšší.
+    \subsubsection{Hyperbolický sinus}
+    Pro aproximaci hyperbolického sinusu jsem použil opět taylorovu sérii.
+    % \begin{lstlisting}
+    %     // Hello.java
+    %     import javax.swing.JApplet;
+    %     import java.awt.Graphics;
+        
+    %     public class Hello extends JApplet {
+    %         public void paintComponent(Graphics g) {
+    %             g.drawString("Hello, world!", 65, 95);
+    %         }    
+    %     }
+    % \end{lstlisting}
+    \subsection{Zdroje}
+    \sloppy
+    Zdroj pro aproximace trigonometrických funkcí: \newline
+    \indent https://en.wikipedia.org/wiki/Taylor_series#Trigonometric_functions
     
 \end{document}
