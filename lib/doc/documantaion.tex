@@ -275,15 +275,48 @@
     Algorimizace přirozeného logarimu je složitá. Integrální vzorec je časově velice neefektivní, tudíž jsem
     se rozhodl použít lehce upravený Newtonův algoritmus. Vypadá takto:
     \begin{center}
-        $log(x)=\displaystyle\sum^{\infty}x-\frac{e^x-x}{e^x}$
+        $log(x)=(a_{n-1}-\frac{e^{a_{n-1}}-n}{e^{a_{n-1}}})_{n=1}^{\infty}$; kde $a_0 = x$
     \end{center}
+    Jeho výsledný algoritmus vypadá takto:
+    \newline\newline
+    \begin{lstlisting}
+        public static BigDecimal log(BigDecimal x) {
+            BigDecimal n = x; BigDecimal term;
+            // Pokud x neni v definicnim oboru
+            if (x.compareTo(BigDecimal.ZERO) <= 0) {
+                return null;
+            }
+            // Vypocet posloupnosti
+            for (int i = 1; i<=20; i++) {
+                BigDecimal eToX = exp(x);
+                term = eToX.subtract(n).divide(eToX, 50, RoundingMode.HALF_UP);
+                x = x.subtract(term);
+            }
+            // Vraceni vysledku
+            return x.setScale(50, RoundingMode.HALF_UP);
+        }
+    \end{lstlisting}
+    Výsledek má přesnost okolo $1x10^(-50)$ a čas výpočtu je asi 500ms. Tento algoritmus není nejrychlejší,
+    ale je velice přesný - pro větší přesnost musíte změnit \textit{$i \leq 20$} na větší číslo. Rychlost se
+    tak sice zhorší, ale extrémně naroste přesnost. Momentální nastavení na \textit{20} je přepal, ale pro větší
+    vstupy je potřeba větší přesnost.
+    \subsection{Ostatní funkce}
+    Pro některé algoritmy jsem potřeboval funkce, které nejsou tak důležité, aby měli svou vlastní sekci, nebo jich
+    není mnoho.
+    \subsubsection{Faktoriál}
+    Výpočet tohoto faktoriálu je pouze pro přirozený čísla, není naprogramována gamma funkce, která by toto zgeneralizovala.
+    Ovšem pro užití v taylorových seriích je potřeba pouze faktoriál pro přirozená čísla.
+
+    %%% Resources
     \subsection{Zdroje}
-    Zdroj pro aproximace trigonometrických funkcí: \newline
+    \underline{Zdroj pro aproximace trigonometrických funkcí:} \newline
     \indent \textbf{Wikipedia:} Taylor series \newline
     \indent \textbf{Wikiproof:} Power series expansion for real arctangnet function \newline
-    Zdroj pro aproximace hyperbolických funkcí: \newline
+    \underline{Zdroj pro aproximace hyperbolických funkcí:} \newline
     \indent \textbf{Wikipedia:} Taylor series \newline
-    Zdroj pro exponenciální funkci: \newline
+    \underline{Zdroj pro exponenciální funkci:} \newline
     \indent \textbf{Wikipedia:} Taylor series \newline
+    \underline{Zdroj pro přirozený logaritmus:} \newline
+    \indent \textbf{Wikipedia:} Natural logarithm high precision \newline
     
 \end{document}
