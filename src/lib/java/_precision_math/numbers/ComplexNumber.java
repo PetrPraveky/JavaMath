@@ -299,7 +299,7 @@ public class ComplexNumber {
      * <h3>Division function for complex numbers</h3>
      * Function that divides one complex number and one non-zero complex number.
      * <p>
-     * Division works like this: {@code (a+bi)/(x+yi) = ((ax+by)(bx-ay)i)/(x^2+y^2)}. It's accuracy is around 1x10^(-50).
+     * Division works like this: {@code (a+bi)/(x+yi) = ((ax+by)+(bx-ay)i)/(x^2+y^2)}. It's accuracy is around 1x10^(-50).
      * <p>
      * You can read more on wikipedia: {@link https://en.wikipedia.org/wiki/Complex_number#Reciprocal_and_division}
      */

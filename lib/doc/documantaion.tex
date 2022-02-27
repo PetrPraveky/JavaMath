@@ -38,7 +38,8 @@
     % \maketitle
     % \tableofcontents
     %% BigDecimalMath section
-    \section{BigDecimalMath}
+    \setcounter{section}{1}
+    \section{BigDecimalMath} 
     V tomto souboru řeším matematické funkce, které nejsou normálně dostupné pro
     java modul \textit{BigDecimal}. Řešení těchto funkcí je vybráno tak, aby bylo co
     nejvíce nejpřesnější a jednoduše na provedení, ale zároveň aby čas vypočtení byl co
@@ -142,13 +143,13 @@
     \subsubsection{Arctangens}
     Pro aproximaci arctangensu jsem opět použil taylorovy série, konkrétně jejich kombinaci, která bypadá takto:
     \begin{center}
-        \begin{equation}            
+        \begin{equation*}            
             arctan x = \begin{cases}
                 \displaystyle\sum_{n=0}^{\infty}\frac{(-1)^n}{2n+1}x^{2n+1} & \text{$: |x|\leq 1$}\\
                 \frac{\pi}{2}-\displaystyle\sum_{n=0}^{\infty}\frac{(-1)^n}{(2n+1)x^{2n+1}} & \text{$: x \geq 1$}\\
                 -\frac{\pi}{2}-\displaystyle\sum_{n=0}^{\infty}\frac{(-1)^n}{(2n+1)x^{2n+1}} & \text{$: x \leq -1$}
             \end{cases}
-        \end{equation}
+        \end{equation*}
     \end{center}
     Výsledný algoritmus vypadá tedy takto:
     \sloppy
@@ -305,18 +306,278 @@
     není mnoho.
     \subsubsection{Faktoriál}
     Výpočet tohoto faktoriálu je pouze pro přirozený čísla, není naprogramována gamma funkce, která by toto zgeneralizovala.
-    Ovšem pro užití v taylorových seriích je potřeba pouze faktoriál pro přirozená čísla.
-
-    %%% Resources
-    \subsection{Zdroje}
-    \underline{Zdroj pro aproximace trigonometrických funkcí:} \newline
-    \indent \textbf{Wikipedia:} Taylor series \newline
-    \indent \textbf{Wikiproof:} Power series expansion for real arctangnet function \newline
-    \underline{Zdroj pro aproximace hyperbolických funkcí:} \newline
-    \indent \textbf{Wikipedia:} Taylor series \newline
-    \underline{Zdroj pro exponenciální funkci:} \newline
-    \indent \textbf{Wikipedia:} Taylor series \newline
-    \underline{Zdroj pro přirozený logaritmus:} \newline
-    \indent \textbf{Wikipedia:} Natural logarithm high precision \newline
+    Ovšem pro užití v taylorových seriích je potřeba pouze faktoriál pro přirozená čísla. Jeho předpis je tedy jednoduchý:
+    \begin{center}
+        $n! = x\times{(x-1)}\times{(x-2)}\times{...}\times{2}\times{1} = x\times{(n-1)!}$\newline
+        $0! = 1$
+    \end{center}
+    Výsledný algortimus vypadá takto:
+    \begin{lstlisting}
+        public static BigDecimal factorial(BigDecimal n) {
+            BigDecimal ans = n;
+            // Pokud je vstup 0, vrati hodnotu 1
+            if (n.compareTo(BigDecimal.ZERO) == 0) {
+                return BigDecimal.ONE;
+            }
+            // Pokud je vstup zaporne cislo, vrati chybnou hodnotu
+            if (n.compareTo(BigDecimal.ZERO) < 0) {
+                return null;
+            }
+            // Jinak se provede cyklus pro vypocet factorialu
+            for (BigDecimal k = new BigDecimal(1); k.compareTo(n) < 0; k = k.add(BigDecimal.ONE)) {
+                ans = ans.multiply(n.subtract(k));
+            }
+            // Vrati hodnotu
+            return ans;
+        }
+    \end{lstlisting}
+    Tento algoritmus je velice rychlý - nemělo smysl měřit jeho rychlost. Navíc se jeho rychlost zpomaluje s větším číslem.
+    \subsubsection{Sign funkce}
+    Tato funkce je velice jednoduchá:
+    \begin{center}
+        \begin{equation*}
+            sgn x = \begin{cases}
+                -1 & \text{$: x < 0$}\\
+                0 & \text{$: x = 0$}\\
+                1 & \text{$: x > 0$}\\
+            \end{cases}
+        \end{equation*}
+    \end{center}
+    Její implementace je taktéž jednoduchá, ikdyž vypadá složitě.
+    \begin{lstlisting}
+        public static BigDecimal sign(BigDecimal x) {
+            // Pokud je vstup mensi jak 0
+            if (x.compareTo(BigDecimal.ZERO) < 0) {
+                return new BigDecimal(-1);
+            // Pokud je vstup roven 0
+            } else if (x.compareTo(BigDecimal.ZERO) == 0) {
+                return BigDecimal.ZERO;
+            // Pokud je vstup vetsi jak 0
+            } else {
+                return BigDecimal.ONE;
+            }
+        }
+    \end{lstlisting}
+    \newpage
+    %% Complex numbers section
+    \section{ComplexNumber}
+    V tomto souboru je vyřešena implementace kompexních čísel a jejich základních funkcí do Javy. Jako
+    základní funkce se rozumí jejich operace, absolutní hodnota, sgn funkce a trigonometrické s hyperbolickými funkcemi. Dále
+    tento soubor obsahuje i základní vypsání funkcí, statické hodnoty a jejich konstruktory.
+    \subsection{Konstrukory, display funkce a převody.}
+    V základu tu jsou definované 4 otevřené proměnné, které jsou používány ve funkcích. Převod mezi nimi je
+    ukázán dále v tomto dokumentu.
+    \begin{lstlisting}
+        public BigDecimal REAL; // Realna hodnota komplexniho cisla
+        public BigDecimal IMG; // Imaginarni hodnota komplexniho cisla
+        public BigDecimal R; // Polomer komplexniho cisla v goniometrickem tvaru
+        public BigDecimal PHI; // Uhel ke komplexnimu cislu v goniometrickem tvaru
+    \end{lstlisting}
+    \subsubsection{Konstruktory}
+    Je zde definovaných několik konstruktorů, které vytvoří toto komplexní číslo. Prvním z nich je tzv.
+    prázdný konstruktor, který nastaví hodnotu $0+0i$.
+    \begin{lstlisting}
+        public ComplexNumber() {
+            REAL = BigDecimal.ZERO; IMG = BigDecimal.ZERO;
+        }
+    \end{lstlisting}
+    Dále jsou konstruktory, kteří přijímají jakékoliv číselné hodnoty po dvojicích. Pordporované hodnoty jsou
+    \textit{int, double, ,float, BigInteger a BigDecimal}. Příkladný konstruktor tedy vypadá takto:
+    \begin{lstlisting}
+        public ComplexNumber(double a, double b) {
+            REAL = new BigDecimal(a); IMG = new BigDecimal(b);
+        }
+    \end{lstlisting}
+    Vrátí tedy hodnotu $a+bi$, kde $a$ i $b$ jsou $double$ hodnoty. Tyto konstruktory jsou nastaveny na dvojice -
+    to znamená že musíte do konstruktoru vložit dvě hodnoty stejného typu. \newline
+    Jejich zavolání vypadá následovně:
+    \begin{lstlisting}
+        ComplexNumber a = new ComplexNumber(); // Prazdny konstruktor
+        ComplexNumber b = new ComplexNumber(1, 2); // Konstruktor o hodnote "1+2i"
+    \end{lstlisting}
+    \subsubsection{Display funkce}
+    Display funkce vypíše hezky formátovaně komplexní tvar čísel. Jsou nastaveny na podmínky, aby dokázali měnit
+    znaménko mezi reálnou a komplexní hodnotou, jinak by se čísla buď na sebe nalepila či by se vypsaly dvě znaménka
+    vedle sebe. Případně vypíší reálnou či imaginární část, pokud jsou rovny nule.
+    \begin{lstlisting}
+        public void display() {
+            // Pokud je realna cast rovna 0, vypise pouze imaginarni cast
+            if (REAL.compareTo(BigDecimal.ZERO) == 0) {
+                System.out.println(
+                    IMG.toString()+"i"
+                );
+                return;
+            // Pokud je imaginarni cas rovna 0, vypise pouze realnou cast
+            } else if (IMG.compareTo(BigDecimal.ZERO) == 0) {
+                System.out.println(
+                    REAL.toString()
+                );
+                return;
+            }
+            // Zmeni znamenko podle velikosti imaginarni casti
+            if (IMG.compareTo(BigDecimal.ZERO) < 0) {
+                System.out.println(
+                    REAL.toString()+"-"+IMG.abs().toString()+"i"
+                );
+                return;
+            } else {
+                System.out.println(
+                    REAL.toString()+"+"+IMG.toString()+"i"
+                );
+                return;
+            }
+        }
+    \end{lstlisting}
+    Zavolání těchto funkcí je tedy následovné:
+    \begin{lstlisting}
+        ComplexNumber a = new ComplexNumber(5, 4);
+        a.display();
+        // 5+4i
+    \end{lstlisting}
+    \subsubsection{Převod do goniometrického tvaru}
+    Goniomtrický tvar se skládá z poloměru $r$ a úhlu $\phi$ ke komplexnímu číslu $z = x+yi$. Výpočet poloměru je následovný:
+    \newline
+    \begin{center}
+        $r = |z| = \sqrt{x^2+y^2}$
+    \end{center}
+    A výpočet úhlu $\phi$ je:
+    \begin{center}
+        \begin{equation*}
+            \phi = arg(z) = \begin{cases}
+                2arctan(\frac{y}{\sqrt{x^2+y^2}+x}) & \text{if $y \neq 0$}\\
+                \pi & \text{if $x < 0$ and $y = 0$}\\
+                0 & \text{if $y = 0$ and $x > 0$}\\
+                undefined & \text{if $x = 0$ and $y = 0$}
+            \end{cases}
+        \end{equation*}
+    \end{center}
+    Tento tvar je použit při výpočtu určitých operacích, napřiklad při exponenciální funkce.
+    \newline
+    Algoritmus na vytvoření těchto proměnných je následovný:
+    \begin{lstlisting}
+        public void polar_conversion() {
+            // Polomer
+            R = (REAL.pow(2).add(IMG.pow(2))).sqrt(new MathContext(50));
+            // Fi hodnota
+            // Treti podminka z predesleho vzorce
+            if (REAL.compareTo(BigDecimal.ZERO) != 0 && IMG.compareTo(BigDecimal.ZERO) == 0) {
+                PHI =  BigDecimal.ZERO;
+            // Prvni podminka
+            } else if (REAL.compareTo(BigDecimal.ZERO) > 0 || IMG.compareTo(BigDecimal.ZERO) != 0) {
+                BigDecimal TWO = new BigDecimal(2);
+                PHI = (
+                    TWO.multiply(BigDecimalMath.arctan(
+                    IMG.divide(R.add(REAL), 50, RoundingMode.HALF_UP)))
+                );
+                PHI = PHI.setScale(50, RoundingMode.HALF_UP);
+            // Druha podminka
+            } else if (REAL.compareTo(BigDecimal.ZERO) < 0 && IMG.compareTo(BigDecimal.ZERO) == 0) {
+                PHI = new BigDecimal(Math.PI);
+                PHI = PHI.setScale(50, RoundingMode.HALF_UP);
+            // Posledni podminka
+            } else {
+                PHI = null;
+            }
+        }
+    \end{lstlisting}
+    Tyto hodnoty nejsou vytvořeny vždy, ale ve funkcích, kde jsou potřeba se tato funkce sama zavolá a
+    hodnoty se vypořítají.
+    \subsection{Konstanty a čísla}
+    Opět, jako u \textit{BigDecimalMath} jsou zde vytvořeny nějaké základní konstanty a čísla, pro jednodušší
+    použití.
+    \begin{lstlisting}
+        // Nulova hodnota
+        public static final ComplexNumber ZERO = new ComplexNumber(); 
+        // Hodnota pro cislo jedna
+        public static final ComplexNumber ONE = new ComplexNumber(1, 0);
+        // Hodnota pro cislo minus jedna
+        public static final ComplexNumber MINUSONE = new ComplexNumber(-1, 0);
+        // Hodnota pro cislo I
+        public static final ComplexNumber I = new ComplexNumber(0, 1);
+        // Hodnota pro cislo 0.5I
+        public static final ComplexNumber HALFI = new ComplexNumber(0, 0.5);
+        // Hodnota pro cislo Pi/2
+        public static final ComplexNumber HALFPI = new ComplexNumber(BigDecimalMath.PI.divide(BigDecimalMath.TWO, 1000, RoundingMode.HALF_UP));
+    \end{lstlisting}
+    Opět některé tyto hodnoty mohou vypadat nesmyslně, proč jsou definovány, ale jsou potřebovat v některých algoritmech.
+    \subsection{Základní operace}
+    Definujme si 2 komplexní čísla. Číslo $c = a+bi$ a $z = x+yi$. Výsledek budu označovat za číslo $\alpha$
+    \subsubsection{Sčítání a odčítání}
+    Tyto operace jsou velice jednoduché a intuitivní.
+    Operace sčítání:
+    \begin{center}
+        $\alpha = c+z = (a+bi)+(x+yi) = (a+x)+(b+y)i$
+    \end{center}
+    \begin{lstlisting}
+        public ComplexNumber add(ComplexNumber b) {
+            ComplexNumber ans = new ComplexNumber();
+            ans.REAL = REAL.add(b.REAL);
+            ans.IMG = IMG.add(b.IMG);
+            return ans;
+        }
+    \end{lstlisting}
+    Operace odčítání:
+    \begin{center}
+        $\alpha = c-z = (a+bi)-(x+yi) = (a-x)+(b-y)i$
+    \end{center}
+    \begin{lstlisting}
+        public ComplexNumber subtract(ComplexNumber b) {
+            ComplexNumber ans = new ComplexNumber();
+            ans.REAL = REAL.subtract(b.REAL);
+            ans.IMG = IMG.subtract(b.IMG);
+            return ans;
+        }
+    \end{lstlisting}
+    \subsubsection{Násobení}
+    Tato operace je opět velice jednoduchá:
+    \begin{center}
+        $\alpha = c\times{z} = (a+bi)\times{(x+yi)} = (ax-by)+(ay+bx)i$
+    \end{center}
+    \begin{lstlisting}
+        public ComplexNumber multiply(ComplexNumber b) {
+            ComplexNumber ans = new ComplexNumber();
+            ans.REAL = (REAL.multiply(b.REAL)).subtract(IMG.multiply(b.IMG));
+            ans.IMG = (REAL.multiply(b.IMG)).add(IMG.multiply(b.REAL));
+            return ans;
+        }
+    \end{lstlisting}
+    \subsubsection{Dělení}
+    Tato operace je trochu složitější:
+    \begin{center}
+        $\frac{c}{z} = c\times{\frac{1}{z}} = \frac{(ax+by)+(bx-ay)i}{x^2+y^2}$
+    \end{center}
+    Její algoritmus:
+    \begin{lstlisting}
+        public ComplexNumber divide(ComplexNumber b) {
+            ComplexNumber ans = new ComplexNumber();
+            // Pokud je jmenovatel roven 0, vrati chybnou hodnotu
+            if (b.REAL.compareTo(BigDecimal.ZERO) == 0 && b.IMG.compareTo(BigDecimal.ZERO) == 0) {
+                return null;
+            }
+            // Vlastni algoritmus
+            ans.REAL = ((REAL.multiply(b.REAL)).add(IMG.multiply(b.IMG))).divide(
+                (b.REAL.pow(2)).add(b.IMG.pow(2)), 50, 
+                RoundingMode.HALF_UP);
+            ans.IMG = ((IMG.multiply(b.REAL)).subtract(REAL.multiply(b.IMG))
+                ).divide((b.REAL.pow(2)).add(b.IMG.pow(2)), 50, 
+                RoundingMode.HALF_UP);
+            // Vraceni vysledku
+            return ans;
+        }
+    \end{lstlisting}
+    % \newpage
+    % %%% Resources
+    % \subsection{Zdroje}
+    % \underline{Zdroj pro aproximace trigonometrických funkcí:} \newline
+    % \indent \textbf{Wikipedia:} Taylor series \newline
+    % \indent \textbf{Wikiproof:} Power series expansion for real arctangnet function \newline
+    % \underline{Zdroj pro aproximace hyperbolických funkcí:} \newline
+    % \indent \textbf{Wikipedia:} Taylor series \newline
+    % \underline{Zdroj pro exponenciální funkci:} \newline
+    % \indent \textbf{Wikipedia:} Taylor series \newline
+    % \underline{Zdroj pro přirozený logaritmus:} \newline
+    % \indent \textbf{Wikipedia:} Natural logarithm high precision \newline
+    % \underline{Zdroj pro faktoriál:} \newline
+    % \indent \textbf{Wikipedia:} Factorial
     
 \end{document}

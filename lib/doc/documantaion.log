@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.22 (MiKTeX 21.2) (preloaded format=pdflatex 2021.10.16)  27 FEB 2022 20:00
+This is pdfTeX, Version 3.141592653-2.6-1.40.22 (MiKTeX 21.2) (preloaded format=pdflatex 2021.10.16)  27 FEB 2022 21:39
 entering extended mode
 **d:/Github/..projects/JavaMath/lib/doc/documantaion.tex
 (d:/Github/..projects/JavaMath/lib/doc/documantaion.tex
@@ -187,38 +187,38 @@ Package graphics Info: Driver file: pdftex.def on input line 105.
 ) [1
 
 {C:/Users/mrpar/AppData/Local/MiKTeX/pdftex/config/pdftex.map}] [2] [3]
-Underfull \hbox (badness 10000) in paragraph at lines 210--212
+Underfull \hbox (badness 10000) in paragraph at lines 211--213
 
  []
 
 [4] [5]
-Underfull \hbox (badness 10000) in paragraph at lines 280--282
+Underfull \hbox (badness 10000) in paragraph at lines 281--283
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 280--282
+Underfull \hbox (badness 10000) in paragraph at lines 281--283
 
  []
 
-[6]
-Underfull \hbox (badness 10000) in paragraph at lines 312--321
+[6] [7] [8] [9]
+Underfull \hbox (badness 10000) in paragraph at lines 438--440
 
  []
 
-[7] (documantaion.aux) ) 
+[10] [11] [12] [13] (documantaion.aux) ) 
 Here is how much of TeX's memory you used:
- 4102 strings out of 479334
- 58475 string characters out of 2857083
- 596365 words of memory out of 3000000
- 21557 multiletter control sequences out of 15000+200000
+ 4124 strings out of 479334
+ 58705 string characters out of 2857083
+ 601365 words of memory out of 3000000
+ 21579 multiletter control sequences out of 15000+200000
  406214 words of font info for 37 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
  81i,12n,88p,318b,1644s stack positions out of 5000i,500n,10000p,200000b,50000s
 <C:/Users/mrpar/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmbx10.pfb><C:/Users/mrpar/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmbx12.pfb><C:/Users/mrpar/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmex10.pfb><C:/Users/mrpar/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi10.pfb><C:/Users/mrpar/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi5.pfb><C:/Users/mrpar/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi7.pfb><C:/Users/mrpar/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Users/mrpar/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr5.pfb><C:/Users/mrpar/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr7.pfb><C:/Users/mrpar/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Users/mrpar/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy5.pfb><C:/Users/mrpar/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy7.pfb><C:/Users/mrpar/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmti10.pfb><C:/Users/mrpar/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmtt9.pfb>
-Output written on documantaion.pdf (7 pages, 178356 bytes).
+Output written on documantaion.pdf (13 pages, 198780 bytes).
 PDF statistics:
- 82 PDF objects out of 1000 (max. 8388607)
+ 101 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
  1 words of extra memory for PDF output out of 10000 (max. 10000000)
 
