@@ -1,7 +1,9 @@
 
 import java.math.BigDecimal;
+
+import lib.java._precision_math.functions.BigDecimalFunction;
 import lib.java._precision_math.numbers.BigDecimalMath;
-// import lib.java._precision_math.numbers.ComplexNumber;
+import lib.java._precision_math.numbers.ComplexNumber;
 
 public class App {
     public static void main(String[] args) {
@@ -63,6 +65,7 @@ public class App {
         (ComplexNumber.arcsech(n1)).display(); // Arsech
         (ComplexNumber.arccsch(n1)).display(); // Arcsch
         */
-        System.out.println(BigDecimalMath.pow(new BigDecimal(2), new BigDecimal(0.5)));
+        // System.out.println(BigDecimalFunction.sigma(new BigDecimal(0.5), new BigDecimal(5)));
+        System.out.println(BigDecimalFunction.totient_function(new BigDecimal(4)));
     }
 }

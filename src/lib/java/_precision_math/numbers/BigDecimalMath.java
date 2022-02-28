@@ -230,11 +230,11 @@ public class BigDecimalMath {
      */
     public static BigDecimal pow(BigDecimal b, BigDecimal x) {
         BigDecimal ans = new BigDecimal(0);
-        long startTime = System.nanoTime();
+        // // long startTime = System.nanoTime();
         ans = exp(x.multiply(log(b)));
-        long endTime = System.nanoTime();
-        System.out.println((endTime-startTime)/1000000+"ms");
-        return ans;
+        // // long endTime = System.nanoTime();
+        // // System.out.println((endTime-startTime)/1000000+"ms");
+        return ans.setScale(50, RoundingMode.HALF_UP);
     }
     // ----------------------------------------------------
     /**
