@@ -23,7 +23,7 @@ import java.math.RoundingMode;
  * If you want to see the full documentation, you can check it here: ---- in section: "Complex numbers".
  * <p>
  * @author Petr Kučera
- * @version 0.0.1
+ * @version 0.1.0
  * @since 2022-02-16
  */
 public class ComplexNumber {

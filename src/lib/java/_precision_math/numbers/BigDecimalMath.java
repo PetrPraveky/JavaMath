@@ -3,6 +3,21 @@ package lib.java._precision_math.numbers;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 
+/**
+ * <h3>Basic math function for BigDecimal</h3>
+ * This program contains some basic math function for Java module BigDecimal. Most of them are created just for my other package ComplexNumber.java.
+ * <p>
+ * Some of those calculations can take moew time than others, because some of used algorithms are more complicated.
+ * Also this file contains some additional constants, that are not present in BigDecimal module (PI, E, -1, etc...)
+ * <p>
+ * All function are called as so: {@code BigDecimalMath.sin(x)}, where <i>x</i> is BigDecimal value.
+ * <p>
+ * All of commands are commented, so they can be easily understanded. If you want to see the full documentation, you can check it here: ---- in section: "BigDecimalMath".
+ * <p>
+ * @author Petr Kučera
+ * @version 0.1.0
+ * @since 2022-02-16
+ */
 public class BigDecimalMath {
     // ----------------------------------------------------
     /**
