@@ -202,7 +202,7 @@ public class BigDecimalMath {
      * <h3>Natural logarithm function for BigDecimal</h3>
      * I used modified Newton algorithm for computing this. You can read something here on wikipedia: {@link https://en.wikipedia.org/wiki/Natural_logarithm#High_precision}
      * <p>
-     * It's precision is around 1x10^(-50) but time of execution is around 300ms, so it is not that fast, but precise.
+     * It's precision is around 1x10^(-50) but time of execution is around 500ms, so it is not that fast, but precise.
      */
     public static BigDecimal log(BigDecimal x) {
         // // long startTime = System.nanoTime();
@@ -218,6 +218,23 @@ public class BigDecimalMath {
         // // long endTime = System.nanoTime();
         // // System.out.println((endTime-startTime)/1000000+"ms");
         return x.setScale(50, RoundingMode.HALF_UP);
+    }
+    // ----------------------------------------------------
+    /**
+     * <h3>Power function for BigDecimal</h3>
+     * This function returns real power of BigDecimal number.
+     * <p>
+     * It has precision around 1x10^(-50) and time of execution is around 600ms.
+     * <p>
+     * You can read more on wikipedia: {@link https://en.wikipedia.org/wiki/Exponentiation}
+     */
+    public static BigDecimal pow(BigDecimal b, BigDecimal x) {
+        BigDecimal ans = new BigDecimal(0);
+        long startTime = System.nanoTime();
+        ans = exp(x.multiply(log(b)));
+        long endTime = System.nanoTime();
+        System.out.println((endTime-startTime)/1000000+"ms");
+        return ans;
     }
     // ----------------------------------------------------
     /**

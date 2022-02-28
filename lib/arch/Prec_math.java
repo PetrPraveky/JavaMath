@@ -1,5 +1,9 @@
 package lib.java._precision_math;
 
+import java.math.BigDecimal;
+
+import lib.java._precision_math.functions.BigDecimalFunction;
+import lib.java._precision_math.numbers.BigDecimalMath;
 import lib.java._precision_math.numbers.ComplexNumber;
 
 public class Prec_math {
@@ -33,7 +37,7 @@ public class Prec_math {
         (ComplexNumber.sec(n1)).display(); // Secant
         (ComplexNumber.csc(n1)).display(); // Cosecant
         */
-        
+        /*
         // Inverse trigonometric functions
         (ComplexNumber.arcsin(n1)).display(); // Arcsine
         (ComplexNumber.arccos(n1)).display(); // Arccosine
@@ -41,7 +45,7 @@ public class Prec_math {
         (ComplexNumber.arccot(n1)).display(); // Acotangent
         (ComplexNumber.arcsec(n1)).display(); // Asecant
         (ComplexNumber.arccsc(n1)).display(); // Acosecant
-        
+        */
         /*
         // Hyperbolic functions
         (ComplexNumber.sinh(n1)).display(); // Sinh
@@ -60,5 +64,6 @@ public class Prec_math {
         (ComplexNumber.arcsech(n1)).display(); // Arsech
         (ComplexNumber.arccsch(n1)).display(); // Arcsch
         */
+        System.out.println(BigDecimalMath.pow(new BigDecimal(2), new BigDecimal(0.5)));
     }
 }
