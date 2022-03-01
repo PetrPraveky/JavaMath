@@ -55,6 +55,7 @@ public class BigDecimalFunction {
      * <p>
      * You can read more on wikipedia: {@link https://en.wikipedia.org/wiki/Euler%27s_totient_function}
      */
+    /*
     public static BigDecimal totient_function(BigDecimal n) {
         BigDecimal ans = new BigDecimal(0);
         // // long startTime = System.nanoTime();
@@ -74,6 +75,38 @@ public class BigDecimalFunction {
         }        // // long endTime = System.nanoTime();
         // // System.out.println((endTime-startTime)/1000000+"ms");
         return ans.setScale(50, RoundingMode.HALF_UP);
+    }
+    */
+	public static BigDecimal totient_function(BigDecimal n) {
+        BigDecimal ans = new BigDecimal(1);
+        boolean isPrime = false;
+        // If n isn't an natural number
+        if (n.setScale(0, RoundingMode.HALF_UP).compareTo(n) != 0 || n.compareTo(BigDecimal.ZERO) < 0) {
+            return null;
+        }
+        // Else do the function
+        for (BigDecimal i = BigDecimal.ONE; i.compareTo(n) <= 0; i = i.add(BigDecimal.ONE)) {
+            if ((n.remainder(i, new MathContext(50))).compareTo(BigDecimal.ZERO) == 0) {
+                if (isPrime(i)) {
+                    ans = ans.multiply(BigDecimal.ONE.subtract(BigDecimal.ONE.divide(i, 50, RoundingMode.HALF_UP)));
+                }
+            }
+        }
+        // Returns value
+        return n.multiply(ans).setScale(0, RoundingMode.HALF_UP);
+    }
+    private static boolean isPrime(BigDecimal n) {
+    // Numbers lower than one are not prime
+    if (n.compareTo(new BigDecimal(1)) <= 0) {
+    	return false;
+    }
+    // Check if numbers are prime
+    for (BigDecimal i = new BigDecimal(2); i.compareTo(n) < 0; i = i.add(BigDecimal.ONE)) {
+    	if (n.remainder(i, new MathContext(50)).compareTo(BigDecimal.ZERO) == 0) {
+    	   	return false;
+    	}
+    	}
+    return true;
     }
     // ----------------------------------------------------
 }
