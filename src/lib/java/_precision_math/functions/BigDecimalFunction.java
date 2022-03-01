@@ -77,7 +77,7 @@ public class BigDecimalFunction {
         return ans.setScale(50, RoundingMode.HALF_UP);
     }
     */
-	public static BigDecimal totient_function(BigDecimal n) {
+    public static BigDecimal totient_function(BigDecimal n) {
         BigDecimal ans = new BigDecimal(1);
         boolean isPrime = false;
         // If n isn't an natural number
