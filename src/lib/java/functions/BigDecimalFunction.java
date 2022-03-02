@@ -1,10 +1,10 @@
-package lib.java._precision_math.functions;
+package lib.java.functions;
 
 import java.math.BigDecimal;
 import java.math.MathContext;
 import java.math.RoundingMode;
 
-import lib.java._precision_math.numbers.BigDecimalMath;
+import lib.java.numbers.BigDecimalMath;
 
 /**
  * <h3>More complicated functions for BigDecimal</h3>

@@ -1,12 +1,20 @@
 
 import java.math.BigDecimal;
 
-import lib.java._precision_math.functions.BigDecimalFunction;
-import lib.java._precision_math.numbers.BigDecimalMath;
-import lib.java._precision_math.numbers.ComplexNumber;
+import lib.java.functions.BigDecimalFunction;
+import lib.java.numbers.BigDecimalMath;
+import lib.java.numbers.ComplexNumber;
+
+import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
 
 public class App {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
+        // // BigDecimalMath
+        // Database tests
+        System.out.println(BigDecimalMath.cos(new BigDecimal(5)));
+        // // Complex numbers
         /*
         ComplexNumber n1 = new ComplexNumber(5, 4);
         ComplexNumber n2 = new ComplexNumber(2, 1);
@@ -66,6 +74,17 @@ public class App {
         (ComplexNumber.arccsch(n1)).display(); // Arcsch
         */
         // System.out.println(BigDecimalFunction.sigma(new BigDecimal(0.5), new BigDecimal(5)));
-        System.out.println(BigDecimalFunction.totient_function(new BigDecimal(4)));
+        // System.out.println(BigDecimalFunction.totient_function(new BigDecimal(4)));
+
+        // File on different disk test
+        /*
+        File file = new File("D:\\Github\\..projects\\JavaMath\\data\\math_data\\lol.txt");
+        BufferedReader br = new BufferedReader(new FileReader(file));
+        String st;
+        while ((st = br.readLine()) != null) {
+            System.out.println(st);
+        }
+        br.close();
+        */
     }
 }

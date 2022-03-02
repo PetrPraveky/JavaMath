@@ -1,4 +1,4 @@
-package lib.java._precision_math.numbers;
+package lib.java.numbers;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
