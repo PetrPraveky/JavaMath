@@ -2,6 +2,9 @@ package lib.java.numbers;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+
+import lib.java.dbAcc;
+
 // File imports
 import java.io.File;
 /**
@@ -79,24 +82,30 @@ public class BigDecimalMath {
     public static BigDecimal sin(BigDecimal x, boolean... s) {
         // Taylor series approximation
             // Accesing the database
-        boolean isSaving;
+        boolean isSaving; boolean save = false;
         try {
             if (s[0]) {isSaving = true;} else {isSaving = false;}
         } catch (ArrayIndexOutOfBoundsException exp) {isSaving = true;}
         if (isSaving) {
-            File saveFile = new File(rootDir+"/sin/data.json");
-        }
+            // File saveFile = new File(rootDir+"/sin/data.json");
+            save = dbAcc.db_access(rootDir+"/sin/data.json");
+        } else {save = false;}
             // Actual computation
-        BigDecimal ans = new BigDecimal(0);
-        // // long startTime = System.nanoTime();
-        for (BigDecimal n = BigDecimal.ZERO; n.compareTo(new BigDecimal(50)) <= 0; n = n.add(BigDecimal.ONE)) {
-            BigDecimal numerator = MINUSONE.pow(n.intValue());
-            BigDecimal denominator = factorial((TWO.multiply(n)).add(BigDecimal.ONE));
-            ans = ans.add((numerator.divide(denominator, 1000, RoundingMode.HALF_UP)).multiply(x.pow(((TWO.multiply(n)).add(BigDecimal.ONE)).intValue())));
+        if (!save) {
+            BigDecimal ans = new BigDecimal(0);
+            // // long startTime = System.nanoTime();
+            for (BigDecimal n = BigDecimal.ZERO; n.compareTo(new BigDecimal(50)) <= 0; n = n.add(BigDecimal.ONE)) {
+                BigDecimal numerator = MINUSONE.pow(n.intValue());
+                BigDecimal denominator = factorial((TWO.multiply(n)).add(BigDecimal.ONE));
+                ans = ans.add((numerator.divide(denominator, 1000, RoundingMode.HALF_UP)).multiply(x.pow(((TWO.multiply(n)).add(BigDecimal.ONE)).intValue())));
+            }
+            // // long endTime = System.nanoTime();
+            // // System.out.println((endTime-startTime)/1000000+"ms");
+            return ans.setScale(50, RoundingMode.HALF_UP);
+            // If it is saved, call it
+        } else {
+            return BigDecimal.ZERO;
         }
-        // // long endTime = System.nanoTime();
-        // // System.out.println((endTime-startTime)/1000000+"ms");
-        return ans.setScale(50, RoundingMode.HALF_UP);
     }
     // ----------------------------------------------------
     /**

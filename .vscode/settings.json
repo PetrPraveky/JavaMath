@@ -26,5 +26,6 @@
                 "%DOC%.tex"
             ]
         }
-    ]
+    ],
+    "java.dependency.packagePresentation": "hierarchical"
 }
