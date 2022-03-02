@@ -13,7 +13,7 @@ public class App {
     public static void main(String[] args) throws Exception {
         // // BigDecimalMath
         // Database tests
-        System.out.println(BigDecimalMath.cos(new BigDecimal(5)));
+        System.out.println(BigDecimalMath.sin(new BigDecimal(5)));
         // // Complex numbers
         /*
         ComplexNumber n1 = new ComplexNumber(5, 4);
@@ -78,7 +78,8 @@ public class App {
 
         // File on different disk test
         /*
-        File file = new File("D:\\Github\\..projects\\JavaMath\\data\\math_data\\lol.txt");
+        // File file = new File("D:\\Github\\..projects\\JavaMath\\data\\math_data\\lol.txt");
+        File file = new File("data/math_data/check.txt");
         BufferedReader br = new BufferedReader(new FileReader(file));
         String st;
         while ((st = br.readLine()) != null) {

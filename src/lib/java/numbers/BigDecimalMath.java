@@ -2,7 +2,8 @@ package lib.java.numbers;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-
+// File imports
+import java.io.File;
 /**
  * <h3>Basic math function for BigDecimal</h3>
  * This program contains some basic math function for Java module BigDecimal. Most of them are created just for my other package ComplexNumber.java.
@@ -19,6 +20,11 @@ import java.math.RoundingMode;
  * @since 2022-02-16
  */
 public class BigDecimalMath {
+    // ----------------------------------------------------
+    /**
+     * <h3>Main directory for saving values</h3>
+     */
+    private static final String rootDir = "data/math_data/BigDecimalMath_data";
     // ----------------------------------------------------
     /**
      * <h3>Minus one value for BigDecimal</h3>
@@ -70,8 +76,17 @@ public class BigDecimalMath {
      * <p>
      * It's precision is around 1x10^(-50) and time of execution is around 10ms.
      */
-    public static BigDecimal sin(BigDecimal x) {
+    public static BigDecimal sin(BigDecimal x, boolean... s) {
         // Taylor series approximation
+            // Accesing the database
+        boolean isSaving;
+        try {
+            if (s[0]) {isSaving = true;} else {isSaving = false;}
+        } catch (ArrayIndexOutOfBoundsException exp) {isSaving = true;}
+        if (isSaving) {
+            File saveFile = new File(rootDir+"/sin/data.json");
+        }
+            // Actual computation
         BigDecimal ans = new BigDecimal(0);
         // // long startTime = System.nanoTime();
         for (BigDecimal n = BigDecimal.ZERO; n.compareTo(new BigDecimal(50)) <= 0; n = n.add(BigDecimal.ONE)) {
