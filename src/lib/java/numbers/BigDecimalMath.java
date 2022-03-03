@@ -82,18 +82,19 @@ public class BigDecimalMath {
     public static BigDecimal sin(BigDecimal x, boolean... s) {
         // Taylor series approximation
             // Accesing the database
+        String dbPath = rootDir+"/sin/data.json";
         boolean isSaving; boolean save = false;
         try {
             if (s[0]) {isSaving = true;} else {isSaving = false;}
         } catch (ArrayIndexOutOfBoundsException exp) {isSaving = true;}
         if (isSaving) {
             // File saveFile = new File(rootDir+"/sin/data.json");
-            save = dbAcc.db_access(rootDir+"/sin/data.json");
-        } else {save = false;}
+            save = dbAcc.db_access(dbPath, x);
+        } else {save = true;}
             // Actual computation
-        if (!save) {
+        // // long startTime = System.nanoTime();
+        if (save) {
             BigDecimal ans = new BigDecimal(0);
-            // // long startTime = System.nanoTime();
             for (BigDecimal n = BigDecimal.ZERO; n.compareTo(new BigDecimal(50)) <= 0; n = n.add(BigDecimal.ONE)) {
                 BigDecimal numerator = MINUSONE.pow(n.intValue());
                 BigDecimal denominator = factorial((TWO.multiply(n)).add(BigDecimal.ONE));
@@ -101,10 +102,14 @@ public class BigDecimalMath {
             }
             // // long endTime = System.nanoTime();
             // // System.out.println((endTime-startTime)/1000000+"ms");
-            return ans.setScale(50, RoundingMode.HALF_UP);
-            // If it is saved, call it
+            ans = ans.setScale(50, RoundingMode.HALF_UP);
+            dbAcc.db_save(dbPath, x, ans);
+            return ans;
+            // If it is saved, load it
         } else {
-            return BigDecimal.ZERO;
+            // // long endTime = System.nanoTime();
+            // // System.out.println((endTime-startTime)/1000000+"ms");
+            return dbAcc.db_load(dbPath, x, "sin");
         }
     }
     // ----------------------------------------------------

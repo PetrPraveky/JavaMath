@@ -10,7 +10,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 
 public class App {
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws Exception {
         // // BigDecimalMath
         // Database tests
         System.out.println(BigDecimalMath.sin(new BigDecimal(5)));
