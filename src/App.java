@@ -14,7 +14,7 @@ public class App {
         // // BigDecimalMath
         // Database tests
         /*
-        // System.out.println(BigDecimalMath.sin(BigDecimalMath.PI));
+        // System.out.println(BigDecimalMath.sin(new BigDecimal(-1)));
         // System.out.println(BigDecimalMath.cos(new BigDecimal(5)));
         // System.out.println(BigDecimalMath.arctan(new BigDecimal(5)));
         // System.out.println(BigDecimalMath.sinh(new BigDecimal(5)));

@@ -85,7 +85,6 @@ public class BigDecimalMath {
             if (s[0]) {isSaving = true;} else {isSaving = false;}
         } catch (ArrayIndexOutOfBoundsException exp) {isSaving = true;}
         if (isSaving) {
-            // File saveFile = new File(rootDir+"/sin/data.json");
             save = dbAcc.db_access(dbPath, x);
         } else {save = true;}
             // Actual computation
@@ -125,7 +124,6 @@ public class BigDecimalMath {
             if (s[0]) {isSaving = true;} else {isSaving = false;}
         } catch (ArrayIndexOutOfBoundsException exp) {isSaving = true;}
         if (isSaving) {
-            // File saveFile = new File(rootDir+"/sin/data.json");
             save = dbAcc.db_access(dbPath, x);
         } else {save = true;}
             // Actual computation
@@ -161,7 +159,6 @@ public class BigDecimalMath {
             if (s[0]) {isSaving = true;} else {isSaving = false;}
         } catch (ArrayIndexOutOfBoundsException exp) {isSaving = true;}
         if (isSaving) {
-            // File saveFile = new File(rootDir+"/sin/data.json");
             save = dbAcc.db_access(dbPath, x);
         } else {save = true;}
             // Actual computation
@@ -215,7 +212,6 @@ public class BigDecimalMath {
             if (s[0]) {isSaving = true;} else {isSaving = false;}
         } catch (ArrayIndexOutOfBoundsException exp) {isSaving = true;}
         if (isSaving) {
-            // File saveFile = new File(rootDir+"/sin/data.json");
             save = dbAcc.db_access(dbPath, x);
         } else {save = true;}
             // Actual computation
@@ -251,7 +247,6 @@ public class BigDecimalMath {
             if (s[0]) {isSaving = true;} else {isSaving = false;}
         } catch (ArrayIndexOutOfBoundsException exp) {isSaving = true;}
         if (isSaving) {
-            // File saveFile = new File(rootDir+"/sin/data.json");
             save = dbAcc.db_access(dbPath, x);
         } else {save = true;}
             // Actual computation
@@ -287,7 +282,6 @@ public class BigDecimalMath {
             if (s[0]) {isSaving = true;} else {isSaving = false;}
         } catch (ArrayIndexOutOfBoundsException exp) {isSaving = true;}
         if (isSaving) {
-            // File saveFile = new File(rootDir+"/sin/data.json");
             save = dbAcc.db_access(dbPath, z);
         } else {save = true;}
             // Actual computation
@@ -320,7 +314,6 @@ public class BigDecimalMath {
             if (s[0]) {isSaving = true;} else {isSaving = false;}
         } catch (ArrayIndexOutOfBoundsException exp) {isSaving = true;}
         if (isSaving) {
-            // File saveFile = new File(rootDir+"/sin/data.json");
             save = dbAcc.db_access(dbPath, x);
         } else {save = true;}
             // Actual computation
@@ -362,7 +355,6 @@ public class BigDecimalMath {
             if (s[0]) {isSaving = true;} else {isSaving = false;}
         } catch (ArrayIndexOutOfBoundsException exp) {isSaving = true;}
         if (isSaving) {
-            // File saveFile = new File(rootDir+"/sin/data.json");
             save = dbAcc.db_access(dbPath, b, x);
         } else {save = true;}
             // Actual computation
@@ -406,7 +398,6 @@ public class BigDecimalMath {
             if (s[0]) {isSaving = true;} else {isSaving = false;}
         } catch (ArrayIndexOutOfBoundsException exp) {isSaving = true;}
         if (isSaving) {
-            // File saveFile = new File(rootDir+"/sin/data.json");
             save = dbAcc.db_access(dbPath, n);
         } else {save = true;}
             // Actual computation

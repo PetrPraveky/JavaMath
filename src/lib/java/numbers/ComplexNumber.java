@@ -5,6 +5,8 @@ import java.math.BigInteger;
 import java.math.MathContext;
 import java.math.RoundingMode;
 
+import lib.java.dbAcc;
+
 /**
  * <h3>Complex numbers and their calculations</h3>
  * This program provides most of calculations with complex numbers to large precision.
@@ -23,7 +25,7 @@ import java.math.RoundingMode;
  * If you want to see the full documentation, you can check it here: ---- in section: "Complex numbers".
  * <p>
  * @author Petr Kučera
- * @version 0.1.0
+ * @version 0.2.0
  * @since 2022-02-16
  */
 public class ComplexNumber {
@@ -329,11 +331,26 @@ public class ComplexNumber {
      * <p>
      * You can read more on wikipedia: {@link https://en.wikipedia.org/wiki/Complex_number#Multiplication_and_square}
      */
-    public static ComplexNumber square(ComplexNumber a) {
-        ComplexNumber ans = new ComplexNumber();
-        ans.REAL = (a.REAL.pow(2)).subtract(a.IMG.pow(2));
-        ans.IMG = ((new BigDecimal(2)).multiply(a.REAL.multiply(a.IMG)));
-        return ans;
+    public static ComplexNumber square(ComplexNumber a, boolean... s) {
+            // Accessing the database
+        String dbPath = rootDir+"/sq/data.json";
+        boolean isSaving; boolean save = false;
+        try {
+            if (s[0]) {isSaving = true;} else {isSaving = false;}
+        } catch (ArrayIndexOutOfBoundsException exp) {isSaving = true;}
+        if (isSaving) {
+            save = dbAcc.db_complex_acces(dbPath, a);
+        } else {save = true;}
+            // Actual computation
+        if (save) {
+            ComplexNumber ans = new ComplexNumber();
+            ans.REAL = (a.REAL.pow(2)).subtract(a.IMG.pow(2));
+            ans.IMG = ((new BigDecimal(2)).multiply(a.REAL.multiply(a.IMG)));
+            dbAcc.db_complex_save(dbPath, a, ans);
+            return ans;
+        } else {
+            return dbAcc.db_complex_load(dbPath, a, "sq");
+        }
     }
     // ----------------------------------------------------
     /**

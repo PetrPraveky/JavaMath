@@ -27,6 +27,8 @@ public class dbAcc {
      */
     private static final String input = "in";
     private static final String answer = "ans";
+    private static final String r_in = "r_in"; private static final String i_in = "i_in";
+    private static final String r_ans = "r_ans"; private static final String i_ans = "i_ans";
     /**
      * <h3>Acces BigDecimal database files</h3>
      */
@@ -46,11 +48,10 @@ public class dbAcc {
         try {
             BufferedReader br = new BufferedReader(new FileReader(pathToDB));
             if (br.readLine() != null) {
+                br.close();
                 FileReader reader = new FileReader(pathToDB);
                 JSONParser parser = new JSONParser();
                 JSONArray ans = (JSONArray) parser.parse(reader);
-                // System.out.println(ans.get(input));
-                boolean end = false;
                 int e = 0;
                 for (Object o : ans) {
                     JSONObject ret = (JSONObject) o;
@@ -69,13 +70,13 @@ public class dbAcc {
                     if ((ret.get(input)).equals(in.toString())) {
                         return false;
                     }
-                    if (e == 2) {
+                    if (e == in.length) {
                         return false;
                     }
                 }
+                br.close();
                 return true;
             }
-            br.close();
         } catch (Exception e) {
             System.out.println("Err while searching through file");
             System.out.println(e);
@@ -214,12 +215,12 @@ public class dbAcc {
             if (load) {
                 return new BigDecimal((loadO.get(answer)).toString());
             } else {
-                return db_multi_newVal("pow", in);
+                return db_multi_newVal(type, in);
             }
         } catch (Exception e) {
             System.out.println("Err while loading file");
             System.out.println(e);
-            return db_multi_newVal("pow", in);
+            return db_multi_newVal(type, in);
         }
     }
     /**
@@ -271,7 +272,7 @@ public class dbAcc {
     /**
      * <h3>Accesing data from complex number database</h3>
      */
-    public static boolean db_complex_acces(String path, ComplexNumber out, ComplexNumber... in) {
+    public static boolean db_complex_acces(String path, ComplexNumber... in) {
         File saveFile = new File(path);
         // If file does not exists, create it and return true
         if (!saveFile.exists()) {
@@ -283,10 +284,224 @@ public class dbAcc {
             }
             return true;
         }
-        if (in.length == 1) {
-            
-        } else {
+        // locates if number existrs in database
+        try {
+            BufferedReader br = new BufferedReader(new FileReader(path));
+            if (br.readLine() != null) {
+                br.close();
+                FileReader reader = new FileReader(path);
+                JSONParser parser = new JSONParser();
+                JSONArray ans = (JSONArray) parser.parse(reader);
+                int e = 0; int f = 0;
+                for (Object o : ans) {
+                    JSONObject ret = (JSONObject) o;
+                    if ((ret.get(r_in)).toString().contains("[")) {
+                        JSONArray r_in_a = (JSONArray) ret.get(r_in);
+                        JSONArray i_in_a = (JSONArray) ret.get(i_in);
+                        int i = 0; int j = 0;
+                        e = 0; f = 0;
+                        for (Object re : r_in_a) {
+                            if(re.toString().equals((in[i]).REAL.toString())) {
+                                e++;
+                            } else {
+                                e--;
+                            }
+                            i++;
+                        }
+                        for (Object im : i_in_a) {
+                            if(im.toString().equals((in[j]).IMG.toString())) {
+                                f++;
+                            } else {
+                                f--;
+                            }
+                            j++;
+                        }
+                    }
+                    if ((ret.get(r_in).toString().equals(in[0].REAL.toString())) && (ret.get(i_in).toString().equals(in[0].IMG.toString()))) {
+                        return false;
+                    }
+                    if (e == in.length && f == in.length) {
+                        return false;
+                    }
+                }
+            } else {
+                br.close();
+                return true;
+            }
+        } catch (Exception e) {
+            System.out.println("Err while searching through file - complex");
+            System.out.println(e);
             return true;
         }
+        return true;
+    }
+    /**
+     * <h3>Complex Number save</h3>
+     */
+    public static void db_complex_save(String path, ComplexNumber in, ComplexNumber out) {
+        try {
+            HashMap<String, Object> inp = new HashMap<String, Object>();
+            // Input
+            inp.put(r_in, in.REAL.toString()); inp.put(i_in, in.IMG.toString());
+            // Output
+            inp.put(r_ans, out.REAL.toString()); inp.put(i_ans, out.IMG.toString());
+            JSONObject numberSave = new JSONObject(inp);
+            // Saving to .json file
+            JSONArray array = new JSONArray();
+            // Try loading previous json
+            try {
+                BufferedReader br = new BufferedReader(new FileReader(path));
+                if (br.readLine() != null) {
+                    br.close();
+                    JSONParser parser = new JSONParser();
+                    JSONArray prevArray = (JSONArray) parser.parse(new FileReader(path));
+                    for (Object o : prevArray) {
+                        JSONObject prevO = (JSONObject) o;
+                        array.add(prevO);
+                    }
+                }
+                br.close();
+            } catch (Exception e) {
+                System.out.println("Err while loading file data - complex");
+                System.out.println(e);
+                return;
+            }
+            array.add(numberSave);
+            Files.write(Paths.get(path), array.toJSONString().getBytes());
+            return;
+        } catch (IOException e) {
+            System.out.println("Err while saving file - complex");
+            System.out.println(e);
+            return;
+        }
+    }
+    /**
+     * <h3>Save multi complex inputs</h3>
+    */
+    public static void db_complex_multi_save(String path, ComplexNumber out, ComplexNumber... in) {
+        try {
+            JSONArray inputArR = new JSONArray();
+            JSONArray inputArI = new JSONArray();
+            for (int i = 0; i<in.length; i++) {
+                inputArR.add(in[i].REAL.toString());
+                inputArI.add(in[i].IMG.toString());
+            }
+            HashMap<String, Object> save = new HashMap<String, Object>();
+            // Input
+            save.put(r_in, inputArR); save.put(i_in, inputArI);
+            // Output
+            save.put(r_ans, out.REAL.toString()); save.put(i_ans, out.IMG.toString());
+            JSONObject numberSave = new JSONObject(save);
+            // Saving to .json file
+            JSONArray array = new JSONArray();
+            // Try loading previous json
+            try {
+                BufferedReader br = new BufferedReader(new FileReader(path));
+                if (br.readLine() != null) {
+                    br.close();
+                    JSONParser parser = new JSONParser();
+                    JSONArray prevArray = (JSONArray) parser.parse(new FileReader(path));
+                    for (Object o : prevArray) {
+                        JSONObject prevO = (JSONObject) o;
+                        array.add(prevO);
+                    }
+                }
+                br.close();
+            } catch (Exception e) {
+                System.out.println("Err while loading file data - complex");
+                System.out.println(e);
+                return;
+            }
+            array.add(numberSave);
+            Files.write(Paths.get(path), array.toJSONString().getBytes());
+            return;
+        } catch (IOException e) {
+            System.out.println("Err while saving file - complex");
+            System.out.println(e);
+            return;
+        }
+    }
+    /**
+     * <h3>Load complex number from database</h3>
+     */
+    public static ComplexNumber db_complex_load(String path, ComplexNumber in, String type) {
+        try {
+            JSONParser parser = new JSONParser();
+            JSONArray loadArray = (JSONArray) parser.parse(new FileReader(path));
+            for (Object o : loadArray) {
+                JSONObject loadO = (JSONObject) o;
+                if ((loadO.get(r_in).toString()).equals(in.REAL.toString()) && (loadO.get(i_in).toString()).equals(in.IMG.toString())) {
+                    return new ComplexNumber(new BigDecimal((loadO.get(r_ans)).toString()), new BigDecimal((loadO.get(i_ans)).toString()));
+                }
+            }
+            return db_complex_newVal(in, type);
+        } catch (Exception e) {
+            System.out.println("Err while loading file - complex");
+            System.out.println(e);
+            return db_complex_newVal(in, type);
+        }
+    }
+    /**
+     * <h3>Complex number nulti load</h3>
+     */
+    public static ComplexNumber db_complex_multi_load(String path, String type, ComplexNumber... in) {
+        try {
+            JSONParser parser = new JSONParser();
+            JSONArray loadArray = (JSONArray) parser.parse(new FileReader(path));
+            boolean load = true;
+            int e = 0; int f = 0;
+            JSONObject loadO = new JSONObject();
+            for (Object o : loadArray) {
+                loadO = (JSONObject) o;
+                JSONArray r_in_a = (JSONArray) loadO.get(r_in);
+                JSONArray i_in_a = (JSONArray) loadO.get(i_in);
+                e = 0; f = 0;
+                int i = 0; int j = 0;
+                for (Object re : r_in_a) {
+                    if (re.toString().equals(in[i].REAL.toString())) {
+                        e++;
+                    } else {
+                        e--;
+                    }
+                    i++;
+                }
+                for (Object im : i_in_a) {
+                    if (im.toString().equals(in[j].IMG.toString())) {
+                        f++;
+                    } else {
+                        f--;
+                    }
+                    j++;
+                }
+                if (e == in.length && f == in.length) {
+                    load = true;
+                    break;
+                }
+            }
+            if (load) {
+                return new ComplexNumber(new BigDecimal(loadO.get(r_ans).toString()), new BigDecimal(loadO.get(i_ans).toString()));
+            } else {
+                return db_complex_multi_newVal(type, in);
+            }
+        } catch (Exception e) {
+            System.out.println("Err while loading file - complex");
+            System.out.println(e);
+            return db_complex_multi_newVal(type, in);
+        }
+    }
+    /**
+     * <h3>Catch errors - returns newly created value</h3>
+     */
+    private static ComplexNumber db_complex_newVal(ComplexNumber in, String type) {
+        if (type.equals("sq")) {
+            return ComplexNumber.square(in, false);
+        }
+        return ComplexNumber.ZERO;
+    }
+    /**
+     * <h3>Catch errors - for multi complex numbers</h3>
+     */
+    private static ComplexNumber db_complex_multi_newVal(String type, ComplexNumber... in) {
+        return ComplexNumber.ZERO;
     }
 }
