@@ -29,6 +29,11 @@ import java.math.RoundingMode;
 public class ComplexNumber {
     // ----------------------------------------------------
     /**
+     * <h3>Location of database</h3>
+     */
+    private static final String rootDir = "data/math_data/ComplexNumber_data";
+    // ----------------------------------------------------
+    /**
      * <h3>Real part of complex number</h3>
      * This part is set to be {@code BigDecimal} value.
      * You can change it to {@code double}</b> value with <b>{@code .doubleValue()}</b>, set it to {@code float} with <b>{@code .floatValue()}</b>,

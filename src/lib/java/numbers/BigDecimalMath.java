@@ -4,9 +4,6 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 
 import lib.java.dbAcc;
-
-// File imports
-import java.io.File;
 /**
  * <h3>Basic math function for BigDecimal</h3>
  * This program contains some basic math function for Java module BigDecimal. Most of them are created just for my other package ComplexNumber.java.
@@ -119,18 +116,35 @@ public class BigDecimalMath {
      * <p>
      * It's precision is around 1x10^(-50) and time of execution is around 10ms.
      */
-    public static BigDecimal cos(BigDecimal x) {  
+    public static BigDecimal cos(BigDecimal x, boolean... s) {  
         // Taylor series approximation
-        BigDecimal ans = new BigDecimal(0);
+            // Accessing database
+        String dbPath = rootDir+"/cos/data.json";
+        boolean isSaving; boolean save = false;
+        try {
+            if (s[0]) {isSaving = true;} else {isSaving = false;}
+        } catch (ArrayIndexOutOfBoundsException exp) {isSaving = true;}
+        if (isSaving) {
+            // File saveFile = new File(rootDir+"/sin/data.json");
+            save = dbAcc.db_access(dbPath, x);
+        } else {save = true;}
+            // Actual computation
         // // long startTime = System.nanoTime();
-        for (BigDecimal n = BigDecimal.ZERO; n.compareTo(new BigDecimal(50)) <= 0; n = n.add(BigDecimal.ONE)) {
-            BigDecimal numerator = MINUSONE.pow(n.intValue());
-            BigDecimal denominator = factorial(TWO.multiply(n));
-            ans = ans.add((numerator.divide(denominator, 1000, RoundingMode.HALF_UP)).multiply(x.pow((TWO.multiply(n)).intValue())));
+        if (save) {
+            BigDecimal ans = new BigDecimal(0);
+            for (BigDecimal n = BigDecimal.ZERO; n.compareTo(new BigDecimal(50)) <= 0; n = n.add(BigDecimal.ONE)) {
+                BigDecimal numerator = MINUSONE.pow(n.intValue());
+                BigDecimal denominator = factorial(TWO.multiply(n));
+                ans = ans.add((numerator.divide(denominator, 1000, RoundingMode.HALF_UP)).multiply(x.pow((TWO.multiply(n)).intValue())));
+            }
+            // // long endTime = System.nanoTime();
+            // // System.out.println((endTime-startTime)/1000000+"ms");
+            ans = ans.setScale(50, RoundingMode.HALF_UP); 
+            dbAcc.db_save(dbPath, x, ans);
+            return ans;
+        } else {
+            return dbAcc.db_load(dbPath, x, "cos");
         }
-        // // long endTime = System.nanoTime();
-        // // System.out.println((endTime-startTime)/1000000+"ms");
-        return ans.setScale(50, RoundingMode.HALF_UP);  
     }
     // ----------------------------------------------------
     /**
@@ -139,37 +153,51 @@ public class BigDecimalMath {
      * <p>
      * It's precision is around 1x10^(-50) and time of execution is around 10ms.
      */
-    public static BigDecimal arctan(BigDecimal x) {
-        // If |x| is greater than one, it will return null
-        
+    public static BigDecimal arctan(BigDecimal x, boolean... s) {
+            // Accessing database
+        String dbPath = rootDir+"/arctan/data.json";
+        boolean isSaving; boolean save = false;
+        try {
+            if (s[0]) {isSaving = true;} else {isSaving = false;}
+        } catch (ArrayIndexOutOfBoundsException exp) {isSaving = true;}
+        if (isSaving) {
+            // File saveFile = new File(rootDir+"/sin/data.json");
+            save = dbAcc.db_access(dbPath, x);
+        } else {save = true;}
+            // Actual computation
         // // long startTime = System.nanoTime();
-        // If value is between 1 and -1
-        if (x.abs().compareTo(BigDecimal.ONE) <= 0) {
+        if (save) {
+            // If value is between 1 and -1
             BigDecimal ans = new BigDecimal(0);
-            for (BigDecimal n = BigDecimal.ZERO; n.compareTo(new BigDecimal(50)) <= 0; n = n.add(BigDecimal.ONE)) {
-                BigDecimal numerator = MINUSONE.pow(n.intValue());
-                BigDecimal denominator = (TWO.multiply(n)).add(BigDecimal.ONE);
-                ans = ans.add((numerator.divide(denominator, 1000, RoundingMode.HALF_UP)).multiply(x.pow(((TWO.multiply(n)).add(BigDecimal.ONE)).intValue())));
-            }
-            // // long endTime = System.nanoTime();
-            // // System.out.println((endTime-startTime)/1000000+"ms");
-            return ans.setScale(50, RoundingMode.HALF_UP);
-        } else {
-            BigDecimal ans = new BigDecimal(0);
-            for (BigDecimal n = BigDecimal.ZERO; n.compareTo(new BigDecimal(50)) <= 0; n = n.add(BigDecimal.ONE)) {
-                BigDecimal numerator = MINUSONE.pow(n.intValue());
-                BigDecimal denominator = ((TWO.multiply(n)).add(BigDecimal.ONE)).multiply(x.pow(((TWO.multiply(n)).add(BigDecimal.ONE)).intValue()));
-                ans = ans.add((numerator.divide(denominator, 1000, RoundingMode.HALF_UP)));
-            }
-            // // long endTime = System.nanoTime();
-            // // System.out.println((endTime-startTime)/1000000+"ms");
-            if (x.compareTo(BigDecimal.ONE) > 0) {
-                return HALFPI.subtract(ans).setScale(50, RoundingMode.HALF_UP);
-            } else if (x.compareTo(MINUSONE) < 0) {
-                return MINHALFPI.subtract(ans).setScale(50, RoundingMode.HALF_UP);
+            if (x.abs().compareTo(BigDecimal.ONE) <= 0) {
+                for (BigDecimal n = BigDecimal.ZERO; n.compareTo(new BigDecimal(50)) <= 0; n = n.add(BigDecimal.ONE)) {
+                    BigDecimal numerator = MINUSONE.pow(n.intValue());
+                    BigDecimal denominator = (TWO.multiply(n)).add(BigDecimal.ONE);
+                    ans = ans.add((numerator.divide(denominator, 1000, RoundingMode.HALF_UP)).multiply(x.pow(((TWO.multiply(n)).add(BigDecimal.ONE)).intValue())));
+                }
+                // // long endTime = System.nanoTime();
+                // // System.out.println((endTime-startTime)/1000000+"ms");
+                ans = ans.setScale(50, RoundingMode.HALF_UP);
             } else {
-                return ans.setScale(50, RoundingMode.HALF_UP);
+                for (BigDecimal n = BigDecimal.ZERO; n.compareTo(new BigDecimal(50)) <= 0; n = n.add(BigDecimal.ONE)) {
+                    BigDecimal numerator = MINUSONE.pow(n.intValue());
+                    BigDecimal denominator = ((TWO.multiply(n)).add(BigDecimal.ONE)).multiply(x.pow(((TWO.multiply(n)).add(BigDecimal.ONE)).intValue()));
+                    ans = ans.add((numerator.divide(denominator, 1000, RoundingMode.HALF_UP)));
+                }
+                // // long endTime = System.nanoTime();
+                // // System.out.println((endTime-startTime)/1000000+"ms");
+                if (x.compareTo(BigDecimal.ONE) > 0) {
+                    ans = HALFPI.subtract(ans).setScale(50, RoundingMode.HALF_UP);
+                } else if (x.compareTo(MINUSONE) < 0) {
+                    ans = MINHALFPI.subtract(ans).setScale(50, RoundingMode.HALF_UP);
+                } else {
+                    ans = ans.setScale(50, RoundingMode.HALF_UP);
+                }
             }
+            dbAcc.db_save(dbPath, x, ans);
+            return ans;
+        } else {
+            return dbAcc.db_load(dbPath, x, "atan");
         }
     }
     // ----------------------------------------------------
@@ -179,17 +207,34 @@ public class BigDecimalMath {
      * <p>
      * It's precision is around 1x10^(-50) and execution time around 10ms.
      */
-    public static BigDecimal sinh(BigDecimal x) {
-        BigDecimal ans = new BigDecimal(0);
-        // // long startTime = System.nanoTime();
-        for (BigDecimal n = BigDecimal.ZERO; n.compareTo(new BigDecimal(50)) <= 0; n = n.add(BigDecimal.ONE)) {
-            BigDecimal numerator = x.pow((2*(n.intValue())+1));
-            BigDecimal denominator = factorial((TWO.multiply(n)).add(BigDecimal.ONE));
-            ans = ans.add(numerator.divide(denominator, 1000, RoundingMode.HALF_UP));
+    public static BigDecimal sinh(BigDecimal x, boolean... s) {
+            // Accessing database
+        String dbPath = rootDir+"/sinh/data.json";
+        boolean isSaving; boolean save = false;
+        try {
+            if (s[0]) {isSaving = true;} else {isSaving = false;}
+        } catch (ArrayIndexOutOfBoundsException exp) {isSaving = true;}
+        if (isSaving) {
+            // File saveFile = new File(rootDir+"/sin/data.json");
+            save = dbAcc.db_access(dbPath, x);
+        } else {save = true;}
+            // Actual computation
+        if (save) {
+            BigDecimal ans = new BigDecimal(0);
+            // // long startTime = System.nanoTime();
+            for (BigDecimal n = BigDecimal.ZERO; n.compareTo(new BigDecimal(50)) <= 0; n = n.add(BigDecimal.ONE)) {
+                BigDecimal numerator = x.pow((2*(n.intValue())+1));
+                BigDecimal denominator = factorial((TWO.multiply(n)).add(BigDecimal.ONE));
+                ans = ans.add(numerator.divide(denominator, 1000, RoundingMode.HALF_UP));
+            }
+            // // long endTime = System.nanoTime();
+            // // System.out.println((endTime-startTime)/1000000+"ms");
+            ans = ans.setScale(50, RoundingMode.HALF_UP);
+            dbAcc.db_save(dbPath, x, ans);
+            return ans;
+        } else {
+            return dbAcc.db_load(dbPath, x, "sinh");
         }
-        // // long endTime = System.nanoTime();
-        // // System.out.println((endTime-startTime)/1000000+"ms");
-        return ans.setScale(50, RoundingMode.HALF_UP);
     }
     // ----------------------------------------------------
     /**
@@ -198,17 +243,34 @@ public class BigDecimalMath {
      * <p>
      * It's precision is around 1x10^(-50) and execution time around 10ms.
      */
-    public static BigDecimal cosh(BigDecimal x) {
-        BigDecimal ans = new BigDecimal(0);
-        // // long startTime = System.nanoTime();
-        for (BigDecimal n = BigDecimal.ZERO; n.compareTo(new BigDecimal(50)) <= 0; n = n.add(BigDecimal.ONE)) {
-            BigDecimal numerator = x.pow(2*(n.intValue()));
-            BigDecimal denominator = factorial(TWO.multiply(n));
-            ans = ans.add(numerator.divide(denominator, 1000, RoundingMode.HALF_UP));
+    public static BigDecimal cosh(BigDecimal x, boolean... s) {
+            // Accessing database
+        String dbPath = rootDir+"/cosh/data.json";
+        boolean isSaving; boolean save = false;
+        try {
+            if (s[0]) {isSaving = true;} else {isSaving = false;}
+        } catch (ArrayIndexOutOfBoundsException exp) {isSaving = true;}
+        if (isSaving) {
+            // File saveFile = new File(rootDir+"/sin/data.json");
+            save = dbAcc.db_access(dbPath, x);
+        } else {save = true;}
+            // Actual computation
+        if (save) {
+            BigDecimal ans = new BigDecimal(0);
+            // // long startTime = System.nanoTime();
+            for (BigDecimal n = BigDecimal.ZERO; n.compareTo(new BigDecimal(50)) <= 0; n = n.add(BigDecimal.ONE)) {
+                BigDecimal numerator = x.pow(2*(n.intValue()));
+                BigDecimal denominator = factorial(TWO.multiply(n));
+                ans = ans.add(numerator.divide(denominator, 1000, RoundingMode.HALF_UP));
+            }
+            // // long endTime = System.nanoTime();
+            // // System.out.println((endTime-startTime)/1000000+"ms");
+            ans = ans.setScale(50, RoundingMode.HALF_UP);
+            dbAcc.db_save(dbPath, x, ans);
+            return ans;
+        } else {
+            return dbAcc.db_load(dbPath, x, "cosh");
         }
-        // // long endTime = System.nanoTime();
-        // // System.out.println((endTime-startTime)/1000000+"ms");
-        return ans.setScale(50, RoundingMode.HALF_UP);
     }
     // ----------------------------------------------------
     /**
@@ -217,15 +279,32 @@ public class BigDecimalMath {
      * <p>
      * It's precision is around 1x10^(-50) and time of execution is around 13ms.
      */
-    public static BigDecimal exp(BigDecimal z) {
-        BigDecimal ans = new BigDecimal(0);
-        // // long startTime = System.nanoTime();
-        for (BigDecimal n = BigDecimal.ZERO; n.compareTo(new BigDecimal(150)) <= 0; n = n.add(BigDecimal.ONE)) {
-            ans = ans.add((z.pow(n.intValue())).divide(factorial(n), 50, RoundingMode.HALF_UP));
+    public static BigDecimal exp(BigDecimal z, boolean... s) {
+            // Accessing database
+        String dbPath = rootDir+"/exp/data.json";
+        boolean isSaving; boolean save = false;
+        try {
+            if (s[0]) {isSaving = true;} else {isSaving = false;}
+        } catch (ArrayIndexOutOfBoundsException exp) {isSaving = true;}
+        if (isSaving) {
+            // File saveFile = new File(rootDir+"/sin/data.json");
+            save = dbAcc.db_access(dbPath, z);
+        } else {save = true;}
+            // Actual computation
+        if (save) {
+            BigDecimal ans = new BigDecimal(0);
+            // // long startTime = System.nanoTime();
+            for (BigDecimal n = BigDecimal.ZERO; n.compareTo(new BigDecimal(300)) <= 0; n = n.add(BigDecimal.ONE)) {
+                ans = ans.add((z.pow(n.intValue())).divide(factorial(n), 100, RoundingMode.HALF_UP));
+            }
+            ans = ans.setScale(50, RoundingMode.HALF_UP);
+            // // long endTime = System.nanoTime();
+            // // System.out.println((endTime-startTime)/1000000+"ms");
+            dbAcc.db_save(dbPath, z, ans);
+            return ans;
+        } else {
+            return dbAcc.db_load(dbPath, z, "exp");
         }
-        // // long endTime = System.nanoTime();
-        // // System.out.println((endTime-startTime)/1000000+"ms");
-        return ans;
     }
     /**
      * <h3>Natural logarithm function for BigDecimal</h3>
@@ -233,20 +312,38 @@ public class BigDecimalMath {
      * <p>
      * It's precision is around 1x10^(-50) but time of execution is around 500ms, so it is not that fast, but precise.
      */
-    public static BigDecimal log(BigDecimal x) {
+    public static BigDecimal log(BigDecimal x, boolean... s) {
+            // Accessing database
+        String dbPath = rootDir+"/ln/data.json";
+        boolean isSaving; boolean save = false;
+        try {
+            if (s[0]) {isSaving = true;} else {isSaving = false;}
+        } catch (ArrayIndexOutOfBoundsException exp) {isSaving = true;}
+        if (isSaving) {
+            // File saveFile = new File(rootDir+"/sin/data.json");
+            save = dbAcc.db_access(dbPath, x);
+        } else {save = true;}
+            // Actual computation
         // // long startTime = System.nanoTime();
-        BigDecimal n = x; BigDecimal term;
-        if (x.compareTo(BigDecimal.ZERO) <= 0) {
-            return null;
+        if (save) {
+            BigDecimal ans = BigDecimal.ZERO;
+            BigDecimal n = x; BigDecimal term;
+            if (x.compareTo(BigDecimal.ZERO) <= 0) {
+                return null;
+            }
+            for (int i = 1; i<=25; i++) {
+                BigDecimal eToX = exp(x);
+                term = eToX.subtract(n).divide(eToX, 50, RoundingMode.HALF_UP);
+                x = x.subtract(term);
+            }
+            // // long endTime = System.nanoTime();
+            // // System.out.println((endTime-startTime)/1000000+"ms");
+            ans = x.setScale(50, RoundingMode.HALF_UP);
+            dbAcc.db_save(dbPath, n, ans);
+            return ans;
+        } else {
+            return dbAcc.db_load(dbPath, x, "ln");
         }
-        for (int i = 1; i<=20; i++) {
-            BigDecimal eToX = exp(x);
-            term = eToX.subtract(n).divide(eToX, 50, RoundingMode.HALF_UP);
-            x = x.subtract(term);
-        }
-        // // long endTime = System.nanoTime();
-        // // System.out.println((endTime-startTime)/1000000+"ms");
-        return x.setScale(50, RoundingMode.HALF_UP);
     }
     // ----------------------------------------------------
     /**
@@ -257,13 +354,38 @@ public class BigDecimalMath {
      * <p>
      * You can read more on wikipedia: {@link https://en.wikipedia.org/wiki/Exponentiation}
      */
-    public static BigDecimal pow(BigDecimal b, BigDecimal x) {
-        BigDecimal ans = new BigDecimal(0);
-        // // long startTime = System.nanoTime();
-        ans = exp(x.multiply(log(b)));
-        // // long endTime = System.nanoTime();
-        // // System.out.println((endTime-startTime)/1000000+"ms");
-        return ans.setScale(50, RoundingMode.HALF_UP);
+    public static BigDecimal pow(BigDecimal b, BigDecimal x, boolean... s) {
+            // Accessing database
+        String dbPath = rootDir+"/pow/data.json";
+        boolean isSaving; boolean save = false;
+        try {
+            if (s[0]) {isSaving = true;} else {isSaving = false;}
+        } catch (ArrayIndexOutOfBoundsException exp) {isSaving = true;}
+        if (isSaving) {
+            // File saveFile = new File(rootDir+"/sin/data.json");
+            save = dbAcc.db_access(dbPath, b, x);
+        } else {save = true;}
+            // Actual computation
+        if (save) {
+            BigDecimal ans = new BigDecimal(0);
+            // // long startTime = System.nanoTime();
+            ans = exp(x.multiply(log(b)));
+            // // long endTime = System.nanoTime();
+            // // System.out.println((endTime-startTime)/1000000+"ms");
+            // Sets number to integer thanks to some approximation errors
+            BigDecimal epsilon = new BigDecimal(
+                "0.00000000000000000000000000000000000000000000001"
+            );
+            if ((ans.subtract(ans.setScale(0, RoundingMode.HALF_UP)).abs()).compareTo(epsilon) <= 0) {
+                ans = ans.setScale(0, RoundingMode.HALF_UP);
+            } else {
+                ans = ans.setScale(50, RoundingMode.HALF_UP);
+            }
+            dbAcc.db_multi_save(dbPath, ans, b, x);
+            return ans;
+        } else {
+            return dbAcc.db_multi_load(dbPath, "pow", b, x);
+        }
     }
     // ----------------------------------------------------
     /**
@@ -272,18 +394,36 @@ public class BigDecimalMath {
      * <p>
      * You can read more on wikipedia: {@link https://en.wikipedia.org/wiki/Factorial}
      */
-    public static BigDecimal factorial(BigDecimal n) {
-        BigDecimal ans = n;
-        if (n.compareTo(BigDecimal.ZERO) == 0) {
-            return BigDecimal.ONE;
-        }
-        if (n.compareTo(BigDecimal.ZERO) < 0) {
+    public static BigDecimal factorial(BigDecimal n, boolean... s) {
+        // If number is negative or fractional, it will return null
+        if (n.compareTo(BigDecimal.ZERO) < 0 || n.compareTo(n.setScale(0, RoundingMode.HALF_UP)) != 0) {
             return null;
         }
-        for (BigDecimal k = new BigDecimal(1); k.compareTo(n) < 0; k = k.add(BigDecimal.ONE)) {
-            ans = ans.multiply(n.subtract(k));
+            // Accessing database
+        String dbPath = rootDir+"/fact/data.json";
+        boolean isSaving; boolean save = false;
+        try {
+            if (s[0]) {isSaving = true;} else {isSaving = false;}
+        } catch (ArrayIndexOutOfBoundsException exp) {isSaving = true;}
+        if (isSaving) {
+            // File saveFile = new File(rootDir+"/sin/data.json");
+            save = dbAcc.db_access(dbPath, n);
+        } else {save = true;}
+            // Actual computation
+        if (save) {
+            BigDecimal ans = n;
+            if (n.compareTo(BigDecimal.ZERO) == 0) {
+                dbAcc.db_save(dbPath, n, BigDecimal.ONE);
+                return BigDecimal.ONE;
+            }
+            for (BigDecimal k = new BigDecimal(1); k.compareTo(n) < 0; k = k.add(BigDecimal.ONE)) {
+                ans = ans.multiply(n.subtract(k));
+            }
+            dbAcc.db_save(dbPath, n, ans);
+            return ans;
+        } else {
+            return dbAcc.db_load(dbPath, n, "fact");
         }
-        return ans;
     }
     // ----------------------------------------------------
     /**
