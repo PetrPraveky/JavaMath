@@ -5,8 +5,6 @@ import java.math.BigInteger;
 import java.math.MathContext;
 import java.math.RoundingMode;
 
-import lib.java.dbAcc;
-
 /**
  * <h3>Complex numbers and their calculations</h3>
  * This program provides most of calculations with complex numbers to large precision.
@@ -25,7 +23,7 @@ import lib.java.dbAcc;
  * If you want to see the full documentation, you can check it here: ---- in section: "Complex numbers".
  * <p>
  * @author Petr Kučera
- * @version 0.2.0
+ * @version 0.3.0
  * @since 2022-02-16
  */
 public class ComplexNumber {
@@ -33,7 +31,7 @@ public class ComplexNumber {
     /**
      * <h3>Location of database</h3>
      */
-    private static final String rootDir = "data/math_data/ComplexNumber_data";
+    // private static final String rootDir = "data/math_data/ComplexNumber_data";
     // ----------------------------------------------------
     /**
      * <h3>Real part of complex number</h3>
@@ -332,25 +330,10 @@ public class ComplexNumber {
      * You can read more on wikipedia: {@link https://en.wikipedia.org/wiki/Complex_number#Multiplication_and_square}
      */
     public static ComplexNumber square(ComplexNumber a, boolean... s) {
-            // Accessing the database
-        String dbPath = rootDir+"/sq/data.json";
-        boolean isSaving; boolean save = false;
-        try {
-            if (s[0]) {isSaving = true;} else {isSaving = false;}
-        } catch (ArrayIndexOutOfBoundsException exp) {isSaving = true;}
-        if (isSaving) {
-            save = dbAcc.db_complex_acces(dbPath, a);
-        } else {save = true;}
-            // Actual computation
-        if (save) {
-            ComplexNumber ans = new ComplexNumber();
-            ans.REAL = (a.REAL.pow(2)).subtract(a.IMG.pow(2));
-            ans.IMG = ((new BigDecimal(2)).multiply(a.REAL.multiply(a.IMG)));
-            dbAcc.db_complex_save(dbPath, a, ans);
-            return ans;
-        } else {
-            return dbAcc.db_complex_load(dbPath, a, "sq");
-        }
+        ComplexNumber ans = new ComplexNumber();
+        ans.REAL = (a.REAL.pow(2)).subtract(a.IMG.pow(2));
+        ans.IMG = ((new BigDecimal(2)).multiply(a.REAL.multiply(a.IMG)));
+        return ans;
     }
     // ----------------------------------------------------
     /**
@@ -362,7 +345,7 @@ public class ComplexNumber {
      * <p>
      * You can read more on wikipedia: {@link https://en.wikipedia.org/wiki/Complex_number#Square_root}
      */
-    public static ComplexNumber sqrt(ComplexNumber a) {
+    public static ComplexNumber sqrt(ComplexNumber a, boolean... s) {
         ComplexNumber ans = new ComplexNumber();
         // // long startTime = System.nanoTime();
         ans.REAL = ((a.REAL.add(((a.REAL.pow(2)).add(a.IMG.pow(2))).sqrt(new MathContext(50)))).divide(new BigDecimal(2), 50, RoundingMode.HALF_UP)).sqrt(new MathContext(50));
@@ -376,17 +359,19 @@ public class ComplexNumber {
      * <h3>Exponential function</h3>
      * Function that returns exponential value of complex number. I used functional equation with Euler's formula.
      * <p>
-     * Exponential function works like this: {@code e^(x+yi) = e^x*cos(y)+e^x*sin(y)i}. It's accuracy is around 1x10^(-40) and time of exectuion is 30ms.
+     * Exponential function works like this: {@code e^(x+yi) = e^x*cos(y)+e^x*sin(y)i}. It's accuracy is around 1x10^(-40) and time of exectuion is 2s.
      * <p>
      * You can read more on wikipedia: {@link https://en.wikipedia.org/wiki/Complex_number#Exponential_function}
      */
-    public static ComplexNumber exp(ComplexNumber a) {
+    public static ComplexNumber exp(ComplexNumber a, boolean... s) {
         ComplexNumber ans = new ComplexNumber();
         // // long startTime = System.nanoTime();
         ans.REAL = BigDecimalMath.exp(a.REAL).multiply(BigDecimalMath.cos(a.IMG));
         ans.IMG = BigDecimalMath.exp(a.REAL).multiply(BigDecimalMath.sin(a.IMG));
         // // long endTime = System.nanoTime();
         // // System.out.println((endTime-startTime)/1000000+"ms");
+        ans.REAL = ans.REAL.setScale(50, RoundingMode.HALF_UP);
+        ans.IMG = ans.IMG.setScale(50, RoundingMode.HALF_UP);
         return ans;
     }
     // ----------------------------------------------------
@@ -398,7 +383,7 @@ public class ComplexNumber {
      * <p>
      * You can read more on wikipedia: {@link https://en.wikipedia.org/wiki/Complex_number#Complex_logarithm}
      */
-    public static ComplexNumber log(ComplexNumber a) {
+    public static ComplexNumber log(ComplexNumber a, boolean... s) {
         ComplexNumber ans = new ComplexNumber();
         // // long startTime = System.nanoTime();
         // Check if polar values are created or not
@@ -410,6 +395,8 @@ public class ComplexNumber {
         ans.IMG = a.PHI;
         // // long endTime = System.nanoTime();
         // // System.out.println((endTime-startTime)/1000000+"ms");
+        ans.REAL = ans.REAL.setScale(50, RoundingMode.HALF_UP);
+        ans.IMG = ans.IMG.setScale(50, RoundingMode.HALF_UP);
         return ans;
     }
     // ----------------------------------------------------

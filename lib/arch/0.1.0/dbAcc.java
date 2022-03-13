@@ -493,8 +493,21 @@ public class dbAcc {
      * <h3>Catch errors - returns newly created value</h3>
      */
     private static ComplexNumber db_complex_newVal(ComplexNumber in, String type) {
+        // Square
         if (type.equals("sq")) {
             return ComplexNumber.square(in, false);
+        }
+        // Square root
+        if (type.equals("sqrt")) {
+            return ComplexNumber.sqrt(in, false);
+        }
+        // Exponential
+        if (type.equals("exp")) {
+            return ComplexNumber.exp(in, false);
+        }
+        // Natural logarithm
+        if (type.equals("log")) {
+            return ComplexNumber.log(in, false);
         }
         return ComplexNumber.ZERO;
     }
