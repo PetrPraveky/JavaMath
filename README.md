@@ -1,7 +1,8 @@
 # **JavaMath**
 
-This is program for some math function created by me. They are not exactly efficient, they are just for education purposses.
+This is program for some math function created by me. They are not exactly efficient, they are just for education purposses. No other information is not now provided.
 
+<!--
 ## **Structure of files**
 
 - "***src/App.java***" - function are called from this file. There are some examples, which you can un-comment to acces. All math functions are located in "*src/lib/java/math*". 
@@ -92,3 +93,4 @@ This is program for some math function created by me. They are not exactly effic
 ![plot](./img/complex/hyperbolic/complex_sinh_plot.png) ![plot](img/complex/hyperbolic/complex_csch_plot.png)
 - **Hyperbolic secant function** ("*src/lib/java/math/plotter/complex_function_plotter/complex_hyperbolic/complex_sech_plotter.java*") - Plot of hyperbolic secant function. Hyperbolic secant of complex number is done with equation from: *https://proofwiki.org/wiki/Hyperbolic_Secant_of_Complex_Number*.
 - **Hyperbolic cosecant function** ("*src/lib/java/math/plotter/complex_function_plotter/complex_hyperbolic/complex_csch_plotter.java*") - Plot of hyperbolic cosecant function. Hyperbolic cosecant of complex number is done with equation from: *https://proofwiki.org/wiki/Hyperbolic_Cosecant_of_Complex_Number*.
+-->
