@@ -1,11 +1,12 @@
 
 import java.math.BigDecimal;
-import java.basic.BigDecimalMath;
-import java.basic.ComplexNumber;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.number_theory.BigDecimal_numberTheory;
+
+import lib.java.basic.BigDecimalMath;
+import lib.java.basic.ComplexNumber;
+import lib.java.number_theory.BigDecimal_numberTheory;
 
 public class App {
     public static void main(String[] args) throws Exception {
@@ -82,7 +83,11 @@ public class App {
         (ComplexNumber.arccsch(n1)).display(); // Arcsch
         */
         // System.out.println(BigDecimalFunction.sigma(new BigDecimal(0.5), new BigDecimal(5)));
-        // System.out.println(BigDecimalFunction.totient_function(new BigDecimal(4)));
+        // System.out.println(BigDecimal_numberTheory.small_prime_omega(new BigDecimal(5)));
+        // System.out.println(BigDecimal_numberTheory.big_prime_omega(new BigDecimal(5)));
+        // System.out.println(BigDecimal_numberTheory.lioubille_function(new BigDecimal(5)));
+        // System.out.println(BigDecimal_numberTheory.mobius_function(new BigDecimal(36)));
+        // System.out.println(BigDecimal_numberTheory.totient_function(new BigDecimal(58)));
 
         // File on different disk test
         /*

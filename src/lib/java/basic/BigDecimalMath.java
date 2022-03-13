@@ -1,4 +1,4 @@
-package java.basic;
+package lib.java.basic;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -214,7 +214,7 @@ public class BigDecimalMath {
         if (x.compareTo(BigDecimal.ZERO) <= 0) {
             return null;
         }
-        for (int i = 1; i<=25; i++) {
+        for (int i = 1; i<=20; i++) {
             BigDecimal eToX = exp(x);
             term = eToX.subtract(n).divide(eToX, 50, RoundingMode.HALF_UP);
             x = x.subtract(term);
@@ -233,10 +233,14 @@ public class BigDecimalMath {
      * <p>
      * You can read more on wikipedia: {@link https://en.wikipedia.org/wiki/Exponentiation}
      */
-    public static BigDecimal pow(BigDecimal b, BigDecimal x, boolean... s) {
+    public static BigDecimal pow(BigDecimal b, BigDecimal x, boolean... isInt) {
         BigDecimal ans = new BigDecimal(0);
         // // long startTime = System.nanoTime();
-        ans = exp(x.multiply(log(b)));
+        if (isInt[0]) {
+            ans = b.pow(x.intValue());
+        } else {
+            ans = exp(x.multiply(log(b)));
+        }
         // // long endTime = System.nanoTime();
         // // System.out.println((endTime-startTime)/1000000+"ms");
         // Sets number to integer thanks to some approximation errors
