@@ -1,13 +1,11 @@
 
 import java.math.BigDecimal;
-
-import lib.java.functions.BigDecimalFunction;
-import lib.java.numbers.BigDecimalMath;
-import lib.java.numbers.ComplexNumber;
-
+import java.basic.BigDecimalMath;
+import java.basic.ComplexNumber;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.number_theory.BigDecimal_numberTheory;
 
 public class App {
     public static void main(String[] args) throws Exception {
@@ -20,14 +18,14 @@ public class App {
         // System.out.println(BigDecimalMath.sinh(new BigDecimal(5)));
         // System.out.println(BigDecimalMath.cosh(new BigDecimal(5)));
         // System.out.println(BigDecimalMath.exp(new BigDecimal(5)));
-        System.out.println(BigDecimalMath.log(new BigDecimal(6)));
+        // System.out.println(BigDecimalMath.log(new BigDecimal(6)));
         // System.out.println(BigDecimalMath.pow(new BigDecimal(2), new BigDecimal(0.5)));
         // System.out.println(BigDecimalMath.factorial(new BigDecimal(5)));
         
         // // Complex numbers
         
-        ComplexNumber n1 = new ComplexNumber(6, 4);
-        ComplexNumber n2 = new ComplexNumber(2, 1);
+        // ComplexNumber n1 = new ComplexNumber(6, 4);
+        // ComplexNumber n2 = new ComplexNumber(2, 1);
         
         // n1.display();
         // n1.b_display();

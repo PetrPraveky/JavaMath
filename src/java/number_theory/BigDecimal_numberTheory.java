@@ -1,10 +1,9 @@
-package lib.java.functions;
+package java.number_theory;
 
+import java.basic.BigDecimalMath;
 import java.math.BigDecimal;
 import java.math.MathContext;
 import java.math.RoundingMode;
-
-import lib.java.numbers.BigDecimalMath;
 
 /**
  * <h3>More complicated functions for BigDecimal</h3>
@@ -13,7 +12,7 @@ import lib.java.numbers.BigDecimalMath;
  * @version 0.0.1
  * @since 22.02.28
  */
-public class BigDecimalFunction {
+public class BigDecimal_numberTheory {
     // ----------------------------------------------------
     /**
      * <h3>Sigma function</h3>
