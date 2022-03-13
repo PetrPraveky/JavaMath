@@ -205,19 +205,27 @@ public class BigDecimalMath {
      * <h3>Natural logarithm function for BigDecimal</h3>
      * I used modified Newton algorithm for computing this. You can read something here on wikipedia: {@link https://en.wikipedia.org/wiki/Natural_logarithm#High_precision}
      * <p>
-     * It's precision is around 1x10^(-50) but time of execution is around 500ms, so it is not that fast, but precise.
+     * It's precision is around 1x10^(-50) but time of execution is around 500ms and it depends on how large the input number is.
      */
-    public static BigDecimal log(BigDecimal x, boolean... s) {
+    public static BigDecimal log(BigDecimal x, int... scale) {
+        if (scale.length == 0) {
+            scale = new int[] {50};
+        }
         // // long startTime = System.nanoTime();
         BigDecimal ans = BigDecimal.ZERO;
         BigDecimal n = x; BigDecimal term;
         if (x.compareTo(BigDecimal.ZERO) <= 0) {
             return null;
         }
-        for (int i = 1; i<=20; i++) {
+        BigDecimal oldX;
+        for (int i = 1; i<=1000000; i++) {
             BigDecimal eToX = exp(x);
-            term = eToX.subtract(n).divide(eToX, 50, RoundingMode.HALF_UP);
+            term = eToX.subtract(n).divide(eToX, scale[0], RoundingMode.HALF_UP);
+            oldX = x;
             x = x.subtract(term);
+            if (x.compareTo(oldX) == 0) {
+                break;
+            }
         }
         // // long endTime = System.nanoTime();
         // // System.out.println((endTime-startTime)/1000000+"ms");

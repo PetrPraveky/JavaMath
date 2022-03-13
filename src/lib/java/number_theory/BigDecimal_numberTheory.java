@@ -174,4 +174,32 @@ public class BigDecimal_numberTheory {
         return new BigDecimal(ans_list.size());
     }
     // ----------------------------------------------------
+    /**
+     * <h3>Prime counting function</h3>
+     * Function that counts number of prime numbers less then or equal to some real number x.
+     * <p>
+     * It's computated approximatly, so the answers can be little bit off. Its time of execution is around 500ms. It's precision for numbers smaller than 40 is 
+     * pretty good, but for larger inaccuracy grows and with very large numbers it is again pretty precise.
+     * <p>
+     * You can read more on wikipedia: {@link https://en.wikipedia.org/wiki/Prime-counting_function}
+     */
+    public static BigDecimal prime_counting(BigDecimal x) {
+        BigDecimal ans = new BigDecimal(0);
+        // // long startTime = System.nanoTime();
+        ans = x.divide(BigDecimalMath.log(x), 50, RoundingMode.HALF_UP);
+        // // long endTime = System.nanoTime();
+        // // System.out.println((endTime-startTime)/1000000+"ms");
+        return ans.setScale(0, RoundingMode.DOWN);
+    }
+    // ----------------------------------------------------
+    /**
+     * <h3>Partition function</h3>
+     * Function returns number of possible partition of natural number n.
+     * <p>
+     * You can read more on wikipedia: {@link https://en.wikipedia.org/wiki/Partition_function_(number_theory)}
+     */
+    public static BigDecimal partition_function(BigDecimal n) {
+        
+    }
+    // ----------------------------------------------------
 }
