@@ -89,6 +89,7 @@ public class App {
         // System.out.println(BigDecimal_numberTheory.mobius_function(new BigDecimal(36)));
         // System.out.println(BigDecimal_numberTheory.totient_function(new BigDecimal(58)));
         // System.out.println(BigDecimal_numberTheory.prime_counting(new BigDecimal(100000)));
+        System.out.println(BigDecimal_numberTheory.partition_function(new BigDecimal(10)));
 
         // File on different disk test
         /*

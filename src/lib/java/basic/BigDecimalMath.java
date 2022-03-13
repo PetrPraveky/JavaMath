@@ -244,8 +244,10 @@ public class BigDecimalMath {
     public static BigDecimal pow(BigDecimal b, BigDecimal x, boolean... isInt) {
         BigDecimal ans = new BigDecimal(0);
         // // long startTime = System.nanoTime();
-        if (isInt[0]) {
-            ans = b.pow(x.intValue());
+        if (isInt.length != 0) {
+            if (isInt[0]) {
+                ans = b.pow(x.intValue());
+            }
         } else {
             ans = exp(x.multiply(log(b)));
         }

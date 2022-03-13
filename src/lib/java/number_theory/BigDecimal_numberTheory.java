@@ -87,6 +87,10 @@ public class BigDecimal_numberTheory {
      * You can read more on wikipedia: {@link https://en.wikipedia.org/wiki/Möbius_function}
      */
     public static BigDecimal mobius_function(BigDecimal n) {
+        // Check if number is Natural
+        if (n.setScale(0, RoundingMode.HALF_UP).compareTo(n) != 0 || n.compareTo(BigDecimal.ZERO) <= 0) {
+            return null;
+        }
         return kronecker_delta(small_prime_omega(n), big_prime_omega(n)).multiply(lioubille_function(n));
     }
     // ----------------------------------------------------
@@ -94,7 +98,7 @@ public class BigDecimal_numberTheory {
      * <h3>Kronecker delta</h3>
      * Function that return <i>0</i> if inputs are not equal and <i>1</i> if they are.
      * <p>
-     * This function is defined for Natural numbers.
+     * This function is defined for all numbers.
      * <p>
      * You can read more on wikipedia: {@link https://en.wikipedia.org/wiki/Kronecker_delta}
      */
@@ -115,6 +119,10 @@ public class BigDecimal_numberTheory {
      * You can read more on wikipedia: {@link https://en.wikipedia.org/wiki/Liouville_function}
      */
     public static BigDecimal lioubille_function(BigDecimal n) {
+        // Check if number is Natural
+        if (n.setScale(0, RoundingMode.HALF_UP).compareTo(n) != 0 || n.compareTo(BigDecimal.ZERO) <= 0) {
+            return null;
+        }
         return BigDecimalMath.pow(BigDecimalMath.MINUSONE, big_prime_omega(n), true);
     }
     // ----------------------------------------------------
@@ -127,6 +135,10 @@ public class BigDecimal_numberTheory {
      * You can read more on wikipedia: {@link https://en.wikipedia.org/wiki/Prime_omega_function}
      */
     public static BigDecimal small_prime_omega(BigDecimal n) {
+        // Check if number is Natural
+        if (n.setScale(0, RoundingMode.HALF_UP).compareTo(n) != 0 || n.compareTo(BigDecimal.ZERO) <= 0) {
+            return null;
+        }
         ArrayList<BigDecimal> ans_list = new ArrayList<BigDecimal>();
         if (n.compareTo(BigDecimal.ONE) <= 0) {
             return BigDecimal.ZERO;
@@ -156,6 +168,10 @@ public class BigDecimal_numberTheory {
      * You can read more on wikipedia: {@link https://en.wikipedia.org/wiki/Prime_omega_function}
      */
     public static BigDecimal big_prime_omega(BigDecimal n) {
+        // Check if number is Natural
+        if (n.setScale(0, RoundingMode.HALF_UP).compareTo(n) != 0 || n.compareTo(BigDecimal.ZERO) <= 0) {
+            return null;
+        }
         ArrayList<BigDecimal> ans_list = new ArrayList<BigDecimal>();
         if (n.compareTo(BigDecimal.ONE) <= 0) {
             return BigDecimal.ZERO;
@@ -184,6 +200,10 @@ public class BigDecimal_numberTheory {
      * You can read more on wikipedia: {@link https://en.wikipedia.org/wiki/Prime-counting_function}
      */
     public static BigDecimal prime_counting(BigDecimal x) {
+        // Check if number is Natural
+        if (x.setScale(0, RoundingMode.HALF_UP).compareTo(x) != 0 || x.compareTo(BigDecimal.ZERO) <= 0) {
+            return null;
+        }
         BigDecimal ans = new BigDecimal(0);
         // // long startTime = System.nanoTime();
         ans = x.divide(BigDecimalMath.log(x), 50, RoundingMode.HALF_UP);
@@ -196,9 +216,24 @@ public class BigDecimal_numberTheory {
      * <h3>Partition function</h3>
      * Function returns number of possible partition of natural number n.
      * <p>
+     * It's time of execution changes depend on how large the number is. For larger numbers (more than )
+     * <p>
      * You can read more on wikipedia: {@link https://en.wikipedia.org/wiki/Partition_function_(number_theory)}
      */
     public static BigDecimal partition_function(BigDecimal n) {
+        /*
+        // p(0) is equal to 1
+        if (n.compareTo(BigDecimal.ZERO) == 0) {
+            return BigDecimal.ONE;
+        }
+        BigDecimal ans = new BigDecimal(0);
+        // Recurrent function
+        for (BigDecimal k = BigDecimal.ZERO; k.compareTo(n.subtract(BigDecimal.ONE)) <= 0; k = k.add(BigDecimal.ONE)) {
+            ans = ans.add(sigma(BigDecimal.ONE, n.subtract(k)).multiply(partition_function(k)));
+        }
+        return ans.divide(n, 50, RoundingMode.HALF_UP);
+        */
+        BigDecimal ans = new BigDecimal(0);
         
     }
     // ----------------------------------------------------
