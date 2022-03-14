@@ -8,10 +8,17 @@ import java.util.ArrayList;
 import lib.java.basic.BigDecimalMath;
 
 /**
- * <h3>More complicated functions for BigDecimal</h3>
- * This program porvides some more complicated functions for Java module BigDecimal. Some of them are used in other programs, like ComplexFunction etc.
+ * <h3>BigDecimal number theory function</h3>
+ * This program provides some of the function used in number theory like prime counting function or Möboius function. Those functions are created for java
+ * BigDecimal module and I also use some of function or constants located in my module BigDecimalMath.
+ * <p>
+ * Some of those function can take some time, if they do, it should take really small amount of time. There are some exceptions of course, but they are present
+ * only for large inputs. Nearly all of those function are used for natural numbers, with exception of sigma(x, n), where <i>x</i> can be real, and with exception of 
+ * kroneker_delta(i, j). 
+ * <p>
+ * All function are static and are called like this: {@code BigDecimal_numberTheory.sigma(x, n)}, where <i>x</i> & <i>n</i> are BigDecimal values.
  * @author Petr Kučera
- * @version 0.0.1
+ * @version 0.0.2
  * @since 22.02.28
  */
 public class BigDecimal_numberTheory {
@@ -200,10 +207,10 @@ public class BigDecimal_numberTheory {
      * You can read more on wikipedia: {@link https://en.wikipedia.org/wiki/Prime-counting_function}
      */
     public static BigDecimal prime_counting(BigDecimal x) {
-        // Check if number is Natural
-        if (x.setScale(0, RoundingMode.HALF_UP).compareTo(x) != 0 || x.compareTo(BigDecimal.ZERO) <= 0) {
-            return null;
-        }
+        // // Check if number is Natural
+        // if (x.setScale(0, RoundingMode.HALF_UP).compareTo(x) != 0 || x.compareTo(BigDecimal.ZERO) <= 0) {
+        //     return null;
+        // }
         BigDecimal ans = new BigDecimal(0);
         // // long startTime = System.nanoTime();
         ans = x.divide(BigDecimalMath.log(x), 50, RoundingMode.HALF_UP);
@@ -234,7 +241,11 @@ public class BigDecimal_numberTheory {
         return ans.divide(n, 50, RoundingMode.HALF_UP);
         */
         BigDecimal ans = new BigDecimal(0);
-        
+        System.out.println(ans);
+        return ans;
+    }
+    private static BigDecimal A(BigDecimal k, BigDecimal n) {
+        return null;
     }
     // ----------------------------------------------------
 }
