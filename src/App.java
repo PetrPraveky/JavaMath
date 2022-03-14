@@ -93,7 +93,7 @@ public class App {
         // System.out.println(BigDecimal_numberTheory.prime_counting(new BigDecimal(100000)));
         // System.out.println(BigDecimal_numberTheory.partition_function(new BigDecimal(10)));
         // System.out.println(BigDecimal_fourierFunction.sawtooth_wave(new BigDecimal(0.4)));
-        System.out.println(BigDecimal_fourierFunction.dedekind_sum(new BigDecimal(11), new BigDecimal(24)));
+        System.out.println(BigDecimal_fourierFunction.dedekind_sum(new BigDecimal(5), new BigDecimal(12)));
 
         // File on different disk test
         /*
