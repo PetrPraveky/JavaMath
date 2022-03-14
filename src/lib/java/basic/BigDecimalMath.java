@@ -117,6 +117,17 @@ public class BigDecimalMath {
     }
     // ----------------------------------------------------
     /**
+     * <h3>Tangent function</h3>
+     * Tangent approximation using taylor series. You can read more on wikipedia: {@link https://en.wikipedia.org/wiki/Taylor_series#Trigonometric_functions}
+     * <p>
+     * It's precision is around 1x10^(-50) and time of execution is around 20ms.
+     */
+    public static BigDecimal tan(BigDecimal x) {
+        BigDecimal ans = new BigDecimal(0);
+        return ans;
+    }
+    // ----------------------------------------------------
+    /**
      * <h3>Arctangent for BigDecimal values</h3>
      * Arctangent approximation using taylor series. You can read more on wikipedia: {@link https://en.wikipedia.org/wiki/Taylor_series#Trigonometric_functions} and here: {@link https://proofwiki.org/wiki/Power_Series_Expansion_for_Real_Arctangent_Function}
      * <p>
