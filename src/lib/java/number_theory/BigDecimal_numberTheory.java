@@ -17,6 +17,8 @@ import lib.java.basic.BigDecimalMath;
  * kroneker_delta(i, j). 
  * <p>
  * All function are static and are called like this: {@code BigDecimal_numberTheory.sigma(x, n)}, where <i>x</i> & <i>n</i> are BigDecimal values.
+ * <p>
+ * All of commands are commented, so they can be easily understanded. If you want to see the full documentation, you can check it here: ---- in section: "BigDecimal_numberTheory".
  * @author Petr Kučera
  * @version 0.0.2
  * @since 22.02.28

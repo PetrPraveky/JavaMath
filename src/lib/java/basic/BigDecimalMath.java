@@ -13,7 +13,6 @@ import java.math.RoundingMode;
  * All function are called as so: {@code BigDecimalMath.sin(x)}, where <i>x</i> is BigDecimal value.
  * <p>
  * All of commands are commented, so they can be easily understanded. If you want to see the full documentation, you can check it here: ---- in section: "BigDecimalMath".
- * <p>
  * @author Petr Kučera
  * @version 0.2.0
  * @since 2022-02-16
@@ -26,6 +25,11 @@ public class BigDecimalMath {
     // private static final String rootDir = "data/math_data/BigDecimalMath_data";
     // ----------------------------------------------------
     /**
+     * <h3>Infinity</h3>
+     */
+    public static final BigDecimal INF = (new BigDecimal(Double.MAX_VALUE)).multiply(new BigDecimal(Double.MAX_VALUE));
+    // ----------------------------------------------------
+    /**
      * <h3>Minus one value for BigDecimal</h3>
      */
     public static final BigDecimal MINUSONE = new BigDecimal(-1);
@@ -34,6 +38,11 @@ public class BigDecimalMath {
      * <h3>Two value for BigDecimal</h3>
      */
     public static final BigDecimal TWO = new BigDecimal(2);
+    // ----------------------------------------------------
+    /**
+     * <h3>One half value for BigDecimal</h3>
+     */
+    public static final BigDecimal HALF = new BigDecimal(0.5);
     // ----------------------------------------------------
     /**
      * <h3>Pi approximation to 1000 decimal places</h3>
@@ -73,11 +82,11 @@ public class BigDecimalMath {
      * <h3>Sine function</h3>
      * Sine approximation using taylor series. You can read more on wikipedia: {@link https://en.wikipedia.org/wiki/Taylor_series#Trigonometric_functions}
      * <p>
-     * It's precision is around 1x10^(-50) and time of execution is around 10ms.
+     * It's precision is around 1x10^(-50) and time of execution is around 20ms.
      */
     public static BigDecimal sin(BigDecimal x, boolean... s) {
         BigDecimal ans = new BigDecimal(0);
-        for (BigDecimal n = BigDecimal.ZERO; n.compareTo(new BigDecimal(50)) <= 0; n = n.add(BigDecimal.ONE)) {
+        for (BigDecimal n = BigDecimal.ZERO; n.compareTo(new BigDecimal(100)) <= 0; n = n.add(BigDecimal.ONE)) {
             BigDecimal numerator = MINUSONE.pow(n.intValue());
             BigDecimal denominator = factorial((TWO.multiply(n)).add(BigDecimal.ONE));
             ans = ans.add((numerator.divide(denominator, 1000, RoundingMode.HALF_UP)).multiply(x.pow(((TWO.multiply(n)).add(BigDecimal.ONE)).intValue())));
@@ -92,11 +101,11 @@ public class BigDecimalMath {
      * <h3>Cosine function</h3>
      * Cosine approximation using taylor series. You can read more on wikipedia: {@link https://en.wikipedia.org/wiki/Taylor_series#Trigonometric_functions}
      * <p>
-     * It's precision is around 1x10^(-50) and time of execution is around 10ms.
+     * It's precision is around 1x10^(-50) and time of execution is around 20ms.
      */
     public static BigDecimal cos(BigDecimal x, boolean... s) {  
         BigDecimal ans = new BigDecimal(0);
-        for (BigDecimal n = BigDecimal.ZERO; n.compareTo(new BigDecimal(50)) <= 0; n = n.add(BigDecimal.ONE)) {
+        for (BigDecimal n = BigDecimal.ZERO; n.compareTo(new BigDecimal(100)) <= 0; n = n.add(BigDecimal.ONE)) {
             BigDecimal numerator = MINUSONE.pow(n.intValue());
             BigDecimal denominator = factorial(TWO.multiply(n));
             ans = ans.add((numerator.divide(denominator, 1000, RoundingMode.HALF_UP)).multiply(x.pow((TWO.multiply(n)).intValue())));
@@ -111,13 +120,13 @@ public class BigDecimalMath {
      * <h3>Arctangent for BigDecimal values</h3>
      * Arctangent approximation using taylor series. You can read more on wikipedia: {@link https://en.wikipedia.org/wiki/Taylor_series#Trigonometric_functions} and here: {@link https://proofwiki.org/wiki/Power_Series_Expansion_for_Real_Arctangent_Function}
      * <p>
-     * It's precision is around 1x10^(-50) and time of execution is around 10ms.
+     * It's precision is around 1x10^(-50) and time of execution is around 20ms.
      */
     public static BigDecimal arctan(BigDecimal x, boolean... s) {
         // If value is between 1 and -1
         BigDecimal ans = new BigDecimal(0);
         if (x.abs().compareTo(BigDecimal.ONE) <= 0) {
-            for (BigDecimal n = BigDecimal.ZERO; n.compareTo(new BigDecimal(50)) <= 0; n = n.add(BigDecimal.ONE)) {
+            for (BigDecimal n = BigDecimal.ZERO; n.compareTo(new BigDecimal(100)) <= 0; n = n.add(BigDecimal.ONE)) {
                 BigDecimal numerator = MINUSONE.pow(n.intValue());
                 BigDecimal denominator = (TWO.multiply(n)).add(BigDecimal.ONE);
                 ans = ans.add((numerator.divide(denominator, 1000, RoundingMode.HALF_UP)).multiply(x.pow(((TWO.multiply(n)).add(BigDecimal.ONE)).intValue())));
@@ -126,7 +135,7 @@ public class BigDecimalMath {
             // // System.out.println((endTime-startTime)/1000000+"ms");
             ans = ans.setScale(50, RoundingMode.HALF_UP);
         } else {
-            for (BigDecimal n = BigDecimal.ZERO; n.compareTo(new BigDecimal(50)) <= 0; n = n.add(BigDecimal.ONE)) {
+            for (BigDecimal n = BigDecimal.ZERO; n.compareTo(new BigDecimal(100)) <= 0; n = n.add(BigDecimal.ONE)) {
                 BigDecimal numerator = MINUSONE.pow(n.intValue());
                 BigDecimal denominator = ((TWO.multiply(n)).add(BigDecimal.ONE)).multiply(x.pow(((TWO.multiply(n)).add(BigDecimal.ONE)).intValue()));
                 ans = ans.add((numerator.divide(denominator, 1000, RoundingMode.HALF_UP)));
@@ -148,12 +157,12 @@ public class BigDecimalMath {
      * <h3>Hyperbolic sine function for BigDecimal values</h3>
      * Hyperbolic sine approximation using taylor series. You can read more on wikipedia: {@link https://en.wikipedia.org/wiki/Taylor_series#Hyperbolic_functions}
      * <p>
-     * It's precision is around 1x10^(-50) and execution time around 10ms.
+     * It's precision is around 1x10^(-50) and execution time around 20ms.
      */
     public static BigDecimal sinh(BigDecimal x, boolean... s) {
         BigDecimal ans = new BigDecimal(0);
         // // long startTime = System.nanoTime();
-        for (BigDecimal n = BigDecimal.ZERO; n.compareTo(new BigDecimal(50)) <= 0; n = n.add(BigDecimal.ONE)) {
+        for (BigDecimal n = BigDecimal.ZERO; n.compareTo(new BigDecimal(100)) <= 0; n = n.add(BigDecimal.ONE)) {
             BigDecimal numerator = x.pow((2*(n.intValue())+1));
             BigDecimal denominator = factorial((TWO.multiply(n)).add(BigDecimal.ONE));
             ans = ans.add(numerator.divide(denominator, 1000, RoundingMode.HALF_UP));
@@ -168,12 +177,12 @@ public class BigDecimalMath {
      * <h3>Hyperbolic cosine function for BigDecimal values</h3>
      * Hyperbolic cosine approximation using taylor series. You can read more on wikipedia: {@link https://en.wikipedia.org/wiki/Taylor_series#Hyperbolic_functions}
      * <p>
-     * It's precision is around 1x10^(-50) and execution time around 10ms.
+     * It's precision is around 1x10^(-50) and execution time around 20ms.
      */
     public static BigDecimal cosh(BigDecimal x, boolean... s) {
         BigDecimal ans = new BigDecimal(0);
         // // long startTime = System.nanoTime();
-        for (BigDecimal n = BigDecimal.ZERO; n.compareTo(new BigDecimal(50)) <= 0; n = n.add(BigDecimal.ONE)) {
+        for (BigDecimal n = BigDecimal.ZERO; n.compareTo(new BigDecimal(100)) <= 0; n = n.add(BigDecimal.ONE)) {
             BigDecimal numerator = x.pow(2*(n.intValue()));
             BigDecimal denominator = factorial(TWO.multiply(n));
             ans = ans.add(numerator.divide(denominator, 1000, RoundingMode.HALF_UP));

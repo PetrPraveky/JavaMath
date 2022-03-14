@@ -6,6 +6,7 @@ import java.nio.file.Path;
 
 import lib.java.basic.BigDecimalMath;
 import lib.java.basic.ComplexNumber;
+import lib.java.fourier_function.BigDecimal_fourierFunction;
 import lib.java.number_theory.BigDecimal_numberTheory;
 
 public class App {
@@ -89,7 +90,8 @@ public class App {
         // System.out.println(BigDecimal_numberTheory.mobius_function(new BigDecimal(36)));
         // System.out.println(BigDecimal_numberTheory.totient_function(new BigDecimal(58)));
         // System.out.println(BigDecimal_numberTheory.prime_counting(new BigDecimal(100000)));
-        System.out.println(BigDecimal_numberTheory.partition_function(new BigDecimal(10)));
+        // System.out.println(BigDecimal_numberTheory.partition_function(new BigDecimal(10)));
+        System.out.println(BigDecimal_fourierFunction.sawtooth_wave(new BigDecimal(0.4)));
 
         // File on different disk test
         /*
