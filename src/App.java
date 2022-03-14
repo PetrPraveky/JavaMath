@@ -23,6 +23,7 @@ public class App {
         // System.out.println(BigDecimalMath.log(new BigDecimal(6)));
         // System.out.println(BigDecimalMath.pow(new BigDecimal(2), new BigDecimal(0.5)));
         // System.out.println(BigDecimalMath.factorial(new BigDecimal(5)));
+        // System.out.println(BigDecimalMath.cot(new BigDecimal(5)));
         
         // // Complex numbers
         
@@ -91,7 +92,8 @@ public class App {
         // System.out.println(BigDecimal_numberTheory.totient_function(new BigDecimal(58)));
         // System.out.println(BigDecimal_numberTheory.prime_counting(new BigDecimal(100000)));
         // System.out.println(BigDecimal_numberTheory.partition_function(new BigDecimal(10)));
-        System.out.println(BigDecimal_fourierFunction.sawtooth_wave(new BigDecimal(0.4)));
+        // System.out.println(BigDecimal_fourierFunction.sawtooth_wave(new BigDecimal(0.4)));
+        System.out.println(BigDecimal_fourierFunction.dedekind_sum(new BigDecimal(11), new BigDecimal(24)));
 
         // File on different disk test
         /*

@@ -28,7 +28,7 @@ public class BigDecimal_mathFunction {
      */
     public static BigDecimal riemann_zeta_function(BigDecimal s) {
         BigDecimal ans = new BigDecimal(0);
-        
+        return ans;
     }
     // ----------------------------------------------------
 

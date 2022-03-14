@@ -117,14 +117,12 @@ public class BigDecimalMath {
     }
     // ----------------------------------------------------
     /**
-     * <h3>Tangent function</h3>
-     * Tangent approximation using taylor series. You can read more on wikipedia: {@link https://en.wikipedia.org/wiki/Taylor_series#Trigonometric_functions}
-     * <p>
-     * It's precision is around 1x10^(-50) and time of execution is around 20ms.
+     * <h3>Cotangent function</h3>
+     * This function is done by cos/sin
      */
-    public static BigDecimal tan(BigDecimal x) {
-        BigDecimal ans = new BigDecimal(0);
-        return ans;
+    public static BigDecimal cot(BigDecimal x) {
+        BigDecimal ans = cos(x).divide(sin(x), 50, RoundingMode.HALF_UP);
+        return ans.setScale(50, RoundingMode.HALF_UP);
     }
     // ----------------------------------------------------
     /**
