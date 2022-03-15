@@ -6,6 +6,8 @@ import java.math.RoundingMode;
 import java.util.ArrayList;
 
 import lib.java.basic.BigDecimalMath;
+import lib.java.basic.ComplexNumber;
+import lib.java.fourier_function.BigDecimal_fourierFunction;
 
 /**
  * <h3>BigDecimal number theory function</h3>
@@ -242,13 +244,39 @@ public class BigDecimal_numberTheory {
         }
         return ans.divide(n, 50, RoundingMode.HALF_UP);
         */
+        
         BigDecimal ans = new BigDecimal(0);
-        System.out.println(ans);
+        A(new BigDecimal(4), n);
         return ans;
     }
     private static BigDecimal A(BigDecimal k, BigDecimal n) {
-        
-        return null;
+        ComplexNumber ans = new ComplexNumber();
+        for (BigDecimal m = BigDecimal.ZERO; m.compareTo(k) < 0; m = m.add(BigDecimal.ONE)) {
+            if (additional_numberTheory.relatively_prime(m, k)) {
+                ComplexNumber innerPow = new ComplexNumber((BigDecimal_fourierFunction.dedekind_sum(m, k)).subtract((BigDecimalMath.TWO.multiply(n.multiply(m))).divide(k, 50, RoundingMode.HALF_UP)));
+                // innerPow.display();
+                if (innerPow.REAL.setScale(0, RoundingMode.HALF_UP).compareTo(innerPow.REAL) == 0) {
+                    if (innerPow.REAL.remainder(BigDecimalMath.TWO).compareTo(BigDecimal.ZERO) == 0) {
+                        ans = ans.add(ComplexNumber.ONE);
+                    } else {
+                        ans = ans.add(ComplexNumber.MINUSONE);
+                    }
+                } else {
+                    ans = ans.add(ComplexNumber.exp(ComplexNumber.PI.multiply(ComplexNumber.I.multiply(innerPow))));
+                }
+            }
+            /*System.out.println("\n----------");
+            ans.display();
+            System.out.println("----------\n");*/
+        }
+        /*
+        System.out.println("");
+        System.out.println("\n----------");
+        ans.display();
+        System.out.println("----------\n");
+        System.out.println("");
+        */
+        return ans.REAL;
     }
     // ----------------------------------------------------
 

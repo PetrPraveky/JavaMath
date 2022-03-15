@@ -49,7 +49,11 @@ public class BigDecimal_fourierFunction {
             }
             return ans.divide((new BigDecimal(4)).multiply(c), 100, RoundingMode.HALF_UP).setScale(50, RoundingMode.HALF_UP);
         } else {
-            return null;
+            if (b.compareTo(BigDecimal.ZERO) == 0 || c.compareTo(BigDecimal.ZERO) == 0) {
+                return BigDecimal.ZERO;
+            } else {
+                return null;
+            }
         }
     }
     // ----------------------------------------------------

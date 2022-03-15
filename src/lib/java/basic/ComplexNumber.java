@@ -102,6 +102,12 @@ public class ComplexNumber {
     public static final ComplexNumber HALFI = new ComplexNumber(0, 0.5);
     // ----------------------------------------------------
     /**
+     * <h3>Pi value for complex numbers </h3>
+     * Returns value of pi as real value and <b>zero</b> as imaginary. This value will be precise to 1000 decimal places
+     */
+    public static final ComplexNumber PI = new ComplexNumber(BigDecimalMath.PI, BigDecimal.ZERO);
+    // ----------------------------------------------------
+    /**
      * <h3>Polar conversion</h3>
      * Sets values for polar complex interpretaion. You can return those values with {@code .R}, which is radius, and {@code .PHI}, which is angle.
      */
