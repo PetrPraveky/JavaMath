@@ -8,6 +8,7 @@ import lib.java.basic.BigDecimalMath;
 import lib.java.basic.ComplexNumber;
 import lib.java.fourier_function.BigDecimal_fourierFunction;
 import lib.java.number_theory.BigDecimal_numberTheory;
+import lib.java.number_theory.additional_numberTheory;
 
 public class App {
     public static void main(String[] args) throws Exception {
@@ -93,7 +94,8 @@ public class App {
         // System.out.println(BigDecimal_numberTheory.prime_counting(new BigDecimal(100000)));
         // System.out.println(BigDecimal_numberTheory.partition_function(new BigDecimal(10)));
         // System.out.println(BigDecimal_fourierFunction.sawtooth_wave(new BigDecimal(0.4)));
-        System.out.println(BigDecimal_fourierFunction.dedekind_sum(new BigDecimal(5), new BigDecimal(12)));
+        // System.out.println(BigDecimal_fourierFunction.dedekind_sum(new BigDecimal(5), new BigDecimal(12)));
+        System.out.println(additional_numberTheory.relatively_prime(new BigDecimal(14), new BigDecimal(21)));
 
         // File on different disk test
         /*

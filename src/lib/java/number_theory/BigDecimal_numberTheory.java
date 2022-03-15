@@ -247,7 +247,9 @@ public class BigDecimal_numberTheory {
         return ans;
     }
     private static BigDecimal A(BigDecimal k, BigDecimal n) {
+        
         return null;
     }
     // ----------------------------------------------------
+
 }
