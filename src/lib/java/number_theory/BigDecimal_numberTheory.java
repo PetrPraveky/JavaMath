@@ -244,17 +244,25 @@ public class BigDecimal_numberTheory {
         }
         return ans.divide(n, 50, RoundingMode.HALF_UP);
         */
-        
-        BigDecimal ans = new BigDecimal(0);
         A(new BigDecimal(4), n);
+        BigDecimal ans = new BigDecimal(0);
+        BigDecimal firstMultiplier = BigDecimal.ONE.divide((BigDecimalMath.PI.multiply(BigDecimalMath.SQRTTWO)), 50, RoundingMode.HALF_UP);
+        // Sum
+        // for (BigDecimal k = new BigDecimal(1); k.compareTo(BigDecimalMath.INF) <= 0; )
         return ans;
     }
+    /**
+     * Additional function for this equations. It can also be found on the same wikipedia article as function above.
+     */
     private static BigDecimal A(BigDecimal k, BigDecimal n) {
         ComplexNumber ans = new ComplexNumber();
         for (BigDecimal m = BigDecimal.ZERO; m.compareTo(k) < 0; m = m.add(BigDecimal.ONE)) {
             if (additional_numberTheory.relatively_prime(m, k)) {
-                ComplexNumber innerPow = new ComplexNumber((BigDecimal_fourierFunction.dedekind_sum(m, k)).subtract((BigDecimalMath.TWO.multiply(n.multiply(m))).divide(k, 50, RoundingMode.HALF_UP)));
+                ComplexNumber innerPow = new ComplexNumber((BigDecimal_fourierFunction.dedekind_sum(m, k)).subtract((BigDecimalMath.TWO.multiply(n.multiply(m))).divide(k, 100, RoundingMode.HALF_UP)));
                 // innerPow.display();
+                System.out.println("m: "+m);
+                System.out.println("k: "+k);
+                System.out.println(BigDecimal_fourierFunction.dedekind_sum(m, k));
                 if (innerPow.REAL.setScale(0, RoundingMode.HALF_UP).compareTo(innerPow.REAL) == 0) {
                     if (innerPow.REAL.remainder(BigDecimalMath.TWO).compareTo(BigDecimal.ZERO) == 0) {
                         ans = ans.add(ComplexNumber.ONE);
@@ -265,17 +273,17 @@ public class BigDecimal_numberTheory {
                     ans = ans.add(ComplexNumber.exp(ComplexNumber.PI.multiply(ComplexNumber.I.multiply(innerPow))));
                 }
             }
-            /*System.out.println("\n----------");
+            System.out.println("\n----------");
             ans.display();
-            System.out.println("----------\n");*/
+            System.out.println("----------\n");
         }
-        /*
+        
         System.out.println("");
         System.out.println("\n----------");
         ans.display();
         System.out.println("----------\n");
         System.out.println("");
-        */
+        
         return ans.REAL;
     }
     // ----------------------------------------------------

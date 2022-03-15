@@ -40,6 +40,14 @@ public class BigDecimalMath {
     public static final BigDecimal TWO = new BigDecimal(2);
     // ----------------------------------------------------
     /**
+     * <h3>Square root of two for BigDecimal</h3>
+     * Approximation to 1000 places. I just copied it from {@link }
+     */
+    public static final BigDecimal SQRTTWO = new BigDecimal(
+        "1.414213562373095048801688724209698078569671875376948073176679737990732478462107038850387534327641572735013846230912297024924836055850737212644121497099935831413222665927505592755799950501152782060571470109559971605970274534596862014728517418640889198609552329230484308714321450839762603627995251407989687253396546331808829640620615258352395054745750287759961729835575220337531857011354374603408498847160386899970699004815030544027790316454247823068492936918621580578463111596668713013015618568987237235288509264861249497715421833420428568606014682472077143585487415565706967765372022648544701585880162075847492265722600208558446652145839889394437092659180031138824646815708263010059485870400318648034219489727829064104507263688131373985525611732204024509122770022694112757362728049573810896750401836986836845072579936472906076299694138047565482372899718032680247442062926912485905218100445984215059112024944134172853147810580360337107730918286931471017111168391658172688941975871658215212822951848847"
+    );
+    // ----------------------------------------------------
+    /**
      * <h3>One half value for BigDecimal</h3>
      */
     public static final BigDecimal HALF = new BigDecimal(0.5);
@@ -84,16 +92,24 @@ public class BigDecimalMath {
      * <p>
      * It's precision is around 1x10^(-50) and time of execution is around 20ms.
      */
-    public static BigDecimal sin(BigDecimal x, boolean... s) {
-        BigDecimal ans = new BigDecimal(0);
-        for (BigDecimal n = BigDecimal.ZERO; n.compareTo(new BigDecimal(100)) <= 0; n = n.add(BigDecimal.ONE)) {
+    public static BigDecimal sin(BigDecimal x, int... scale) {
+        if (scale.length == 0) {
+            scale = new int[] {50};
+        }
+        BigDecimal ans = new BigDecimal(0); BigDecimal oldAns = new BigDecimal(0);
+        for (BigDecimal n = BigDecimal.ZERO; n.compareTo(new BigDecimal(100000)) <= 0; n = n.add(BigDecimal.ONE)) {
             BigDecimal numerator = MINUSONE.pow(n.intValue());
             BigDecimal denominator = factorial((TWO.multiply(n)).add(BigDecimal.ONE));
-            ans = ans.add((numerator.divide(denominator, 1000, RoundingMode.HALF_UP)).multiply(x.pow(((TWO.multiply(n)).add(BigDecimal.ONE)).intValue())));
+            ans = ans.add((numerator.divide(denominator, scale[0], RoundingMode.HALF_UP)).multiply(x.pow(((TWO.multiply(n)).add(BigDecimal.ONE)).intValue())));
+            ans = ans.setScale(scale[0], RoundingMode.HALF_UP);
+            if (ans.compareTo(oldAns) == 0) {
+                break;
+            }
+            oldAns = ans;
         }
         // // long endTime = System.nanoTime();
         // // System.out.println((endTime-startTime)/1000000+"ms");
-        ans = ans.setScale(50, RoundingMode.HALF_UP);
+        ans = ans.setScale(scale[0], RoundingMode.HALF_UP);
         return ans;
     }
     // ----------------------------------------------------
@@ -103,16 +119,24 @@ public class BigDecimalMath {
      * <p>
      * It's precision is around 1x10^(-50) and time of execution is around 20ms.
      */
-    public static BigDecimal cos(BigDecimal x, boolean... s) {  
-        BigDecimal ans = new BigDecimal(0);
-        for (BigDecimal n = BigDecimal.ZERO; n.compareTo(new BigDecimal(100)) <= 0; n = n.add(BigDecimal.ONE)) {
+    public static BigDecimal cos(BigDecimal x, int... scale) {  
+        if (scale.length == 0) {
+            scale = new int[] {50};
+        }
+        BigDecimal ans = new BigDecimal(0); BigDecimal oldAns = new BigDecimal(0);
+        for (BigDecimal n = BigDecimal.ZERO; n.compareTo(new BigDecimal(1000000)) <= 0; n = n.add(BigDecimal.ONE)) {
             BigDecimal numerator = MINUSONE.pow(n.intValue());
             BigDecimal denominator = factorial(TWO.multiply(n));
-            ans = ans.add((numerator.divide(denominator, 1000, RoundingMode.HALF_UP)).multiply(x.pow((TWO.multiply(n)).intValue())));
+            ans = ans.add((numerator.divide(denominator, scale[0], RoundingMode.HALF_UP)).multiply(x.pow((TWO.multiply(n)).intValue())));
+            ans = ans.setScale(scale[0], RoundingMode.HALF_UP);
+            if (ans.compareTo(oldAns) == 0) {
+                break;
+            }
+            oldAns = ans;
         }
         // // long endTime = System.nanoTime();
         // // System.out.println((endTime-startTime)/1000000+"ms");
-        ans = ans.setScale(50, RoundingMode.HALF_UP); 
+        ans = ans.setScale(scale[0], RoundingMode.HALF_UP); 
         return ans;
     }
     // ----------------------------------------------------
@@ -121,7 +145,7 @@ public class BigDecimalMath {
      * This function is done by cos/sin
      */
     public static BigDecimal cot(BigDecimal x) {
-        BigDecimal ans = cos(x).divide(sin(x), 50, RoundingMode.HALF_UP);
+        BigDecimal ans = cos(x, 100).divide(sin(x, 100), 50, RoundingMode.HALF_UP);
         return ans.setScale(50, RoundingMode.HALF_UP);
     }
     // ----------------------------------------------------
@@ -209,10 +233,15 @@ public class BigDecimalMath {
      * It's precision is around 1x10^(-50) and time of execution is around 13ms.
      */
     public static BigDecimal exp(BigDecimal z, boolean... s) {
-        BigDecimal ans = new BigDecimal(0);
+        BigDecimal ans = new BigDecimal(0); BigDecimal oldAns = new BigDecimal(0);
         // // long startTime = System.nanoTime();
-        for (BigDecimal n = BigDecimal.ZERO; n.compareTo(new BigDecimal(150)) <= 0; n = n.add(BigDecimal.ONE)) {
+        for (BigDecimal n = BigDecimal.ZERO; n.compareTo(new BigDecimal(100000)) <= 0; n = n.add(BigDecimal.ONE)) {
             ans = ans.add((z.pow(n.intValue())).divide(factorial(n), 100, RoundingMode.HALF_UP));
+            ans.setScale(50, RoundingMode.HALF_UP);
+            if (ans.compareTo(oldAns) == 0) {
+                break;
+            }
+            oldAns = ans;
         }
         ans = ans.setScale(50, RoundingMode.HALF_UP);
         // // long endTime = System.nanoTime();
