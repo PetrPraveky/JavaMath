@@ -261,6 +261,17 @@ public class ComplexNumber {
         }
     }
     // ----------------------------------------------------
+    /**¨
+     * <h3>Scale property for Complex number</h3>
+     * If you wan to round up number, you can do it with this functions. Just input how many decimal places you want and Rounding mode.
+     */
+    public ComplexNumber scale(int scale, RoundingMode round) {
+        ComplexNumber ans = new ComplexNumber(0);
+        ans.REAL = ans.REAL.setScale(scale, round);
+        ans.IMG = ans.IMG.setScale(scale, round);
+        return ans;
+    }
+    // ----------------------------------------------------
     /**
      * <h3>Additionfunction for complex numbers</h3>
      * Function that adds two complex numbers.
@@ -299,10 +310,14 @@ public class ComplexNumber {
      * <p>
      * You can read more on wikipedia: {@link https://en.wikipedia.org/wiki/Complex_number#Multiplication_and_square}
      */
-    public ComplexNumber multiply(ComplexNumber b) {
+    public ComplexNumber multiply(ComplexNumber b, int... scale) {
+        if (scale.length == 0) {
+            scale = new int[] {50};
+        }
         ComplexNumber ans = new ComplexNumber();
         ans.REAL = (REAL.multiply(b.REAL)).subtract(IMG.multiply(b.IMG));
         ans.IMG = (REAL.multiply(b.IMG)).add(IMG.multiply(b.REAL));
+        // return ans.scale(100, RoundingMode.HALF_UP);
         return ans;
     }
     // ----------------------------------------------------
@@ -372,8 +387,8 @@ public class ComplexNumber {
     public static ComplexNumber exp(ComplexNumber a, boolean... s) {
         ComplexNumber ans = new ComplexNumber();
         // // long startTime = System.nanoTime();
-        ans.REAL = BigDecimalMath.exp(a.REAL).multiply(BigDecimalMath.cos(a.IMG));
-        ans.IMG = BigDecimalMath.exp(a.REAL).multiply(BigDecimalMath.sin(a.IMG));
+        ans.REAL = BigDecimalMath.exp(a.REAL, 250).multiply(BigDecimalMath.cos(a.IMG, 250));
+        ans.IMG = BigDecimalMath.exp(a.REAL, 250).multiply(BigDecimalMath.sin(a.IMG, 250));
         // // long endTime = System.nanoTime();
         // // System.out.println((endTime-startTime)/1000000+"ms");
         ans.REAL = ans.REAL.setScale(50, RoundingMode.HALF_UP);

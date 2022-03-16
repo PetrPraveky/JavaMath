@@ -145,7 +145,7 @@ public class BigDecimalMath {
      * This function is done by cos/sin
      */
     public static BigDecimal cot(BigDecimal x) {
-        BigDecimal ans = cos(x, 100).divide(sin(x, 100), 50, RoundingMode.HALF_UP);
+        BigDecimal ans = cos(x, 250).divide(sin(x, 250), 50, RoundingMode.HALF_UP);
         return ans.setScale(50, RoundingMode.HALF_UP);
     }
     // ----------------------------------------------------
@@ -232,18 +232,21 @@ public class BigDecimalMath {
      * <p>
      * It's precision is around 1x10^(-50) and time of execution is around 13ms.
      */
-    public static BigDecimal exp(BigDecimal z, boolean... s) {
+    public static BigDecimal exp(BigDecimal z, int... scale) {
+        if (scale.length == 0) {
+            scale = new int[] {50};
+        }
         BigDecimal ans = new BigDecimal(0); BigDecimal oldAns = new BigDecimal(0);
         // // long startTime = System.nanoTime();
         for (BigDecimal n = BigDecimal.ZERO; n.compareTo(new BigDecimal(100000)) <= 0; n = n.add(BigDecimal.ONE)) {
-            ans = ans.add((z.pow(n.intValue())).divide(factorial(n), 100, RoundingMode.HALF_UP));
-            ans.setScale(50, RoundingMode.HALF_UP);
+            ans = ans.add((z.pow(n.intValue())).divide(factorial(n), scale[0], RoundingMode.HALF_UP));
+            ans.setScale(scale[0], RoundingMode.HALF_UP);
             if (ans.compareTo(oldAns) == 0) {
                 break;
             }
             oldAns = ans;
         }
-        ans = ans.setScale(50, RoundingMode.HALF_UP);
+        ans = ans.setScale(scale[0], RoundingMode.HALF_UP);
         // // long endTime = System.nanoTime();
         // // System.out.println((endTime-startTime)/1000000+"ms");
         return ans;

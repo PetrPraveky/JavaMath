@@ -244,7 +244,7 @@ public class BigDecimal_numberTheory {
         }
         return ans.divide(n, 50, RoundingMode.HALF_UP);
         */
-        A(new BigDecimal(4), n);
+        System.out.println(A(new BigDecimal(4), n));
         BigDecimal ans = new BigDecimal(0);
         BigDecimal firstMultiplier = BigDecimal.ONE.divide((BigDecimalMath.PI.multiply(BigDecimalMath.SQRTTWO)), 50, RoundingMode.HALF_UP);
         // Sum
@@ -259,10 +259,10 @@ public class BigDecimal_numberTheory {
         for (BigDecimal m = BigDecimal.ZERO; m.compareTo(k) < 0; m = m.add(BigDecimal.ONE)) {
             if (additional_numberTheory.relatively_prime(m, k)) {
                 ComplexNumber innerPow = new ComplexNumber((BigDecimal_fourierFunction.dedekind_sum(m, k)).subtract((BigDecimalMath.TWO.multiply(n.multiply(m))).divide(k, 100, RoundingMode.HALF_UP)));
-                // innerPow.display();
-                System.out.println("m: "+m);
-                System.out.println("k: "+k);
-                System.out.println(BigDecimal_fourierFunction.dedekind_sum(m, k));
+                innerPow.display();
+                // System.out.println("m: "+m);
+                // System.out.println("k: "+k);
+                // System.out.println(BigDecimal_fourierFunction.dedekind_sum(m, k));
                 if (innerPow.REAL.setScale(0, RoundingMode.HALF_UP).compareTo(innerPow.REAL) == 0) {
                     if (innerPow.REAL.remainder(BigDecimalMath.TWO).compareTo(BigDecimal.ZERO) == 0) {
                         ans = ans.add(ComplexNumber.ONE);
@@ -272,6 +272,9 @@ public class BigDecimal_numberTheory {
                 } else {
                     ans = ans.add(ComplexNumber.exp(ComplexNumber.PI.multiply(ComplexNumber.I.multiply(innerPow))));
                 }
+                System.out.println("\\\\");
+                ComplexNumber.exp(ComplexNumber.PI.multiply(ComplexNumber.I.multiply(innerPow))).display();
+                System.out.println("\\\\");
             }
             System.out.println("\n----------");
             ans.display();
@@ -283,8 +286,11 @@ public class BigDecimal_numberTheory {
         ans.display();
         System.out.println("----------\n");
         System.out.println("");
-        
-        return ans.REAL;
+        if (ans.IMG.setScale(0, RoundingMode.HALF_UP).compareTo(ans.IMG.setScale(15, RoundingMode.HALF_UP)) == 0) {
+            return ans.REAL;
+        } else {
+            return null;
+        }
     }
     // ----------------------------------------------------
 
